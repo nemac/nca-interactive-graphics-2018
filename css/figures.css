@@ -1,0 +1,510 @@
+/* For headers */
+/* Body font */
+/* Main color */
+/* h2, h4 header color */
+/* h3, h5 header color */
+/*
+    Figures
+*/
+.md-3 {
+  padding-left: 15px;
+  padding-right: 15px;
+  margin: 20px 8.33333%;
+}
+
+@media (max-width: 991px) {
+  .md-3 {
+    margin: 20px 8.3333% 20px 0;
+  }
+}
+
+@media (min-width: 992px) {
+  .md-3 {
+    margin: 20px 8.3333% 20px 0;
+    float: right;
+    padding-left: 15px;
+    width: 25%;
+  }
+  .box .md-3 {
+    margin-right: 0;
+  }
+}
+
+/*
+    Small figures
+*/
+.small-figure {
+  text-align: center;
+  clear: both;
+  margin-top: 10px;
+  padding-top: 10px;
+  padding-bottom: 20px;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #aaa;
+}
+
+@media (max-width: 991px) {
+  .small-figure {
+    margin-bottom: 30px;
+  }
+}
+
+.box .small-figure h2, .small-figure h2 {
+  font-size: 14px;
+  text-align: left;
+  margin-top: 0;
+  margin-bottom: 5px;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+@media (max-width: 991px) {
+  .small-figure h2 {
+    margin-top: 20px;
+    margin-bottom: 30px !important;
+    font-size: 24px;
+  }
+}
+
+.small-figure.photo h2 {
+  display: none;
+}
+
+.small-figure p {
+  margin-bottom: 0;
+  width: 100% !important;
+}
+
+.small-figure a {
+  text-decoration: none;
+}
+
+.small-figure img {
+  width: 100%;
+}
+
+@media (max-width: 991px) {
+  .small-figure img {
+    padding-top: 30px;
+    border-top: 1px solid #aaa;
+  }
+}
+
+@media (max-width: 991px) {
+  .small-figure .caption {
+    display: block;
+    font-size: 80%;
+  }
+}
+
+.small-figure .figure-social-icons img {
+  width: 32px;
+  height: 32px;
+}
+
+.small-figure.photo .caption {
+  width: 100%;
+  margin: 10px auto;
+  padding: 10px;
+  display: block;
+  text-align: left;
+}
+
+.small-figure.photo .caption a {
+  -ms-word-break: break-all;
+  word-break: break-all;
+}
+
+.box .small-figure.photo .caption {
+  font-size: 10px;
+}
+
+@media (max-width: 991px) {
+  .box .small-figure.photo .caption {
+    font-size: 80%;
+  }
+}
+
+@media (max-width: 991px) {
+  .figure {
+    width: 100%;
+  }
+}
+
+/*
+    Big figures
+*/
+.big-figure {
+  position: relative;
+  width: 100%;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  padding: 20px 15px 30px 15px;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}
+
+.big-figure h2, .big-figure .tsu-table h2 {
+  color: #164468;
+  margin-top: 0;
+  margin-right: 20px;
+  margin-bottom: 5px;
+  padding-bottom: 20px;
+  text-align: left;
+}
+
+.big-figure img {
+  width: 100%;
+}
+
+.big-figure img.big-img {
+  width: 100%;
+  padding-top: 30px;
+  border-top: 1px solid #ccc;
+}
+
+.big-figure.photo img.big-img {
+  border-top: none;
+  padding-top: 20px;
+}
+
+.big-figure.photo h2 {
+  display: none;
+}
+
+.big-figure + .big-figure {
+  border-top: none;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.tsu-table h2 {
+  padding-top: 0;
+}
+
+/*
+    Figure captions
+*/
+.caption {
+  width: 90%;
+  margin: 30px auto;
+  font-size: 90%;
+  line-height: 1.6;
+  padding: 20px;
+  background-color: #f0efed;
+  background-color: #dadee5;
+}
+
+.caption p {
+  width: 100% !important;
+  margin-bottom: 10px;
+}
+
+.caption p:last-child {
+  margin-bottom: 0;
+}
+
+.small-figure .caption {
+  display: none;
+}
+
+@media (max-width: 991px) {
+  .small-figure .caption {
+    display: block;
+  }
+}
+
+@media (max-width: 600px) {
+  .caption {
+    width: 90%;
+    font-size: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .big-figure h2 {
+    font-size: 24px;
+  }
+  .small-figure h2,
+  .big-figure h2 {
+    line-height: 1.2;
+  }
+}
+
+/*
+    Tables
+*/
+.tsu_table {
+  position: relative;
+  width: 100%;
+  padding: 30px 0;
+  border-top: 1px solid #ccc;
+  border-top: none;
+  border-bottom: 1px solid #ccc;
+}
+
+.tsu_table + .tsu_table {
+  border-top: none;
+}
+
+.tsu_table .caption {
+  margin-bottom: 0;
+}
+
+.tsu_table .figure-social-icons {
+  right: 10px;
+  margin-left: 10px;
+  padding-top: 5px;
+  padding-left: 10px;
+}
+
+td ul {
+  padding-left: 20px;
+}
+
+.footable p {
+  width: 100% !important;
+}
+
+.footable th {
+  border-bottom: none;
+}
+
+.footable td ul {
+  padding-left: 20px !important;
+  margin-bottom: 0;
+}
+
+.footable tr.footable-detail-row > td {
+  padding: 0;
+}
+
+/* This fixes a bug in Footable v3.0.4 and colspan */
+table.footable-bug tr:nth-child(2) td:nth-child(5),
+table.footable-bug tr:nth-child(3) td:nth-child(5),
+table.footable-bug tr:nth-child(4) td:nth-child(5),
+table.footable-bug tr:nth-child(5) td:nth-child(5),
+table.footable-bug tr:nth-child(6) td:nth-child(5),
+table.footable-bug tr:nth-child(7) td:nth-child(5) {
+  display: none !important;
+}
+
+table.footable-details > tbody > tr > td:nth-child(2) {
+  word-break: normal;
+}
+
+table.footable-details tr:nth-child(odd),
+table.footable-details tr:nth-child(even) {
+  background-color: #f0f0fa !important;
+}
+
+table.footable-details tr th:nth-child(1) {
+  padding-left: 36px;
+  /* eyeball guess */
+}
+
+/*
+    TSU boxes
+*/
+aside.box {
+  padding: 0;
+  background-color: #f3f3f3;
+  color: #333;
+  margin: 40px 0;
+  border: 1px solid #e3e3e3;
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+}
+
+aside.box .big-figure {
+  background-color: #f3f3f3;
+  margin: 40px 0;
+}
+
+aside.box .big-figure .caption {
+  margin-bottom: 10px;
+  background: #fff;
+}
+
+aside.box .small-photo .photo-caption {
+  background: #f3f3f3;
+}
+
+aside.box h2 {
+  color: #164468;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+aside.box > h2 {
+  color: #fff;
+  background-color: #555;
+  padding: 20px 30px;
+  text-align: center;
+}
+
+aside.box .icon-share {
+  margin-top: 0;
+}
+
+aside.box section.offset-lg-1.big-figure {
+  margin-left: 0;
+}
+
+aside.box section.col-lg-7.big-figure {
+  max-width: 100%;
+}
+
+@media (max-width: 991px) {
+  aside.box {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  aside.box {
+    padding: 20px 10px;
+  }
+  aside.box h2 {
+    font-size: 24px;
+  }
+}
+
+.box-inner {
+  padding: 0 30px 30px 30px;
+}
+
+/*
+    Ugly green boxes (not in NCA4)
+*/
+.ugly-green {
+  width: 100%;
+  background-color: #dcdae7;
+  border: 1px solid #cccad7;
+  color: #333;
+  border-radius: 8px;
+}
+
+.ugly-green h2 {
+  color: #fff;
+}
+
+.ugly-green p {
+  margin: 0;
+}
+
+.ugly-green a, .ugly-green a:hover {
+  color: #333;
+  text-decoration: none;
+  border-bottom: 1px solid #333;
+}
+
+/*
+    Photos (not in NCA4)
+*/
+.small-photo {
+  margin-bottom: 30px;
+}
+
+.small-photo p {
+  width: 100%;
+}
+
+.small-photo img {
+  width: 100%;
+}
+
+.small-photo .photo-caption {
+  display: inline-block;
+  background: #dadee5;
+  font-size: 10px;
+  line-height: 1.4;
+  padding: 10px;
+  width: 100%;
+}
+
+.photo-copyright-owner {
+  margin-top: 10px;
+  text-align: center;
+  display: block;
+}
+
+.standalone-photo {
+  width: 400px;
+  margin: 100px 35%;
+  /* needs work */
+}
+
+/*
+    Interactive graphics
+*/
+p.interactive-graphic {
+  width: 100% !important;
+  text-align: center;
+  text-transform: uppercase;
+  margin: 0 0 20px 0;
+  padding: 20px 0;
+  border-top: 1px solid #7daae4;
+  border-bottom: 1px solid #7daae4;
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+  font-size: 15px;
+}
+
+/*
+    Zoom/shrink an image
+*/
+.view-figure {
+  margin-top: 10px;
+  display: inline-block;
+  border: 1px solid #aaa;
+  padding: 8px 10px;
+}
+
+.view-figure a {
+  text-decoration: none;
+}
+
+.view-figure img {
+  margin: 0;
+  width: 16px;
+}
+
+.small-figure .view-figure {
+  padding: 4px;
+}
+
+.small-figure .view-figure a {
+  font-size: 14px;
+}
+
+a.expand, a.shrink {
+  width: 16px;
+  height: 16px;
+  padding-left: 20px;
+  color: #345b7b;
+  border-bottom: none;
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+}
+
+a.expand {
+  background: url(../icons/maximize.svg) no-repeat 0% 50%;
+  background-size: 16px 16px;
+  cursor: zoom-in;
+}
+
+a.shrink {
+  background: url(../icons/minimize.svg) no-repeat 0% 50%;
+  background-size: 16px 16px;
+  cursor: zoom-out;
+}
+
+@media (max-width: 991px) {
+  span.view-figure,
+  a.shrink,
+  a.expand {
+    display: none;
+  }
+  aside.box a.shrink,
+  aside.box a.expand {
+    display: inline;
+  }
+}

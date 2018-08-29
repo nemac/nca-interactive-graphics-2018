@@ -18,40 +18,37 @@
         return elem.querySelector(".image-clickable-overlay-image");
     }
 
-    function handleClickableLinkClick(e) {
-        e.preventDefault();
-
-        var url = this.getAttribute("data-for");
-        var wrapper = getClickableWrapper(this);
+    function loadOverlayImage(elem) {
+        var url = elem.getAttribute("data-for");
+        var wrapper = getClickableWrapper(elem);
         var overlay = getOverlayWrapper(wrapper);
         var overlayImage = getOverlayImage(wrapper);
 
         overlayImage.setAttribute("src", url);
-        overlayImage.setAttribute("title", this.getAttribute("title"));
+        overlayImage.setAttribute("title", elem.getAttribute("title"));
         overlay.classList.add("active");
     }
 
-    function handleOverlayClick(e) {
-        e.preventDefault();
+    function hideClickableOverlay(elem) {
+        var wrapper = getClickableWrapper(elem);
+        getOverlayWrapper(wrapper).classList.remove("active");
+    }
 
-        var url = this.getAttribute("data-for");
-        var overlay = this.parentElement.parentElement.getElementsByClassName("image-clickable-overlay")[0];
-        var overlayImage = overlay.getElementsByClassName("image-clickable-overlay-image")[0];
-        overlayImage.setAttribute("src", url);
-        overlayImage.setAttribute("title", this.getAttribute("title"));
-        overlay.classList.add("active");
+    function handleClickableLinkClick(e) {
+        e.preventDefault();
+        loadOverlayImage(this);
+    }
+
+    function handleClickableLinkKeypress(e) {
+        if (e.key.toLowerCase() === "enter") {
+            e.preventDefault();
+            loadOverlayImage(this);
+        }
     }
 
     function handleOverlayDismissClick(e) {
         e.preventDefault();
-
-        this.parentElement.classList.remove("active");
-    }
-
-    function handleOverlayDismissSideClick(e) {
-        e.preventDefault();
-
-        this.parentElement.parentElement.getElementsByClassName("image-clickable-overlay")[0].classList.remove("active");
+        hideClickableOverlay(this);
     }
 
     function bindImageClickableEvents() {
@@ -60,6 +57,7 @@
 
         for (i = 0, l = elements.length; i < l; i += 1) {
             elements[i].addEventListener("click", handleClickableLinkClick);
+            elements[i].addEventListener("keypress", handleClickableLinkKeypress);
         }
     }
 
@@ -72,16 +70,6 @@
         }
     }
 
-    function bindExtraSideEvents() {
-        var i, l;
-        var elements = document.getElementsByClassName("image-clickable-side-links")[0].getElementsByTagName("a");
-
-        for (i = 0, l = elements.length; i < l; i += 1) {
-            elements[i].addEventListener("click", handleOverlayDismissSideClick);
-        }
-    }
-
-//    bindExtraSideEvents();
     bindImageClickableEvents();
     bindImageClickableDismissEvents();
 })();

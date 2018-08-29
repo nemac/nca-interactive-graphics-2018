@@ -19,6 +19,12 @@
         this.parentElement.classList.remove("active");
     }
 
+    function handleOverlayDismissSideClick(e) {
+        e.preventDefault();
+
+        this.parentElement.parentElement.getElementsByClassName("image-clickable-overlay")[0].classList.remove("active");
+    }
+
     function bindImageClickableEvents() {
         var i, l;
         var elements = document.getElementsByClassName("image-clickable-main-overlay-link");
@@ -37,6 +43,16 @@
         }
     }
 
+    function bindExtraSideEvents() {
+        var i, l;
+        var elements = document.getElementsByClassName("image-clickable-side-links")[0].getElementsByTagName("a");
+
+        for (i = 0, l = elements.length; i < l; i += 1) {
+            elements[i].addEventListener("click", handleOverlayDismissSideClick);
+        }
+    }
+
+    bindExtraSideEvents();
     bindImageClickableEvents();
     bindImageClickableDismissEvents();
 })();

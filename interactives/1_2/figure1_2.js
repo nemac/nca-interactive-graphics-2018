@@ -1,7 +1,7 @@
 (function () {
     "use strict";
 
-    // Gets parent wrapper of a clickable image figure
+    // Recursively gets parent wrapper of a clickable image figure
     function getClickableWrapper(elem) {
         if (elem.tagName === "BODY") {
             return false;

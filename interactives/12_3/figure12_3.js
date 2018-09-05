@@ -16,7 +16,7 @@
     // returns object that contains all the leaflet config for each layer
     function makeLayerConfig(type) {
         return {
-            radius: 4,
+            radius: 5,
             fillOpacity: 0.9,
             opacity: 1,
             weight: 1,

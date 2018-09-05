@@ -75,7 +75,7 @@
         disableArrow(getArrowLeft(wrapper));
     }
 
-    // Disables the right arrow 
+    // Disables the right arrow
     //
     // @param wrapper - Any DOM element. Intended to be the clickable root
     function disableArrowRight(wrapper) {
@@ -200,6 +200,17 @@
         switchOverlayImageRight(this);
     }
 
+    // Handler for right arrow links when tabbed to.
+    // The keyword 'this' is the DOM element that was interacted with.
+    //
+    // @param e - Event
+    function handleArrowKeypressRight(e) {
+        if (e.key.toLowerCase() === "enter") {
+            e.preventDefault();
+            switchOverlayImageRight(this);
+        }
+    }
+
     // Handler for left arrow links.
     // The keyword 'this' is the DOM element that was interacted with.
     //
@@ -209,12 +220,23 @@
         switchOverlayImageLeft(this);
     }
 
+    // Handler for left arrow links when tabbed to.
+    // The keyword 'this' is the DOM element that was interacted with.
+    //
+    // @param e - Event
+    function handleArrowKeypressLeft(e) {
+        if (e.key.toLowerCase() === "enter") {
+            e.preventDefault();
+            switchOverlayImageLeft(this);
+        }
+    }
+
     // Handler for arrow keys. Only fires when focus is in the image clickable area and the
     // overlay is present.
     // The keyword 'this' is the DOM element that was interacted with. Will probably be the root.
     //
     // @param e - Event
-    function handleArrowKeypress(e) {
+    function handleWrapperKeydownArrowkeys(e) {
         if (!getOverlayWrapper(this).classList.contains("active")) {
             return;
         }
@@ -240,6 +262,17 @@
         hideClickableOverlay(this);
     }
 
+    // Handler for overlay dismiss button keypress.
+    // The keyword 'this' is the DOM element that was interacted with.
+    //
+    // @param e - Event
+    function handleOverlayDismissKeypress(e) {
+        if (e.key.toLowerCase() === "enter") {
+            e.preventDefault();
+            hideClickableOverlay(this);
+        }
+    }
+
     // Binds events to the image map and image button links
     function bindImageClickableEvents() {
         var i, l;
@@ -260,13 +293,15 @@
 
         for (i = 0, l = rightArrows.length; i < l; i += 1) {
             rightArrows[i].addEventListener("click", handleArrowClickRight);
+            rightArrows[i].addEventListener("keypress", handleArrowKeypressRight);
         }
         for (i = 0, l = leftArrows.length; i < l; i += 1) {
             leftArrows[i].addEventListener("click", handleArrowClickLeft);
+            leftArrows[i].addEventListener("keypress", handleArrowKeypressLeft);
         }
         for (i = 0, l = imageClickables.length; i < l; i += 1) {
             // arrow keys don't trigger the keypress event
-            imageClickables[i].addEventListener("keydown", handleArrowKeypress);
+            imageClickables[i].addEventListener("keydown", handleWrapperKeydownArrowkeys);
         }
     }
 
@@ -277,6 +312,7 @@
 
         for (i = 0, l = elements.length; i < l; i += 1) {
             elements[i].addEventListener("click", handleOverlayDismissClick);
+            elements[i].addEventListener("keypress", handleOverlayDismissKeypress);
         }
     }
 

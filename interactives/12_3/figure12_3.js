@@ -43,6 +43,68 @@
         ).bindPopup(makePopup(data));
     }
 
+    // returns a generic Leaflet button which is slightly customized
+    function makeButton(backgroundImage, title, type) {
+        var button = L.DomUtil.create("a", "leaflet-control-view-" + type);
+        button.title = title;
+        button.href = "#";
+        button.setAttribute("role", "button");
+        button.setAttribute("aria-label", title);
+        button.style.backgroundImage = "url(" + backgroundImage + ")";
+        button.style.backgroundSize = "contain";
+
+        return button;
+    }
+
+    // returns the zoom button for conus
+    function makeConusButton(map) {
+        var conusButton = makeButton(
+            "../../interactives/12_3/images/conus.png",
+            "Zoom to the continental United States",
+            "conus"
+        );
+        conusButton.onclick = function(e) {
+            e.preventDefault();
+            map.setView([35.244, -98.510], 2);
+        }
+        return conusButton;
+    }
+
+    // returns the zoom button for alaska
+    function makeAlaskaButton(map) {
+        var alaskaButton = makeButton(
+            "../../interactives/12_3/images/alaska.png",
+            "Zoom to Alaska",
+            "alaska"
+        );
+        alaskaButton.onclick = function(e) {
+            e.preventDefault();
+            map.setView([62.460, -162.727], 2);
+        }
+        return alaskaButton;
+    }
+
+    // returns the entire DOM object for the buttons and their container
+    function makeButtonContainer(map) {
+        var container = L.DomUtil.create("div", "leaflet-bar leaflet-control leaflet-control-custom");
+        container.appendChild(makeConusButton(map));
+        container.appendChild(makeAlaskaButton(map));
+        return container;
+    }
+
+    // returns the overall config object for the custom leaflet zoom buttons
+    function makeZoomButtonConfig() {
+        return {
+            options: {
+                position: 'topleft'
+            },
+
+            onAdd: function (map) {
+                return makeButtonContainer(map);
+            }
+        }
+    }
+
     // determines if the assessment is a hazard based study
     function filterHazards(data) {
         return data.type === "Screening";
@@ -85,4 +147,9 @@
 
     // adds filterable controls for the three types of layers to the map
     L.control.layers({}, layers).addTo(mymap);
+
+
+    // adds control which lets user zoom to alaska and conus
+    var zoomButtons = L.Control.extend(makeZoomButtonConfig());
+    mymap.addControl(new zoomButtons());
 })();

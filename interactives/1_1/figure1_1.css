@@ -2,8 +2,88 @@
     max-width: 100%;
 }
 
+.svg-map-map {
+    fill: transparent;
+    stroke: #000;
+    stroke-width: 1;
+}
+
+.svg-map-clickable-region:hover {
+    cursor: pointer;
+}
+
+.svg-map-outline-ak {
+    transform: scale(.475);
+    stroke-width: 8px;
+    fill: #2192c0;
+}
+
+.svg-map-outline-ne {
+    transform: scale(.4);
+    stroke-width: 8px;
+    fill: #978ec4;
+}
+
+.svg-map-interior-ne {
+    transform: scale(.233);
+    stroke-width: 2px;
+    z-index: 100;
+}
+
 .svg-map-box {
     stroke-width: 7px;
     stroke: #777;
     fill: none;
 }
+
+/**
+ * font-size trickery is to allow for the inline-block 50% width,
+ * otherwise whitespace can mess it up.
+ */
+.svg-map-text-area {
+    display: none;
+    font-size: 0;
+}
+
+.svg-map-text-area p {
+    font-size: initial;
+}
+
+.svg-map-text-area h6 {
+    font-weight: bold;
+}
+
+.svg-map-text-factor {
+    display: inline-block;
+    width: 50%;
+    vertical-align: top;
+}
+
+div.svg-map-text-factor:first-of-type {
+    padding-right: 15px;
+}
+
+.svg-map-text-factor:last-child {
+    padding-left: 15px;
+}
+
+.svg-map-text {
+    border-top: 4px solid;
+}
+
+.svg-map-text[data-active=default] {
+    border-top: 0;
+}
+
+.svg-map-text[data-active=default] .svg-map-text-default {
+    display: block;
+}
+
+.svg-map-text[data-active=alaska] {
+    border-top-color: #2192c0;
+}
+
+.svg-map-text[data-active=alaska] .svg-map-text-alaska {
+    display: block;
+}
+

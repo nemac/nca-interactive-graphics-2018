@@ -1,0 +1,9 @@
+.figure1_1 svg {
+    max-width: 100%;
+}
+
+.svg-map-box {
+    stroke-width: 7px;
+    stroke: #777;
+    fill: none;
+}

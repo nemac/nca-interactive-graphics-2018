@@ -87,3 +87,75 @@ div.svg-map-text-factor:first-of-type {
     display: block;
 }
 
+.svg-map-text[data-active=northeast] {
+    border-top-color: #978ec4;
+}
+
+.svg-map-text[data-active=northeast] .svg-map-text-northeast {
+    display: block;
+}
+
+.svg-map-text[data-active=hawaii] {
+    border-top-color: #542e89;
+}
+
+.svg-map-text[data-active=hawaii] .svg-map-text-hawaii {
+    display: block;
+}
+
+.svg-map-text[data-active=midwest] {
+    border-top-color: #b1202a;
+}
+
+.svg-map-text[data-active=midwest] .svg-map-text-midwest {
+    display: block;
+}
+
+.svg-map-text[data-active=northerngreatplains] {
+    border-top-color: #5ab5ad;
+}
+
+.svg-map-text[data-active=northerngreatplains] .svg-map-text-northerngreatplains {
+    display: block;
+}
+
+.svg-map-text[data-active=northwest] {
+    border-top-color: #f05132;
+}
+
+.svg-map-text[data-active=northwest] .svg-map-text-northwest {
+    display: block;
+}
+
+.svg-map-text[data-active=southeast] {
+    border-top-color: #fbb14e;
+}
+
+.svg-map-text[data-active=southeast] .svg-map-text-southeast {
+    display: block;
+}
+
+.svg-map-text[data-active=southerngreatplains] {
+    border-top-color: #0e675f;
+}
+
+.svg-map-text[data-active=southerngreatplains] .svg-map-text-southerngreatplains {
+    display: block;
+}
+
+.svg-map-text[data-active=southwest] {
+    border-top-color: #4e9341;
+}
+
+.svg-map-text[data-active=southwest] .svg-map-text-southwest {
+    display: block;
+}
+
+.svg-map-text[data-active=puertorico] {
+    border-top-color: #c51f7d;
+}
+
+.svg-map-text[data-active=puertorico] .svg-map-text-puertorico {
+    display: block;
+}
+

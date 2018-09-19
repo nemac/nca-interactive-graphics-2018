@@ -8,6 +8,14 @@
     stroke-width: 1;
 }
 
+.svg-map-outline {
+    stroke-width: 4px;
+}
+
+.svg-map-interior {
+    stroke-width: 1px;
+}
+
 .svg-map-clickable-region {
     stroke: none;
 }
@@ -17,8 +25,6 @@
 }
 
 .svg-map-outline-ak {
-    transform: scale(.475);
-    stroke-width: 8px;
     fill: #2192c0;
 }
 
@@ -27,31 +33,18 @@
 }
 
 .svg-map-outline-ne {
-    transform: scale(.4);
-    stroke-width: 8px;
     fill: #978ec4;
-}
-
-.svg-map-group-ne .svg-map-clickable-region {
-    transform: scale(.4);
 }
 
 .svg-map-group-ne:hover .svg-map-outline-ne {
     fill: #8a80bc;
 }
 
-.svg-map-interior-ne {
-    transform: scale(.233);
-    stroke-width: 2px;
-}
-
 .svg-map-outline-hi {
-    transform: scale(.19);
     fill: #542e89;
-    stroke-width: 18px;
 }
 
-.svg-map-clickable-region:hover + .svg-map-outline-hi {
+.svg-map-group-hi:hover .svg-map-outline-hi {
     fill: #4b297a;
 }
 

@@ -28,7 +28,7 @@
     fill: #2192c0;
 }
 
-.svg-map-clickable-region:hover + .svg-map-outline-ak {
+.svg-map-group-ak:hover .svg-map-outline-ak {
     fill: #1e85ae;
 }
 
@@ -48,120 +48,56 @@
     fill: #4b297a;
 }
 
-.svg-map-group-mw {
-    transform: translate(5px, 9px);
-}
-
 .svg-map-outline-mw {
-    transform: scale(.429);
     fill: #b1202a;
-    stroke-width: 8px;
 }
 
-.svg-map-outline-mw:hover {
+.svg-map-group-mw:hover .svg-map-outline-mw {
     fill: #9f1d26
 }
 
-.svg-map-interior-mw {
-    transform: scale(.33);
-    stroke-width: 2px;
-}
-
-.svg-map-group-ngp {
-    transform: translate(15px, 14px);
-}
-
 .svg-map-outline-ngp {
-    transform: scale(.346);
     fill: #5ab5ad;
-    stroke-width: 9px;
 }
 
-.svg-map-outline-ngp:hover {
+.svg-map-group-ngp:hover .svg-map-outline-ngp {
     fill: #4daca5;
 }
 
-.svg-map-interior-ngp {
-    transform: scale(.308);
-    stroke-width: 2px;
-}
-
-.svg-map-group-nw {
-    transform: translate(24px, 10px);
-}
-
 .svg-map-outline-nw {
-    transform: scale(.28);
     fill: #f05132;
-    stroke-width: 11px;
 }
 
-.svg-map-outline-nw:hover {
+.svg-map-group-nw:hover .svg-map-outline-nw {
     fill: #ee4220;
 }
 
-.svg-map-interior-nw {
-    transform: scale(.222);
-    stroke-width: 2px;
-}
-
 .svg-map-outline-se {
-    transform: scale(.498);
     fill: #fbb14e;
-    stroke-width: 8px;
 }
 
-.svg-map-outline-se:hover {
+.svg-map-group-se:hover .svg-map-outline-se {
     fill: #fba83c;
 }
 
-.svg-map-interior-se {
-    transform: scale(.363);
-    stroke-width: 1px;
-}
-
-.svg-map-group-sgp {
-    transform: translate(11px, -5px);
-}
-
 .svg-map-outline-sgp {
-    transform: scale(.462);
     fill: #0e675f;
-    stroke-width: 8px;
 }
 
-.svg-map-outline-sgp:hover {
+.svg-map-group-sgp:hover .svg-map-outline-sgp {
     fill: #0c554f;
 }
 
-.svg-map-interior-sgp {
-    transform: scale(.172);
-    stroke-width: 3px;
-}
-
-.svg-map-group-sw {
-    transform: translate(22px, 4px);
-}
-
 .svg-map-outline-sw {
-    transform: scale(.428);
     fill: #4e9341;
-    stroke-width: 8px;
 }
 
-.svg-map-outline-sw:hover {
+.svg-map-group-sw:hover .svg-map-outline-sw {
     fill: #48873b;
 }
 
-.svg-map-interior-sw {
-    transform: scale(.399);
-    stroke-width: 1px;
-}
-
 .svg-map-outline-pr {
-    transform: scale(.105);
     fill: #c51f7d;
-    stroke-width: 30px;
 }
 
 .svg-map-group-pr:hover .svg-map-outline-pr {

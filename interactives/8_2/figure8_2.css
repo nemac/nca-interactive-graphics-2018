@@ -1,0 +1,244 @@
+.figure1_1 svg {
+    max-width: 100%;
+}
+
+.svg-map-map {
+    fill: transparent;
+    stroke: #000;
+    stroke-width: 1;
+}
+
+.svg-map-outline {
+    stroke-width: 4px;
+}
+
+.svg-map-interior {
+    stroke-width: 1px;
+}
+
+.svg-map-clickable-region {
+    stroke: none;
+}
+
+.svg-map-clickable-region:hover {
+    cursor: pointer;
+}
+
+.svg-map-outline-ak {
+    fill: #2192c0;
+}
+
+.svg-map-group-ak:hover .svg-map-outline-ak {
+    fill: #1e85ae;
+}
+
+.svg-map-outline-ne {
+    fill: #978ec4;
+}
+
+.svg-map-group-ne:hover .svg-map-outline-ne {
+    fill: #8a80bc;
+}
+
+.svg-map-outline-hi {
+    fill: #542e89;
+}
+
+.svg-map-group-hi:hover .svg-map-outline-hi {
+    fill: #4b297a;
+}
+
+.svg-map-outline-mw {
+    fill: #b1202a;
+}
+
+.svg-map-group-mw:hover .svg-map-outline-mw {
+    fill: #9f1d26
+}
+
+.figure8_2 .svg-map-outline-ngp {
+    fill: #a0a6aa;
+}
+
+.figure8_2 .svg-map-group-ngp:hover .svg-map-outline-ngp {
+    fill: #a0a6aa;
+}
+
+.svg-map-outline-nw {
+    fill: #f05132;
+}
+
+.svg-map-group-nw:hover .svg-map-outline-nw {
+    fill: #ee4220;
+}
+
+.svg-map-outline-se {
+    fill: #fbb14e;
+}
+
+.svg-map-group-se:hover .svg-map-outline-se {
+    fill: #fba83c;
+}
+
+.svg-map-outline-sgp {
+    fill: #0e675f;
+}
+
+.svg-map-group-sgp:hover .svg-map-outline-sgp {
+    fill: #0c554f;
+}
+
+.svg-map-outline-sw {
+    fill: #4e9341;
+}
+
+.svg-map-group-sw:hover .svg-map-outline-sw {
+    fill: #48873b;
+}
+
+.svg-map-outline-pr {
+    fill: #c51f7d;
+}
+
+.svg-map-group-pr:hover .svg-map-outline-pr {
+    fill: #b51c73;
+}
+
+.svg-map-box {
+    stroke-width: 7px;
+    stroke: #777;
+    fill: none;
+}
+
+/**
+ * font-size trickery is to allow for the inline-block 25%/75% width,
+ * otherwise whitespace can mess it up.
+ */
+.svg-map-text-area {
+    display: none;
+    font-size: 0;
+}
+
+.svg-map-text-area p {
+    font-size: initial;
+}
+
+.svg-map-text-area h6 {
+    font-weight: bold;
+}
+
+.svg-map-text-factor {
+    display: inline-block;
+    width: 50%;
+    vertical-align: top;
+}
+
+.figure8_2 .svg-map-text-factor {
+    width: 33%;
+}
+
+.figure8_2 .svg-map-text-factor + .svg-map-text-factor {
+    width: 67%;
+}
+
+div.svg-map-text-factor:first-of-type {
+    padding-right: 15px;
+}
+
+.svg-map-text-factor:last-child {
+    padding-left: 15px;
+}
+
+.svg-map-text {
+    border-width: 4px 0;
+    border-style: solid;
+    padding-top: 10px;
+}
+
+.svg-map-text[data-active=default] {
+    border-width: 0;
+}
+
+.svg-map-text[data-active=default] .svg-map-text-default {
+    display: block;
+}
+
+.svg-map-text[data-active=alaska] {
+    border-color: #2192c0;
+}
+
+.svg-map-text[data-active=alaska] .svg-map-text-alaska {
+    display: block;
+}
+
+.svg-map-text[data-active=northeast] {
+    border-color: #978ec4;
+}
+
+.svg-map-text[data-active=northeast] .svg-map-text-northeast {
+    display: block;
+}
+
+.svg-map-text[data-active=hawaii] {
+    border-color: #542e89;
+}
+
+.svg-map-text[data-active=hawaii] .svg-map-text-hawaii {
+    display: block;
+}
+
+.svg-map-text[data-active=midwest] {
+    border-color: #b1202a;
+}
+
+.svg-map-text[data-active=midwest] .svg-map-text-midwest {
+    display: block;
+}
+
+.svg-map-text[data-active=northerngreatplains] {
+    border-color: #5ab5ad;
+}
+
+.svg-map-text[data-active=northerngreatplains] .svg-map-text-northerngreatplains {
+    display: block;
+}
+
+.svg-map-text[data-active=northwest] {
+    border-color: #f05132;
+}
+
+.svg-map-text[data-active=northwest] .svg-map-text-northwest {
+    display: block;
+}
+
+.svg-map-text[data-active=southeast] {
+    border-color: #fbb14e;
+}
+
+.svg-map-text[data-active=southeast] .svg-map-text-southeast {
+    display: block;
+}
+
+.svg-map-text[data-active=southerngreatplains] {
+    border-color: #0e675f;
+}
+
+.svg-map-text[data-active=southerngreatplains] .svg-map-text-southerngreatplains {
+    display: block;
+}
+
+.svg-map-text[data-active=southwest] {
+    border-color: #4e9341;
+}
+
+.svg-map-text[data-active=southwest] .svg-map-text-southwest {
+    display: block;
+}
+
+.svg-map-text[data-active=puertorico] {
+    border-color: #c51f7d;
+}
+
+.svg-map-text[data-active=puertorico] .svg-map-text-puertorico {
+    display: block;
+}

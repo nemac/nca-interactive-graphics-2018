@@ -12,10 +12,18 @@
     cursor: pointer;
 }
 
+.svg-map-interior {
+    z-index: 100;
+}
+
 .svg-map-outline-ak {
     transform: scale(.475);
     stroke-width: 8px;
     fill: #2192c0;
+}
+
+.svg-map-outline-ak:hover {
+    fill: #1e85ae;
 }
 
 .svg-map-outline-ne {
@@ -24,10 +32,143 @@
     fill: #978ec4;
 }
 
+.svg-map-outline-ne:hover {
+    fill: #8a80bc;
+}
+
 .svg-map-interior-ne {
     transform: scale(.233);
     stroke-width: 2px;
-    z-index: 100;
+}
+
+.svg-map-outline-hi {
+    transform: scale(.19);
+    fill: #542e89;
+    stroke-width: 18px;
+}
+
+.svg-map-group-hi:hover .svg-map-outline-hi {
+    fill: #4b297a;
+}
+
+.svg-map-group-mw {
+    transform: translate(5px, 9px);
+}
+
+.svg-map-outline-mw {
+    transform: scale(.429);
+    fill: #b1202a;
+    stroke-width: 8px;
+}
+
+.svg-map-outline-mw:hover {
+    fill: #9f1d26
+}
+
+.svg-map-interior-mw {
+    transform: scale(.33);
+    stroke-width: 2px;
+}
+
+.svg-map-group-ngp {
+    transform: translate(15px, 14px);
+}
+
+.svg-map-outline-ngp {
+    transform: scale(.346);
+    fill: #5ab5ad;
+    stroke-width: 9px;
+}
+
+.svg-map-outline-ngp:hover {
+    fill: #4daca5;
+}
+
+.svg-map-interior-ngp {
+    transform: scale(.308);
+    stroke-width: 2px;
+}
+
+.svg-map-group-nw {
+    transform: translate(24px, 10px);
+}
+
+.svg-map-outline-nw {
+    transform: scale(.28);
+    fill: #f05132;
+    stroke-width: 11px;
+}
+
+.svg-map-outline-nw:hover {
+    fill: #ee4220;
+}
+
+.svg-map-interior-nw {
+    transform: scale(.222);
+    stroke-width: 2px;
+}
+
+.svg-map-outline-se {
+    transform: scale(.498);
+    fill: #fbb14e;
+    stroke-width: 8px;
+}
+
+.svg-map-outline-se:hover {
+    fill: #fba83c;
+}
+
+.svg-map-interior-se {
+    transform: scale(.363);
+    stroke-width: 1px;
+}
+
+.svg-map-group-sgp {
+    transform: translate(11px, -5px);
+}
+
+.svg-map-outline-sgp {
+    transform: scale(.462);
+    fill: #0e675f;
+    stroke-width: 8px;
+}
+
+.svg-map-outline-sgp:hover {
+    fill: #0c554f;
+}
+
+.svg-map-interior-sgp {
+    transform: scale(.172);
+    stroke-width: 3px;
+}
+
+.svg-map-group-sw {
+    transform: translate(22px, 4px);
+}
+
+.svg-map-outline-sw {
+    transform: scale(.428);
+    fill: #4e9341;
+    stroke-width: 8px;
+}
+
+.svg-map-outline-sw:hover {
+    fill: #48873b;
+}
+
+.svg-map-interior-sw {
+    transform: scale(.399);
+    stroke-width: 1px;
+}
+
+.svg-map-outline-pr {
+    transform: scale(.105);
+    fill: #c51f7d;
+    stroke-width: 30px;
+}
+
+.svg-map-group-pr:hover .svg-map-outline-pr {
+    fill: #b51c73;
 }
 
 .svg-map-box {
@@ -68,11 +209,13 @@ div.svg-map-text-factor:first-of-type {
 }
 
 .svg-map-text {
-    border-top: 4px solid;
+    border-width: 4px 0;
+    border-style: solid;
+    padding-top: 10px;
 }
 
 .svg-map-text[data-active=default] {
-    border-top: 0;
+    border-width: 0;
 }
 
 .svg-map-text[data-active=default] .svg-map-text-default {
@@ -80,7 +223,7 @@ div.svg-map-text-factor:first-of-type {
 }
 
 .svg-map-text[data-active=alaska] {
-    border-top-color: #2192c0;
+    border-color: #2192c0;
 }
 
 .svg-map-text[data-active=alaska] .svg-map-text-alaska {
@@ -88,7 +231,7 @@ div.svg-map-text-factor:first-of-type {
 }
 
 .svg-map-text[data-active=northeast] {
-    border-top-color: #978ec4;
+    border-color: #978ec4;
 }
 
 .svg-map-text[data-active=northeast] .svg-map-text-northeast {
@@ -96,7 +239,7 @@ div.svg-map-text-factor:first-of-type {
 }
 
 .svg-map-text[data-active=hawaii] {
-    border-top-color: #542e89;
+    border-color: #542e89;
 }
 
 .svg-map-text[data-active=hawaii] .svg-map-text-hawaii {
@@ -104,7 +247,7 @@ div.svg-map-text-factor:first-of-type {
 }
 
 .svg-map-text[data-active=midwest] {
-    border-top-color: #b1202a;
+    border-color: #b1202a;
 }
 
 .svg-map-text[data-active=midwest] .svg-map-text-midwest {
@@ -112,7 +255,7 @@ div.svg-map-text-factor:first-of-type {
 }
 
 .svg-map-text[data-active=northerngreatplains] {
-    border-top-color: #5ab5ad;
+    border-color: #5ab5ad;
 }
 
 .svg-map-text[data-active=northerngreatplains] .svg-map-text-northerngreatplains {
@@ -120,7 +263,7 @@ div.svg-map-text-factor:first-of-type {
 }
 
 .svg-map-text[data-active=northwest] {
-    border-top-color: #f05132;
+    border-color: #f05132;
 }
 
 .svg-map-text[data-active=northwest] .svg-map-text-northwest {
@@ -128,7 +271,7 @@ div.svg-map-text-factor:first-of-type {
 }
 
 .svg-map-text[data-active=southeast] {
-    border-top-color: #fbb14e;
+    border-color: #fbb14e;
 }
 
 .svg-map-text[data-active=southeast] .svg-map-text-southeast {
@@ -136,7 +279,7 @@ div.svg-map-text-factor:first-of-type {
 }
 
 .svg-map-text[data-active=southerngreatplains] {
-    border-top-color: #0e675f;
+    border-color: #0e675f;
 }
 
 .svg-map-text[data-active=southerngreatplains] .svg-map-text-southerngreatplains {
@@ -144,7 +287,7 @@ div.svg-map-text-factor:first-of-type {
 }
 
 .svg-map-text[data-active=southwest] {
-    border-top-color: #4e9341;
+    border-color: #4e9341;
 }
 
 .svg-map-text[data-active=southwest] .svg-map-text-southwest {
@@ -152,10 +295,9 @@ div.svg-map-text-factor:first-of-type {
 }
 
 .svg-map-text[data-active=puertorico] {
-    border-top-color: #c51f7d;
+    border-color: #c51f7d;
 }
 
 .svg-map-text[data-active=puertorico] .svg-map-text-puertorico {
     display: block;
 }
-

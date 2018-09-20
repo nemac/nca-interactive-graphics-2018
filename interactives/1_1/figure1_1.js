@@ -28,11 +28,24 @@
         loadMapText(this);
     }
 
+    // Handler for image button links when tabbed to.
+    // The keyword 'this' is the DOM element that was interacted with.
+    //
+    // @param e - Event
+    function handleSvgMapKeypress(e) {
+        if (e.key.toLowerCase() === "enter") {
+            e.preventDefault();
+            loadMapText(this);
+        }
+    }
+
+
     (function bindSvgMapClicks() {
         var i, l;
         var clickableRegions = document.getElementsByClassName("svg-map-clickable-region");
         for (i = 0, l = clickableRegions.length; i < l; i++) {
             clickableRegions[i].addEventListener("click", handleSvgMapClick);
+            clickableRegions[i].addEventListener("keypress", handleSvgMapKeypress);;
         }
     }());
 

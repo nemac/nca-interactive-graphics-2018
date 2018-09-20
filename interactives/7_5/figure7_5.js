@@ -1,34 +1,57 @@
 (function () {
     "use strict";
 
-    function getNewText(elem) {
+    // Gets identifier for the new text that should be displayed
+    //
+    // @param elem - DOM Element that was clicked/pressed
+    // @return String
+    function getNewTextId(elem) {
         return elem.getAttribute("data-for");
     }
 
+    // Gets wrapper for the figure
+    //
+    // @param elem - DOM Element that was clicked/pressed
+    // @return DOM Element
     function getWrapper(elem) {
         return elem.closest(".svg-map-clickable");
     }
 
-    function getNewTextElem(elem) {
+    // Gets wrapper for the block of text to be displayed
+    //
+    // @param elem - DOM Element that was clicked/pressed
+    // @return DOM Element
+    function getTextElem(elem) {
         return getWrapper(elem).querySelector(".svg-map-text");
     }
 
+    // Swaps in the new text block. Setting this property triggers a change in the css
+    //
+    // @param target - String that identifies the new text to be displayed
+    // @param elem - DOM Element that was clicked/pressed
     function swapText(target, elem) {
         elem.setAttribute("data-active", target);
     }
 
+    // Loads in the specified block of text
+    //
+    // @param elem - DOM Element that was clicked/pressed
     function loadMapText(elem) {
-        var newText = getNewText(elem);
-        var newTextElem = getNewTextElem(elem);
-        swapText(newText, newTextElem);
+        var newTextId = getNewTextId(elem);
+        var textElem = getTextElem(elem);
+        swapText(newTextId, textElem);
     }
 
+    // Handler for SVG region links when clicked on.
+    // The keyword 'this' is the DOM element that was interacted with.
+    //
+    // @param e - Event
     function handleSvgMapClick(e) {
         e.preventDefault();
         loadMapText(this);
     }
 
-    // Handler for image button links when tabbed to.
+    // Handler for SVG region links when tabbed to and enter is pressed.
     // The keyword 'this' is the DOM element that was interacted with.
     //
     // @param e - Event
@@ -39,7 +62,7 @@
         }
     }
 
-
+    // Binds all events for the svg map figures
     (function bindSvgMapClicks() {
         var i, l;
         var clickableRegions = document.getElementsByClassName("svg-map-clickable-region");
@@ -49,7 +72,7 @@
         }
     }());
 
-    // Polyfill
+    // Polyfill for Element.closest
     // https://developer.mozilla.org/en-US/docs/Web/API/Element/closest
     if (!Element.prototype.matches) {
         Element.prototype.matches = Element.prototype.msMatchesSelector || 

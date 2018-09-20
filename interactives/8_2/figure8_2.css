@@ -111,7 +111,7 @@
 }
 
 /**
- * font-size trickery is to allow for the inline-block 25%/75% width,
+ * font-size trickery is to allow for the inline-block 33%/67% width,
  * otherwise whitespace can mess it up.
  */
 .svg-map-text-area {
@@ -119,8 +119,12 @@
     font-size: 0;
 }
 
-.svg-map-text-area p {
+.svg-map-text-body {
     font-size: initial;
+}
+
+ul.svg-map-text-body {
+    padding-left: 20px;
 }
 
 .svg-map-text-area h6 {

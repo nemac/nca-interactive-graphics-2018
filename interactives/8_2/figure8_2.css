@@ -57,11 +57,15 @@
 }
 
 .figure8_2 .svg-map-outline-ngp {
-    fill: #a0a6aa;
+    fill: #d3d3d3;
 }
 
 .figure8_2 .svg-map-group-ngp:hover .svg-map-outline-ngp {
-    fill: #a0a6aa;
+    fill: #d3d3d3;
+}
+
+.figure8_2 .svg-map-group-ngp .svg-map-interior {
+    stroke: #777;
 }
 
 .svg-map-outline-nw {

@@ -86,6 +86,7 @@
 }
 
 .image-clickable-overlay-arrow-wrapper a {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -98,9 +99,39 @@
     text-shadow: 1px 1px 2px rgba(0, 0, 0, .2);
 }
 
+.image-clickable-overlay-arrow-wrapper a:after {
+    position: absolute;
+    content: " ";
+    top: 50%;
+    left: 9px;
+    margin-top: -17px;
+    width: 19px;
+    height: 34px;
+    background-image: url('../../interactives/1_2/bkgrd/arrows.png');
+    background-size: 39px 69px;
+    background-repeat: no-repeat;
+
+}
+
 .image-clickable-overlay-arrow-wrapper a:hover {
     cursor: pointer;
     outline: 3px solid rgba(30, 30, 30, .3);
+}
+
+.image-clickable-overlay-arrow-wrapper-left a:after {
+    background-position: 0 0;
+}
+
+.image-clickable-overlay-arrow-wrapper-left a.inactive:after {
+    background-position: 0 100%;
+}
+
+.image-clickable-overlay-arrow-wrapper-right a:after {
+    background-position: 100% 0;
+}
+
+.image-clickable-overlay-arrow-wrapper-right a.inactive:after {
+    background-position: 100% 100%;
 }
 
 .image-clickable-overlay-arrow-wrapper a.inactive {
@@ -118,9 +149,15 @@
     position: absolute;
     top: 10px;
     right: 10px;
+    width: 34px;
+    height: 34px;
     padding: 3px 10px;
     border-bottom: 0;
     cursor: pointer;
+    background-image: url('../../interactives/1_2/bkgrd/close.png');
+    background-size: 15px 15px;
+    background-position: 10px 10px;
+    background-repeat: no-repeat;
     user-select: none;
     -moz-user-select: none;
     -khtml-user-select: none;

@@ -1,0 +1,224 @@
+#circles {
+    width: 100%;
+    height: auto;
+}
+
+.node, .pie-chart {
+  cursor: pointer;
+}
+
+.label, .dimensionPlaceholder {
+  font: 17px Arial, sans-serif;
+  text-anchor: middle;
+}
+
+.label,
+.node--root,
+.node--leaf {
+  pointer-events: none;
+}
+
+.pie-text--title {
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.pie-text--rcp8--value, .pie-text--rcp4--value {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+circle {
+    stroke: #297fb7;
+    fill: #297fb71a;
+    stroke-width: 1px;
+}
+
+circle:hover {
+    stroke-width: 2px;
+    fill: #297fb733
+}
+
+.pie-slice--damages {
+    fill: red;
+}
+
+.pie-slice--avoided {
+    fill: white;
+}
+
+.pie-chart--labor .pie-slice--damages {
+    fill: #fe8e3e;
+}
+
+.pie-chart--labor .pie-slice--avoided {
+    fill: #febb8a;
+}
+
+.pie-chart--extreme_temperature_mortality .pie-slice--damages {
+    fill: #b10626;
+}
+
+.pie-chart--extreme_temperature_mortality .pie-slice--avoided {
+    fill: #d0667d;
+}
+
+.pie-chart--coastal_property .pie-slice--damages {
+    fill: #542788;
+}
+
+.pie-chart--coastal_property .pie-slice--avoided {
+    fill: #988ec3;
+}
+
+.pie-chart--air_quality .pie-slice--damages {
+    fill: #8c510a;
+}
+
+.pie-chart--air_quality .pie-slice--avoided {
+    fill: #ba976c;
+}
+
+.pie-chart--roads .pie-slice--damages {
+    fill: #3a6e19;
+}
+
+.pie-chart--roads .pie-slice--avoided {
+    fill: #618b47;
+}
+
+.pie-chart--electricity_supply_and_demand .pie-slice--damages {
+    fill: #e21a1c;
+}
+
+.pie-chart--electricity_supply_and_demand .pie-slice--avoided {
+    fill: #f9d1d1;
+}
+
+.pie-chart--inland_flooding .pie-slice--damages {
+    fill: #3d569d;
+}
+
+.pie-chart--inland_flooding .pie-slice--avoided {
+    fill: #d8ddeb;
+}
+
+.pie-chart--urban_damage .pie-slice--damages {
+    fill: #4d9220;
+}
+
+.pie-chart--urban_damage .pie-slice--avoided {
+    fill: #b8d3a6;
+}
+
+.pie-chart--rail .pie-slice--damages {
+    fill: #fc4e29;
+}
+
+.pie-chart--rail .pie-slice--avoided {
+    fill: #fd957f;
+}
+
+.pie-chart--water_quality .pie-slice--damages {
+    fill: #ee7677;
+}
+
+.pie-chart--water_quality .pie-slice--avoided {
+    fill: #fce4e4;
+}
+
+.pie-chart--coral_reefs .pie-slice--damages {
+    fill: #6d80b5;
+}
+
+.pie-chart--coral_reefs .pie-slice--avoided {
+    fill: #e2e6f0;
+}
+
+.pie-chart--west_nile_virus .pie-slice--damages {
+    fill: #71a84d;
+}
+
+.pie-chart--west_nile_virus .pie-slice--avoided {
+    fill: #e3eedb;
+}
+
+.pie-chart--freshwater_fish .pie-slice--damages {
+    fill: #fed975;
+}
+
+.pie-chart--freshwater_fish .pie-slice--avoided {
+    fill: #fff7e4;
+}
+
+.pie-chart--winter_recreation .pie-slice--damages {
+    fill: #f4a2a4;
+}
+
+.pie-chart--winter_recreation .pie-slice--avoided {
+    fill: #fce3e4;
+}
+
+.pie-chart--bridges .pie-slice--damages {
+    fill: #9eabce;
+}
+
+.pie-chart--bridges .pie-slice--avoided {
+    fill: #eceef4;
+}
+
+.pie-chart--munic_and_industrial_water_supply .pie-slice--damages {
+    fill: #94be7a;
+}
+
+.pie-chart--munic_and_industrial_water_supply .pie-slice--avoided {
+    fill: #eaf2e4;
+}
+
+.pie-chart--harmful_algal_blooms .pie-slice--damages {
+    fill: #d8b365;
+}
+
+.pie-chart--harmful_algal_blooms .pie-slice--avoided {
+    fill: #f7f0e0;
+}
+
+.pie-chart--alaska_infrastructure .pie-slice--damages {
+    fill: #dc76b1;
+}
+
+.pie-chart--alaska_infrastructure .pie-slice--avoided {
+    fill: #dfcce3;
+}
+
+.pie-chart--shellfish .pie-slice--damages {
+    fill: #9eabce;
+}
+
+.pie-chart--shellfish .pie-slice--avoided {
+    fill: #eceef4;
+}
+
+.pie-chart--agriculture .pie-slice--damages {
+    fill: #b8d3a6;
+}
+
+.pie-chart--agriculture .pie-slice--avoided {
+    fill: #eaf2e5;
+}
+
+.pie-chart--aeroallergens .pie-slice--damages {
+    fill: #6e6e70;
+}
+
+.pie-chart--aeroallergens .pie-slice--avoided {
+    fill: #d3d3d4;
+}
+
+.pie-chart--wildfire .pie-slice--damages {
+    fill: #404040;
+}
+
+.pie-chart--wildfire .pie-slice--avoided {
+    fill: #c5c5c5;
+}

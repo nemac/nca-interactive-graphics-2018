@@ -112,6 +112,43 @@
         disableArrows(activeImage, wrapper); // Disable if neccesary
     }
 
+    // Gets buttons from the overlay that can be tabbed to. Used to toggle tabbability of them.
+    // There are display issues with tabbing to them when the overlay is not displayed, so that
+    // functionality is disabled until the overlay is displayed.
+    //
+    // @param wrapper - parent wrapper of the clickable image figure
+    function getTabbableButtons(wrapper) {
+        return wrapper.querySelectorAll('.image-clickable-overlay-arrow, .image-clickable-overlay-dismiss');
+    }
+
+    // Adds the tabindex attribute to a DOM element. Allows for users to tab to it.
+    //
+    // @param elem - DOM element
+    function addTabindex(elem) {
+        elem.setAttribute('tabindex', '0');
+    }
+
+    // Removes the tabindex attribute from a DOM element. Disables ability for users to tab to it.
+    //
+    // @param elem - DOM element
+    function removeTabindex(elem) {
+        elem.removeAttribute('tabindex');
+    }
+
+    // Makes overlay buttons tabbable when displayed
+    //
+    // @param wrapper - parent wrapper of the clickable image figure
+    function addButtonTabIndexes(wrapper) {
+        getTabbableButtons(wrapper).forEach(addTabindex);
+    }
+
+    // Makes overlay buttons untabbable when not displayed
+    //
+    // @param wrapper - parent wrapper of the clickable image figure
+    function removeButtonTabIndexes(wrapper) {
+        getTabbableButtons(wrapper).forEach(removeTabindex);
+    }
+
     // Loads overlay from click on image map or image button
     //
     // @param elem - DOM Element. Link which is currently either an overlay or an image button
@@ -131,6 +168,7 @@
         overlay.classList.add("active");
 
         handleArrows(overlayImage, wrapper);
+        addButtonTabIndexes(wrapper);
     }
 
     // Switches current active image from interaction on arrows
@@ -163,12 +201,20 @@
         switchOverlayImage(elem, "previousElementSibling");
     }
 
-    // Hides the active image overlay
+    // Hides the active image overlay 
+    //
+    // @param wrapper - parent wrapper of the clickable image figure
+    function dismissClickableOverlay(wrapper) {
+        getOverlayWrapper(wrapper).classList.remove("active");
+    }
+
+    // Handles the dismissal of the image overlay
     //
     // @param elem - DOM element. Dismiss button which triggered event.
     function hideClickableOverlay(elem) {
         var wrapper = getClickableWrapper(elem);
-        getOverlayWrapper(wrapper).classList.remove("active");
+        dismissClickableOverlay(wrapper);
+        removeButtonTabIndexes(wrapper);
     }
 
     // Handler for image map and image button links.

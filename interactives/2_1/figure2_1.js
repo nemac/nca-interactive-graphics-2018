@@ -22,50 +22,28 @@
     }
 
     function getLegendItem(key, wrapper) {
-        console.log(key)
         return wrapper.querySelector(".graph-legend-item--" + key);
     }
 
-    function showGraphLine(line) {
-        line.classList.remove(getGraphHideClass());
+    function toggleGraphLineDisplay(line) {
+        line.classList.toggle(getGraphHideClass());
     }
 
-    function showGraphLines(lines) {
-        lines.forEach(showGraphLine);
+    function toggleGraphLines(lines) {
+        lines.forEach(toggleGraphLineDisplay);
     }
 
-    function hideGraphLine(line) {
-        line.classList.add(getGraphHideClass());
+    function toggleLegendItem(item) {
+        item.classList.toggle(getLegendInactiveClass());
     }
 
-    function hideGraphLines(lines) {
-        lines.forEach(hideGraphLine);
-    }
-
-    function showLegendItem(item) {
-        item.classList.remove(getLegendInactiveClass());
-    }
-
-    function hideLegendItem(item) {
-        item.classList.add(getLegendInactiveClass());
-    }
-
-    function enableGraphLine(key, wrapper) {
-        showGraphLines(getGraphLine(key, wrapper));
-        showLegendItem(getLegendItem(key, wrapper));
-    }
-
-    function disableGraphLine(key, wrapper) {
-        hideGraphLines(getGraphLine(key, wrapper));
-        hideLegendItem(getLegendItem(key, wrapper));
-    }
-
-    function toggleGraph(key, enable, wrapper) {
-        enable ? enableGraphLine(key, wrapper) : disableGraphLine(key, wrapper);
+    function toggleGraph(key, wrapper) {
+        toggleGraphLines(getGraphLine(key, wrapper));
+        toggleLegendItem(getLegendItem(key, wrapper));
     }
 
     function handleGraphLineChange(elem) {
-        toggleGraph(getKey(elem), elem.checked, getWrapper(elem));
+        toggleGraph(getKey(elem), getWrapper(elem));
     }
 
     function handleCheckboxChange(e) {

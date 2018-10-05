@@ -1,0 +1,79 @@
+.graph-outline {
+    fill: none;
+    stroke: gray;
+    stroke-width: 0.75px;
+}
+
+.graph-tick {
+    stroke: gray;
+    stroke-width: 0.5px;
+}
+
+.graph-label {
+    font-size:9px;
+    font-family: Arial;
+    color: gray;
+ }
+
+.graph-axis-label {
+    font-size: 7px;
+    font-family: Arial;
+    transform: rotate(-90deg);
+}
+
+.graph-baseline {
+    stroke:gray;
+    stroke-width:0.38px;
+ }
+
+.graph-line {
+    fill: none;
+    stroke-linejoin: round;
+    stroke-width: 1px;
+}
+
+.graph-line--all {
+    stroke-width: 1.3px;
+}
+
+.graph-line--hatched {
+    stroke-width: .38px;
+    opacity: .5;
+}
+
+.graph-line--inactive {
+    display: none;
+}
+
+.graph-line--observed {
+    stroke-width: 1.5px;
+    stroke: #000;
+}
+
+.graph-line--all--combined {
+    stroke: #fe8d3c;
+}
+
+.graph-line--all--human {
+    stroke: #e31a1c;
+}
+
+.graph-line--all--natural {
+    stroke: #fed976;
+}
+
+.graph-line--aerosols, .graph-line--orbital {
+    stroke: #8c510a;
+}    
+
+.graph-line--greenhouse, .graph-line--solar {
+    stroke: #542788;
+}    
+
+.graph-line--land-cover, .graph-line--volcanic {
+    stroke: #4d9221;
+}    
+
+.graph-line--ozone {
+    stroke: #feb24c;
+}    

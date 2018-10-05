@@ -42,6 +42,10 @@
     stroke-width: .25px;
 }
 
+.graph-legend-item--clickable {
+    cursor: pointer;
+}
+
 .graph-legend-item--inactive text {
     fill: #6c757d;
 }

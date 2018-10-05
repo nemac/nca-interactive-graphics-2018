@@ -5,12 +5,21 @@
         return "graph-line--inactive";
     }
 
+    function getLegendInactiveClass() {
+        return "graph-legend-item--inactive";
+    }
+
     function getWrapper(elem) {
         return elem.closest(".graph-selectable");
     }
 
     function getGraphLine(key, wrapper) {
-        return wrapper.querySelectorAll(".graph-line--" + key);
+        return wrapper.querySelectorAll(".graph-lines .graph-line--" + key);
+    }
+
+    function getLegendItem(key, wrapper) {
+        console.log(key)
+        return wrapper.querySelector(".graph-legend-item--" + key);
     }
 
     function showGraphLine(line) {
@@ -29,12 +38,22 @@
         lines.forEach(hideGraphLine);
     }
 
+    function showLegendItem(item) {
+        item.classList.remove(getLegendInactiveClass());
+    }
+
+    function hideLegendItem(item) {
+        item.classList.add(getLegendInactiveClass());
+    }
+
     function enableGraphLine(key, wrapper) {
         showGraphLines(getGraphLine(key, wrapper));
+        showLegendItem(getLegendItem(key, wrapper));
     }
 
     function disableGraphLine(key, wrapper) {
         hideGraphLines(getGraphLine(key, wrapper));
+        hideLegendItem(getLegendItem(key, wrapper));
     }
 
     function toggleGraph(key, enable, wrapper) {

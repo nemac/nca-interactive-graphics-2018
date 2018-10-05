@@ -26,6 +26,31 @@
     stroke-width:0.38px;
  }
 
+.graph-legend text {
+    font-size: 5.7px;
+    font-family: Arial;
+}
+
+.graph-legend-item--label text {
+    fill: #772d56;
+    font-size: 6.5px;
+    font-weight: bold;
+}
+
+.graph-legend-item--label path {
+    stroke: #772d56;
+    stroke-width: .25px;
+}
+
+.graph-legend-item--inactive text {
+    fill: #6c757d;
+}
+
+.graph-legend-item--inactive path {
+    stroke: #6c757d;
+    opacity: .3;
+}
+
 .graph-line {
     fill: none;
     stroke-linejoin: round;

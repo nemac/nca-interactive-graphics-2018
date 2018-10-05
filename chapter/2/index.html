@@ -1555,9 +1555,55 @@ M32.01,96.94 l1.69,-6.84 1.7,0.39 1.7,6.58 1.7,7.81 1.7,1.94 1.69,0.38 1.7,2.26 
       </g>
       <text class="graph-axis-label" x="-145" y="10">Temperature Difference from Average (&deg;F)</text>
     </svg>
-    <div class="graph-ui-wrap">
-      <div class="graph-ui-top graph-ui-section"><div><label><input type="checkbox" checked="checked" disabled="">Observed</label></div><div><label><input type="checkbox" class="graph-checkbox" data-for="all--human" checked="checked">Human Drivers</label></div><div><label><input type="checkbox" class="graph-checkbox" data-for="all--natural" checked="checked">Natural Drivers</label></div><div><label><input type="checkbox" class="graph-checkbox" data-for="all--combined">All Drivers</label></div></div>
-      <div class="graph-ui-drivers graph-ui-section"><div class="graph-ui-human"><label><input type="checkbox" class="graph-checkbox" data-for="greenhouse">Greenhouse Gases</label></div><div class="graph-ui-human"><label><input type="checkbox" class="graph-checkbox" data-for="ozone">Ozone</label></div><div class="graph-ui-human"><label><input type="checkbox" class="graph-checkbox" data-for="land-cover">Land Cover</label></div><div class="graph-ui-human"><label><input type="checkbox" class="graph-checkbox" data-for="aerosols">Aerosols</label></div><div class="graph-ui-natural"><label><input type="checkbox" class="graph-checkbox" data-for="volcanic">Volcanic</label></div><div class="graph-ui-natural"><label><input type="checkbox" class="graph-checkbox" data-for="solar">Solar</label></div><div class="graph-ui-natural"><label><input type="checkbox" class="graph-checkbox" data-for="orbital">Orbital</label></div></div>
+    <div>
+      <div class="graph-checkboxes-section graph-checkboxes-section--combined">
+        <h5>Combined Influences</h4>
+        <div class="graph-checkboxes-wrapper">
+          <div>
+            <label><input type="checkbox" data-for="observed" checked="checked" disabled="">Observed</label>
+          </div>
+          <div>
+            <label><input type="checkbox" class="graph-checkbox" data-for="all--human" checked="checked">Human Drivers</label>
+          </div>
+          <div>
+            <label><input type="checkbox" class="graph-checkbox" data-for="all--natural" checked="checked">Natural Drivers</label>
+          </div>
+          <div>
+            <label><input type="checkbox" class="graph-checkbox" data-for="all--combined">All Drivers</label>
+          </div>
+        </div>
+      </div>
+      <div class="graph-checkboxes-section"><div class="graph-checkboxes-section--human">
+          <h5>Human Influences</h4>
+          <div class="graph-checkboxes-wrapper">
+            <div>
+              <label><input type="checkbox" class="graph-checkbox" data-for="greenhouse">Greenhouse Gases</label>
+            </div>
+            <div>
+              <label><input type="checkbox" class="graph-checkbox" data-for="ozone">Ozone</label>
+            </div>
+            <div>
+              <label><input type="checkbox" class="graph-checkbox" data-for="land-cover">Land Cover</label>
+            </div>
+            <div>
+              <label><input type="checkbox" class="graph-checkbox" data-for="aerosols">Aerosols</label>
+            </div>
+          </div>
+        </div><div class="graph-checkboxes-section--natural">
+          <h5>Natural Influences</h4>
+          <div class="graph-checkboxes-wrapper">
+            <div>
+              <label><input type="checkbox" class="graph-checkbox" data-for="volcanic">Volcanic</label>
+            </div>
+            <div>
+              <label><input type="checkbox" class="graph-checkbox" data-for="solar">Solar</label>
+            </div>
+            <div>
+              <label><input type="checkbox" class="graph-checkbox" data-for="orbital">Orbital</label>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

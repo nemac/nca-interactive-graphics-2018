@@ -68,7 +68,7 @@
         var clickableRegions = document.getElementsByClassName("svg-map-clickable-region");
         for (i = 0, l = clickableRegions.length; i < l; i++) {
             clickableRegions[i].addEventListener("click", handleSvgMapClick);
-            clickableRegions[i].addEventListener("keypress", handleSvgMapKeypress);;
+            clickableRegions[i].addEventListener("keypress", handleSvgMapKeypress);
         }
     }());
 

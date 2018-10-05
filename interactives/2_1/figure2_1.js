@@ -50,13 +50,30 @@
         handleGraphLineChange(this);
     }
 
+    function toggleCheckboxCheck(elem) {
+        elem.checked = !elem.checked;
+    }
+
+    function handleCheckboxKeypress(e) {
+        if (e.key.toLowerCase() === "enter") {
+            e.preventDefault();
+            toggleCheckboxCheck(this);
+            handleGraphLineChange(this);
+        }
+    }
+
     function bindCheckboxChange(elem) {
         elem.addEventListener("change", handleCheckboxChange);
     }
 
-    (function bindCheckboxChanges() {
+    function bindCheckboxKeypress(elem) {
+        elem.addEventListener("keypress", handleCheckboxKeypress);
+    }
+
+    (function bindCheckboxEvents() {
         var checkboxes = document.getElementsByClassName("graph-checkbox");
         Array.prototype.forEach.call(checkboxes, bindCheckboxChange);
+        Array.prototype.forEach.call(checkboxes, bindCheckboxKeypress);
     })();
 })();
 

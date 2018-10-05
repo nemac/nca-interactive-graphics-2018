@@ -78,13 +78,41 @@
     stroke: #feb24c;
 }    
 
-.graph-ui-section div {
+.graph-checkboxes-section--combined {
+    margin: 20px 0;
+}
+
+.graph-checkboxes-section--human, .graph-checkboxes-section--natural {
+    display: inline-block;
+    width: 50%;
+    vertical-align: top;
+}
+
+.graph-checkboxes-section--human {
+    padding-right: 15px;
+}
+
+.graph-checkboxes-section--natural {
+    padding-left: 15px;
+}
+
+.graph-checkboxes-section h5 {
+    text-align: center;
+    border-bottom: 1px solid;
+}
+
+.graph-checkboxes-wrapper div {
     display: inline-block;
     margin-right: 20px;
 }
 
-.graph-ui-section input {
+.graph-checkboxes-wrapper input {
     vertical-align: top;
     margin-right: 5px;
     margin-top: .45rem;
+    cursor: pointer;
+}
+
+.graph-checkboxes-wrapper label {
+    cursor: pointer;
 }

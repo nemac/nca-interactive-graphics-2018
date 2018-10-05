@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 279.42 162.9">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 279.42 157.9">
   <defs><style>
     .graph-outline {
         fill: none;
@@ -75,8 +75,8 @@
     }    
 </style></defs>
   <title>allnatural</title>
-  <g id="Layer_4" data-name="Layer 4">
-    <g class="graph">
+  <g class="graph-wrapper" transform="translate(0 -2.47)">
+    <g class="graph-ui">
       <g class="graph-axis--x">
         <path class="graph-tick" d="M53.75,149.3v3.39m34-3.39v3.39m34-3.39v3.39m34-3.39v3.39m34-3.39v3.39m34-3.39v3.39m34-3.39v3.39m33.7-3.39v3.39" transform="translate(-21.74 -2.54)"/>
         <text class="graph-label" transform="translate(21.72 159.98)">1880</text>

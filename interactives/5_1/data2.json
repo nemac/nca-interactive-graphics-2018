@@ -1,0 +1,32 @@
+{
+   "nodes" : [
+      { "name" : "Hawaii", "id" : "ha" },
+      { "name" : "Alaska", "id" : "al" },
+      { "name" : "Southeast", "id" : "se" },
+      { "name" : "Northeast", "id" : "ne" },
+      { "name" : "Midwest", "id" : "mw" },
+      { "name" : "Southern Great PLains", "id" : "sgp" },
+      { "name" : "Northern Great Plains", "id" : "ngp" },
+      { "name" : "Southwest", "id" : "sw" },
+      { "name" : "Northwest", "id" : "nw" },
+
+      { "name" : "Snow / Ice", "id" : "snow" },
+      { "name" : "Barren", "id" : "bare" },
+      { "name" : "Water", "id" : "water" },
+      { "name" : "Developed", "id" : "dev" }
+      { "name" : "Forest", "id" : "forest" },
+      { "name" : "Grassland", "id" : "grassland" },
+      { "name" : "Agriculture", "id" : "agriculture" },
+      { "name" : "Wetland", "id" : "wet" }
+   ],
+   "links" : [
+      { "source" : 0, "target" : 9, "value" : 0, "color": "ha"},
+      { "source" : 0, "target" : 10, "value" : 24.3, "color": "ha"},
+      { "source" : 0, "target" : 11, "value" : 1.02, "color": "ha"},
+      { "source" : 0, "target" : 12, "value" : 2.14, "color": "ha"},
+      { "source" : 0, "target" : 13, "value" : 28.85, "color": "ha"},
+      { "source" : 0, "target" : 14, "value" : 25.67, "color": "ha"},
+      { "source" : 0, "target" : 15, "value" : 16.34, "color": "ha"},
+      { "source" : 0, "target" : 16, "value" : 0.93, "color": "ha"}
+   ]
+}

@@ -1,0 +1,42 @@
+{
+   "nodes" : [
+      { "name" : "1980", "id" : "decrease_1980" },
+      { "name" : "1990", "id" : "decrease_1990" },
+
+      { "name" : "Agriculture", "id" : "agriculture" },
+      { "name" : "Grassland", "id" : "grassland" },
+      { "name" : "Forest", "id" : "forest" },
+
+      { "name" : "Northwest", "id" : "northwest" },
+      { "name" : "Northern Great Plains", "id" : "northern_great_plains" },
+
+      { "name" : "Agriculture", "id" : "agriculture" },
+      { "name" : "Grassland", "id" : "grassland" },
+
+      { "name" : "1980", "id" : "increase_1980" },
+      { "name" : "1990", "id" : "increase_1990" }
+   ],
+   "links" : [
+      { "source" : 0, "target" : 3, "value" :  200, "color": "northern_great_plains"},
+
+      { "source" : 0, "target" : 4, "value" :  50, "color": "northern_great_plains"},
+
+      { "source" : 1, "target" : 2, "value" :  1000, "color": "northern_great_plains"},
+
+      { "source" : 1, "target" : 4, "value" :  450, "color": "northern_great_plains"},
+
+      { "source" : 2, "target" : 6, "value" :  1000, "color": "northern_great_plains"},
+
+      { "source" : 3, "target" : 6, "value" :  200, "color": "northern_great_plains"},
+
+      { "source" : 4, "target" : 6, "value" :  500, "color": "northern_great_plains"},
+
+      { "source" : 6, "target" : 7, "value" :  450, "color": "northern_great_plains"},
+      { "source" : 6, "target" : 8, "value" :  1020, "color": "northern_great_plains"},
+
+      { "source" : 7, "target" : 9, "value" :  450, "color": "northern_great_plains"},
+
+      { "source" : 8, "target" : 10, "value" :  1020, "color": "northern_great_plains"}
+   ]
+}
+

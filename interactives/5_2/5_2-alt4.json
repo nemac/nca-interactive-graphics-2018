@@ -1,0 +1,17 @@
+{
+   "nodes" : [
+      { "name" : "Northwest", "id" : "northwest" },
+      { "name" : "Northern Great Plains", "id" : "northern_great_plains" },
+      { "name" : "Grassland", "id" : "grassland" },
+      { "name" : "1980", "id" : "increase_1980" },
+      { "name" : "1990", "id" : "increase_1990" }
+   ],
+    "links" : [
+      { "source" : 0, "target" : 2, "value" :  550, "color": "northwest"},
+      { "source" : 1, "target" : 2, "value" :  1020, "color": "northern_great_plains"},
+      { "source" : 2, "target" : 3, "value" :  300, "color": "northwest"},
+      { "source" : 2, "target" : 4, "value" :  250, "color": "northwest"},
+      { "source" : 2, "target" : 4, "value" :  1020, "color": "northern_great_plains"}
+   ]
+}
+

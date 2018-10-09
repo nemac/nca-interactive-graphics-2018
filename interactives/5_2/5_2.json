@@ -1,0 +1,55 @@
+{
+   "nodes" : [
+      {
+         "name" : "Northwest",
+         "id" : "northwest"
+      },
+      {
+         "name" : "Northern Great Plains",
+         "id" : "northern_great_plains"
+      },
+      {
+         "name" : "Agriculture",
+         "id" : "agriculture"
+      },
+      {
+         "name" : "Grassland",
+         "id" : "grassland"
+      },
+      {
+         "name" : "Forest",
+         "id" : "forest"
+      },
+      {
+         "name" : "Increase 1980",
+         "id" : "increase_1980"
+      },
+      {
+         "name" : "Decrease 1980",
+         "id" : "decrease_1980"
+      },
+      {
+         "name" : "Increase 1990",
+         "id" : "increase_1990"
+      },
+      {
+         "name" : "Decrease 1990",
+         "id" : "decrease_1990"
+      }
+   ],
+   "links" : [
+      { "source" : 0, "target" : 2, "value" :  400},
+      { "source" : 0, "target" : 3, "value" :  550},
+      { "source" : 0, "target" : 4, "value" :  700},
+      { "source" : 1, "target" : 2, "value" :  1450},
+      { "source" : 1, "target" : 3, "value" :  1220},
+      { "source" : 1, "target" : 4, "value" :  500},
+      { "source" : 2, "target" : 5, "value" :  550},
+      { "source" : 2, "target" : 8, "value" :  1300},
+      { "source" : 3, "target" : 5, "value" :  300},
+      { "source" : 3, "target" : 6, "value" :  1270},
+      { "source" : 3, "target" : 7, "value" :  200},
+      { "source" : 4, "target" : 7, "value" :  350},
+      { "source" : 4, "target" : 8, "value" :  850}
+   ]
+}

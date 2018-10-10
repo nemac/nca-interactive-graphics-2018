@@ -82,13 +82,41 @@
           .nodePadding(10)
           .spread(true)
           .iterations(0)
-          .draw(json)
+          .draw(json);
 
-      console.log(json)
+      var zoom = false;
 
-//      d3.selectAll(".link").data(json.links)
-//        .enter()
-//        .on("hover", function() {console.log(this); })
+      function checkNodeUsed(node, name) {
+        var links = node.sourceLinks.length ? node.sourceLinks : node.targetLinks;
+        var i, l;
+        for (i = 0, l = links.length; i < l; i++) {
+          if (links[i].source.name === name || links[i].target.name === name) {
+            return true;
+          }
+        }
+        return false;
+      }
+
+      chart.on("node:click", function (node) {
+        if (zoom === true) {
+          chart.draw(json);
+          zoom = false;
+          return;
+        }
+
+        var name = node.name
+        var newJson = {
+          "links": json.links.filter(function (l) {
+            return l.source.name === name || l.target.name === name;
+          }),
+          "nodes": json.nodes.filter(function (n) {
+          if (n.type !== node.type) {console.log(n)}
+            return n.name === name || (n.type !== node.type && checkNodeUsed(n, name));
+          })
+        }
+        chart.draw(newJson)
+        zoom = true;
+      })
 
         function label(node) {
           return node.name.replace(/\s*\(.*?\)$/, '');

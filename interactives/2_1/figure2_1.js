@@ -170,6 +170,36 @@
         Array.prototype.forEach.call(legendItems, bindLegendItemClick);
         Array.prototype.forEach.call(legendItems, bindLegendItemKeypress);
     })();
+
+    // Sets focus to the target element
+    //
+    // @param elem | DOM element
+    function resetFocus(elem) {
+        elem.focus();
+    }
+
+    // Handles keypresses for the link to reset focus back to the first interactable element
+    //
+    // @param e | Evenet
+    function handleResetFocusKeypress(e) {
+        if (e.key.toLowerCase() === "enter") {
+            e.preventDefault();
+            resetFocus(getLegendItem("all--human", getWrapper(this)));
+        }
+    }
+
+    // Binds keypress handlers to the reset link
+    //
+    // @param elem | DOM element
+    function bindResetFocusKeypress(elem) {
+        elem.addEventListener("keypress", handleResetFocusKeypress);
+    }
+
+    // Binds all handlers to the reset links
+    (function bindResetLinkEvents() {
+        var resetLinks = document.getElementsByClassName("figure_2_1_reset");
+        Array.prototype.forEach.call(resetLinks, bindResetFocusKeypress);
+    })();
 })();
 
 // Polyfill for Element.closest for IE9+

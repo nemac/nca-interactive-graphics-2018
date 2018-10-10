@@ -71,7 +71,7 @@
         e.preventDefault();
         var checkbox = getCheckboxFromDataAttr(this);
         toggleCheckboxCheck(checkbox);
-        handleGraphLineChange(checkbox);
+        handleGraphLineChange(this);
     }
 
     function bindCheckboxChange(elem) {

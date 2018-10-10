@@ -1,7 +1,7 @@
 (function () {
 'use strict';
 
-var svg = d3.select("#circles");
+var svg = d3.select(".figure-29_2--svg");
 var margin = 5;
 var diameter = +svg.attr("width");
 var g = svg.append("g").attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");

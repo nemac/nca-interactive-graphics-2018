@@ -46,6 +46,7 @@
         toggleGraph(getKey(elem), getWrapper(elem));
     }
 
+/*
     function handleCheckboxChange(e) {
         e.preventDefault();
         handleGraphLineChange(this);
@@ -66,14 +67,23 @@
     function getCheckboxFromDataAttr(elem) {
         return getWrapper(elem).querySelector("input[data-for=" + getKey(elem) + "]");
     }
+*/
 
     function handleLegendItemClick(e) {
         e.preventDefault();
-        var checkbox = getCheckboxFromDataAttr(this);
-        toggleCheckboxCheck(checkbox);
+//        var checkbox = getCheckboxFromDataAttr(this);
+//        toggleCheckboxCheck(checkbox);
         handleGraphLineChange(this);
     }
 
+    function handleLegendItemKeypress(e) {
+        if (e.key.toLowerCase() === "enter") {
+            e.preventDefault();
+            handleGraphLineChange(this);
+        }
+    }
+
+/*
     function bindCheckboxChange(elem) {
         elem.addEventListener("change", handleCheckboxChange);
     }
@@ -87,14 +97,20 @@
         Array.prototype.forEach.call(checkboxes, bindCheckboxChange);
         Array.prototype.forEach.call(checkboxes, bindCheckboxKeypress);
     })();
+*/
 
     function bindLegendItemClick(elem) {
         elem.addEventListener("click", handleLegendItemClick);
     }
 
+    function bindLegendItemKeypress(elem) {
+        elem.addEventListener("keypress", handleLegendItemKeypress);
+    }
+
     (function bindLegendItemEvents() {
         var legendItems = document.getElementsByClassName("graph-legend-item--clickable");
-        Array.prototype.forEach.call(legendItems, bindLegendItemClick)
+        Array.prototype.forEach.call(legendItems, bindLegendItemClick);
+        Array.prototype.forEach.call(legendItems, bindLegendItemKeypress);
     })();
 })();
 

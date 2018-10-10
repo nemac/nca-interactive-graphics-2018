@@ -91,15 +91,15 @@
     stroke: #fed976;
 }
 
-.graph-line--aerosols, .graph-line--orbital {
+.graph-line--aerosols {
     stroke: #8c510a;
 }    
 
-.graph-line--greenhouse, .graph-line--solar {
+.graph-line--greenhouse {
     stroke: #542788;
 }    
 
-.graph-line--land-cover, .graph-line--volcanic {
+.graph-line--land-cover {
     stroke: #4d9221;
 }    
 
@@ -107,6 +107,19 @@
     stroke: #feb24c;
 }    
 
+.graph-line--orbital {
+    stroke: #8c510a;
+}    
+
+.graph-line--solar {
+    stroke: #542788;
+}    
+
+.graph-line--volcanic {
+    stroke: #4d9221;
+}    
+
+/*
 .graph-checkboxes-section--combined {
     margin: 20px 0;
 }
@@ -145,3 +158,4 @@
 .graph-checkboxes-wrapper label {
     cursor: pointer;
 }
+*/

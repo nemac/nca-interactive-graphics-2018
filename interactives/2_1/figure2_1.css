@@ -46,6 +46,10 @@
     cursor: pointer;
 }
 
+.graph-legend-item--inactive {
+    opacity: .7;
+}
+
 .graph-legend-item--inactive text {
     fill: #6c757d;
 }

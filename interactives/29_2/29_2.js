@@ -1,20 +1,8 @@
 (function () {
     'use strict';
 
-    var svg = d3.select(".figure-29_2--svg");
     var margin = 5;
-    var diameter = +svg.attr("width");
-    var g = svg.append("g").attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
 
-    var pack = d3.pack()
-        .size([diameter - margin, diameter - margin])
-        .padding(2);
-
-    var circle;
-    var text;
-    var node;
-    var view;
-    var focus;
 
     function pieGenerator(value) {
         var remainingPercent = 100 - value;
@@ -158,45 +146,8 @@
         return exports
     }
 
-    function handleCircleZoom(dElem) {
-        if (focus !== dElem) {
-            zoom(dElem);
-            d3.event.stopPropagation();
-        }
-    }
-
-    function handleCircleKeypress(dElem) {
-        if (d3.event.key !== "Enter") {
-            return;
-        }
-        handleCircleZoom(dElem);
-    }
-
-    function makeCircleNode(g, node) {
-        var circNode = g.append("circle")
-            .attr("r", node.r)
-            .datum(node)
-            .attr("class", function (d) { return d.parent ? "node" : "node node--root"; })
-            .on("click", handleCircleZoom)
-
-        if (node.parent) {
-            circNode.attr("tabindex", 0)
-                .on("keypress", handleCircleKeypress)
-        }
-    }
-
     function getPieLabel(d) {
         return d.data.name;
-    }
-
-    function makePieNode(g, node) {
-        var chart = chartBuilder(node.r);
-        d3.select(g.node())
-            .datum(node)
-            .call(chart)
-            .attr("class", "pie-chart pie-chart--" + getPieLabel(node).toLowerCase().replace(/\s/g, "_"))
-            .on("click", handleCircleZoom)
-            .on("keypress", handleCircleKeypress);
     }
 
     function chartBuilder(radius) {
@@ -205,17 +156,6 @@
             .width(diameter)
             .height(diameter)
             .radius(radius);
-    }
-
-    function makeCircleNodes(g, nodes) {
-        nodes.each(function (datum) {
-            var group = g.append("g");
-            if (datum.hasOwnProperty("children")) {
-                makeCircleNode(group, datum);
-            } else {
-                makePieNode(group, datum);
-            }
-        })
     }
 
     function getElemDimensions(dimensions) {
@@ -228,7 +168,6 @@
 
     function getTextDimensions(g, nodes) {
         var dimensions = [];
-        var dimensionGetter = getElemDimensions(dimensions);
 
         g.selectAll("text.dimensionPlaceholder")
             .data(nodes)
@@ -239,6 +178,32 @@
             .each(getElemDimensions(dimensions));
 
         return dimensions;
+    }
+
+    function handleTextZoom(transition, focus) {
+        transition.selectAll("text.label")
+            .filter(function (d) { return d.parent === focus || this.style.display === 'inline'; })
+            .style("fill-opacity", function(d) { return d.parent === focus ? 1 : 0; })
+            .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
+            .on("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });
+
+        transition.selectAll("rect.label")
+            .filter(function (d) { return d.parent === focus || this.style.display === 'inline'; })
+            .style("fill-opacity", function(d) { return d.parent === focus ? .5 : 0; })
+            .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
+            .on("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });
+
+        transition.selectAll(".pie-text")
+            .on("start", function(d) { this.style.display = "none"; })
+            .on("end", function(d) { if (d === focus) this.style.display = "inline"; })
+    }
+
+    function makeFocusArray(focus, isPie) {
+        return [
+            focus.x,
+            focus.y,
+            focus.r * 2 + (isPie ? margin / (focus.depth + 1) : margin)
+        ];
     }
 
     function makeTextNodes(g, nodes, root) {
@@ -271,57 +236,6 @@
             .text(getPieLabel);
     }
 
-    function makePieTextNodes(g, nodes, root) {
-        var pieText = g.selectAll("g.pie-text")
-            .data(nodes)
-            .enter().append("g")
-            .attr("class", "pie-text")
-            .style("fill-opacity", function(d) { return d === root ? 1 : 0; })
-            .style("display", function(d) { return d === root ? "inline" : "none"; })
-
-        pieText.append("text").text("hi")
-    }
-
-    function handleTextZoom(transition, focus) {
-        transition.selectAll("text.label")
-            .filter(function (d) { return d.parent === focus || this.style.display === 'inline'; })
-            .style("fill-opacity", function(d) { return d.parent === focus ? 1 : 0; })
-            .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
-            .on("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });
-
-        transition.selectAll("rect.label")
-            .filter(function (d) { return d.parent === focus || this.style.display === 'inline'; })
-            .style("fill-opacity", function(d) { return d.parent === focus ? .5 : 0; })
-            .on("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
-            .on("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });
-
-        transition.selectAll(".pie-text")
-            .on("start", function(d) { this.style.display = "none"; })
-            .on("end", function(d) { if (d === focus) this.style.display = "inline"; })
-    }
-
-    function makeFocusArray(focus, isPie) {
-        return [
-            focus.x,
-            focus.y,
-            focus.r * 2 + (isPie ? margin / (focus.depth + 1) : margin)
-        ];
-    }
-
-    function zoom(d) {
-        focus = d;
-        var isPie = getPieLabel(d) !== "" ? true : false;
-
-        var transition = d3.transition()
-            .duration(750)
-            .tween("zoom", function(d) {
-                var i = d3.interpolateZoom(view, makeFocusArray(focus, isPie));
-                return function(t) { zoomTo(i(t)); };
-            });
-
-        handleTextZoom(transition, focus);
-    }
-
     function makeTranslateFunction(elementData, focusX, focusY, scale) {
         return "translate(" + (elementData.x - focusX) * scale + "," + (elementData.y - focusY) * scale + ")";
     }
@@ -330,52 +244,139 @@
         return "scale(" + scale + ")";
     }
 
-    function resetPieTabs() {
-        svg.selectAll('.pie-chart')
-            .attr('tabindex', null)
-    }
-
-    function enablePieTabs() {
-        resetPieTabs();
-        svg.selectAll('.pie-chart')
-            .filter(function (d) { return d.parent === focus; })
-            .attr('tabindex', '0')
-    }
-
-    function zoomTo(v) {
-        var k = diameter / v[2];
-        view = v;
-        node.attr("transform", function(d) { return makeTranslateFunction(d, v[0], v[1], k); });
-        d3.selectAll(".pie-chart").attr("transform", function(d) { return makeTranslateFunction(d, v[0], v[1], k) + " " + makeScaleFunction(k);});
-        circle.attr("r", function(d) { return d.r * k; });
-        d3.selectAll(".pie-text--scalable").attr("transform", function(d) { return makeTranslateFunction(d, v[0], v[1], k) + " " + makeScaleFunction(1 / k); });
-
-        enablePieTabs();
-    }
-
-    function processJsonFile(error, root) {
-        if (error) {
-            throw error;
+    function createPieChartsFigure() {
+        var PROCESSED_CLASS = "pie-charts-processed";
+        if (this.classList.contains(PROCESSED_CLASS)) {
+            return;
         }
 
-        root = d3.hierarchy(root)
-            .sum(function(d) { return d.size; })
-            .sort(function(a, b) { return b.value - a.value; });
+        var svg = d3.select(this);
+        svg.classed(PROCESSED_CLASS, true);
 
-        focus = root;
-        var packednodes = pack(root);
-        var nodes = pack(root).descendants();
+        var diameter = +svg.attr("width");
+        var g = svg.append("g").attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
 
-        makeCircleNodes(g, packednodes);
+        var pack = d3.pack()
+            .size([diameter - margin, diameter - margin])
+            .padding(2);
 
-        circle = g.selectAll("circle");
-        makeTextNodes(g, nodes, root);
-        node = g.selectAll("circle,text.label,rect.label,.pie-text");
+        var circle;
+        var text;
+        var node;
+        var view;
+        var focus;
 
-        svg.on("click", function() { zoom(root); });
+        function handleCircleZoom(dElem) {
+            if (focus !== dElem) {
+                zoom(dElem);
+                d3.event.stopPropagation();
+            }
+        }
 
-        zoomTo([root.x, root.y, root.r * 2 + margin]);
+        function handleCircleKeypress(dElem) {
+            if (d3.event.key !== "Enter") {
+                return;
+            }
+            handleCircleZoom(dElem);
+        }
+
+        function makeCircleNode(g, node) {
+            var circNode = g.append("circle")
+                .attr("r", node.r)
+                .datum(node)
+                .attr("class", function (d) { return d.parent ? "node" : "node node--root"; })
+                .on("click", handleCircleZoom)
+
+            if (node.parent) {
+                circNode.attr("tabindex", 0)
+                    .on("keypress", handleCircleKeypress)
+            }
+        }
+
+        function makePieNode(g, node) {
+            var chart = chartBuilder(node.r);
+            d3.select(g.node())
+                .datum(node)
+                .call(chart)
+                .attr("class", "pie-chart pie-chart--" + getPieLabel(node).toLowerCase().replace(/\s/g, "_"))
+                .on("click", handleCircleZoom)
+                .on("keypress", handleCircleKeypress);
+        }
+
+        function makeCircleNodes(g, nodes) {
+            nodes.each(function (datum) {
+                var group = g.append("g");
+                if (datum.hasOwnProperty("children")) {
+                    makeCircleNode(group, datum);
+                } else {
+                    makePieNode(group, datum);
+                }
+            });
+        }
+
+        function zoom(d) {
+            focus = d;
+            var isPie = getPieLabel(d) !== "" ? true : false;
+
+            var transition = d3.transition()
+                .duration(750)
+                .tween("zoom", function(d) {
+                    var i = d3.interpolateZoom(view, makeFocusArray(focus, isPie));
+                    return function(t) { zoomTo(i(t)); };
+                });
+
+            handleTextZoom(transition, focus);
+        }
+
+        function resetPieTabs() {
+            svg.selectAll('.pie-chart')
+                .attr('tabindex', null)
+        }
+
+        function enablePieTabs() {
+            resetPieTabs();
+            svg.selectAll('.pie-chart')
+                .filter(function (d) { return d.parent === focus; })
+                .attr('tabindex', '0')
+        }
+
+        function zoomTo(v) {
+            var k = diameter / v[2];
+            view = v;
+            node.attr("transform", function(d) { return makeTranslateFunction(d, v[0], v[1], k); });
+            d3.selectAll(".pie-chart").attr("transform", function(d) { return makeTranslateFunction(d, v[0], v[1], k) + " " + makeScaleFunction(k);});
+            circle.attr("r", function(d) { return d.r * k; });
+            d3.selectAll(".pie-text--scalable").attr("transform", function(d) { return makeTranslateFunction(d, v[0], v[1], k) + " " + makeScaleFunction(1 / k); });
+
+            enablePieTabs();
+        }
+
+        function processJsonFile(error, root) {
+            if (error) {
+                throw error;
+            }
+
+            root = d3.hierarchy(root)
+                .sum(function(d) { return d.size; })
+                .sort(function(a, b) { return b.value - a.value; });
+
+            focus = root;
+            var packednodes = pack(root);
+            var nodes = pack(root).descendants();
+
+            makeCircleNodes(g, packednodes);
+
+            circle = g.selectAll("circle");
+            makeTextNodes(g, nodes, root);
+            node = g.selectAll("circle,text.label,rect.label,.pie-text");
+
+            svg.on("click", function() { zoom(root); });
+
+            zoomTo([root.x, root.y, root.r * 2 + margin]);
+        }
+
+        d3.json("../../interactives/29_2/29_2.json", processJsonFile);
     }
 
-    d3.json("../../interactives/29_2/29_2.json", processJsonFile);
+    d3.selectAll(".figure-29_2--svg").each(createPieChartsFigure);
 })();

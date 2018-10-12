@@ -318,7 +318,7 @@
             focus = d;
             var isPie = getPieLabel(d) !== "" ? true : false;
 
-            var transition = d3.transition()
+            var transition = svg.transition()
                 .duration(750)
                 .tween("zoom", function(d) {
                     var i = d3.interpolateZoom(view, makeFocusArray(focus, isPie));
@@ -344,9 +344,9 @@
             var k = diameter / v[2];
             view = v;
             node.attr("transform", function(d) { return makeTranslateFunction(d, v[0], v[1], k); });
-            d3.selectAll(".pie-chart").attr("transform", function(d) { return makeTranslateFunction(d, v[0], v[1], k) + " " + makeScaleFunction(k);});
+            svg.selectAll(".pie-chart").attr("transform", function(d) { return makeTranslateFunction(d, v[0], v[1], k) + " " + makeScaleFunction(k);});
             circle.attr("r", function(d) { return d.r * k; });
-            d3.selectAll(".pie-text--scalable").attr("transform", function(d) { return makeTranslateFunction(d, v[0], v[1], k) + " " + makeScaleFunction(1 / k); });
+            svg.selectAll(".pie-text--scalable").attr("transform", function(d) { return makeTranslateFunction(d, v[0], v[1], k) + " " + makeScaleFunction(1 / k); });
 
             enablePieTabs();
         }

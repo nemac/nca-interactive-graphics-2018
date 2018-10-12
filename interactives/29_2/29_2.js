@@ -158,31 +158,45 @@
         return exports
     }
 
-    function makeCircleNode(g, node, zoom) {
+    function handleCircleZoom(dElem) {
+        if (focus !== dElem) {
+            zoom(dElem);
+            d3.event.stopPropagation();
+        }
+    }
+
+    function handleCircleKeypress(dElem) {
+        if (d3.event.key !== "Enter") {
+            return;
+        }
+        handleCircleZoom(dElem);
+    }
+
+    function makeCircleNode(g, node) {
         var circNode = g.append("circle")
             .attr("r", node.r)
             .datum(node)
-            .attr("class", (function(d) { return d.parent ? d.children ? "node" : "node node--leaf node--leaf--" + d.data["class"] : "node node--root"; })(node))
-            .on("click", function (d) {
-                if (focus !== d) {
-                    zoom(d);
-                    d3.event.stopPropagation();
-                }
-            })
+            .attr("class", function (d) { return d.parent ? "node" : "node node--root"; })
+            .on("click", handleCircleZoom)
 
         if (node.parent) {
             circNode.attr("tabindex", 0)
-                .on("keypress", function (d) {
-                    if (d3.event.key !== "Enter") {
-                        return;
-                    }
-                    if (focus !== d) {
-                        zoom(d);
-                        d3.event.stopPropagation();
-                    }
-                })
+                .on("keypress", handleCircleKeypress)
         }
-        //    console.log(node);
+    }
+
+    function getPieLabel(d) {
+        return d.data.name;
+    }
+
+    function makePieNode(g, node) {
+        var chart = chartBuilder(node.r);
+        d3.select(g.node())
+            .datum(node)
+            .call(chart)
+            .attr("class", "pie-chart pie-chart--" + getPieLabel(node).toLowerCase().replace(/\s/g, "_"))
+            .on("click", handleCircleZoom)
+            .on("keypress", handleCircleKeypress);
     }
 
     function chartBuilder(radius) {
@@ -193,33 +207,15 @@
             .radius(radius);
     }
 
-    function makeCircleNodes(g, nodes, zoom) {
+    function makeCircleNodes(g, nodes) {
         nodes.each(function (datum) {
             var group = g.append("g");
             if (datum.hasOwnProperty("children")) {
-                makeCircleNode(group, datum, zoom);
+                makeCircleNode(group, datum);
             } else {
-                var chart = chartBuilder(datum.r);
-                d3.select(group.node())
-                    .datum(datum)
-                    .call(chart)
-                    .attr("class", "pie-chart pie-chart--" + datum.data.name.toLowerCase().replace(/\s/g, "_"))
-                    .on("click", function(d) { if (focus !== d) zoom(d), d3.event.stopPropagation(); })
-                    .on("keypress", function (d) {
-                        if (d3.event.key !== "Enter") {
-                            return;
-                        }
-                        if (focus !== d) {
-                            zoom(d);
-                            d3.event.stopPropagation();
-                        }
-                    });
+                makePieNode(group, datum);
             }
         })
-    }
-
-    function getPieLabel(d) {
-        return d.data.name;
     }
 
     function getElemDimensions(dimensions) {
@@ -370,7 +366,7 @@
         var packednodes = pack(root);
         var nodes = pack(root).descendants();
 
-        makeCircleNodes(g, packednodes, zoom);
+        makeCircleNodes(g, packednodes);
 
         circle = g.selectAll("circle");
         makeTextNodes(g, nodes, root);

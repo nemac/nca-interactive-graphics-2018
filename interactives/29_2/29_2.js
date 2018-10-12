@@ -3,7 +3,6 @@
 
     var margin = 5;
 
-
     function pieGenerator(value) {
         var remainingPercent = 100 - value;
         return d3.pie().sort(null)([value, remainingPercent]);
@@ -244,6 +243,34 @@
         return "scale(" + scale + ")";
     }
 
+    function translateCommonNodes(svg, focusX, focusY, scale) {
+        svg.selectAll("circle, text.label, rect.label, .pie-text")
+            .attr("transform", function (d) {
+                return makeTranslateFunction(d, focusX, focusY, scale);
+            });
+    }
+
+    function scalePieCharts(svg, focusX, focusY, scale) {
+        svg.selectAll(".pie-chart")
+            .attr("transform", function(d) {
+                return makeTranslateFunction(d, focusX, focusY, scale) + " " + makeScaleFunction(scale);
+            });
+    }
+
+    function resizeCircles(svg, scale) {
+        svg.selectAll("circle")
+            .attr("r", function(d) {
+                return d.r * scale;
+            });
+    }
+
+    function scalePieChartText(svg, focusX, focusY, scale) {
+        svg.selectAll(".pie-text--scalable")
+            .attr("transform", function(d) {
+                return makeTranslateFunction(d, focusX, focusY, scale) + " " + makeScaleFunction(1 / scale);
+            });
+    }
+
     function createPieChartsFigure() {
         var PROCESSED_CLASS = "pie-charts-processed";
         if (this.classList.contains(PROCESSED_CLASS)) {
@@ -260,9 +287,7 @@
             .size([diameter - margin, diameter - margin])
             .padding(2);
 
-        var circle;
         var text;
-        var node;
         var view;
         var focus;
 
@@ -343,10 +368,10 @@
         function zoomTo(v) {
             var k = diameter / v[2];
             view = v;
-            node.attr("transform", function(d) { return makeTranslateFunction(d, v[0], v[1], k); });
-            svg.selectAll(".pie-chart").attr("transform", function(d) { return makeTranslateFunction(d, v[0], v[1], k) + " " + makeScaleFunction(k);});
-            circle.attr("r", function(d) { return d.r * k; });
-            svg.selectAll(".pie-text--scalable").attr("transform", function(d) { return makeTranslateFunction(d, v[0], v[1], k) + " " + makeScaleFunction(1 / k); });
+            translateCommonNodes(svg, v[0], v[1], k);
+            scalePieCharts(svg, v[0], v[1], k);
+            resizeCircles(svg, k);
+            scalePieChartText(svg, v[0], v[1], k);
 
             enablePieTabs();
         }
@@ -365,10 +390,7 @@
             var nodes = pack(root).descendants();
 
             makeCircleNodes(g, packednodes);
-
-            circle = g.selectAll("circle");
             makeTextNodes(g, nodes, root);
-            node = g.selectAll("circle,text.label,rect.label,.pie-text");
 
             svg.on("click", function() { zoom(root); });
 

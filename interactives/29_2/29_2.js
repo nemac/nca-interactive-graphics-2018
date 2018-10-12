@@ -3,6 +3,20 @@
 
     var margin = 5;
 
+    function getSize(d) {
+        return d.size;
+    }
+
+    function sortByValue(a, b) {
+        return b.value - a.value;
+    }
+
+    function makeHierarchy(data) {
+        return d3.hierarchy(data)
+            .sum(getSize)
+            .sort(sortByValue);
+    }
+
     function pieGenerator(value) {
         var remainingPercent = 100 - value;
         return d3.pie().sort(null)([value, remainingPercent]);
@@ -205,6 +219,40 @@
         ];
     }
 
+    function makeCircleNode(g, node, clickHandler, keypressHandler) {
+        var circNode = g.append("circle")
+            .attr("r", node.r)
+            .datum(node)
+            .attr("class", function (d) { return d.parent ? "node" : "node node--root"; })
+            .on("click", clickHandler)
+
+        if (node.parent) {
+            circNode.attr("tabindex", 0)
+                .on("keypress", keypressHandler)
+        }
+    }
+
+    function makePieNode(g, node, clickHandler, keypressHandler) {
+        var chart = chartBuilder(node.r);
+        d3.select(g.node())
+            .datum(node)
+            .call(chart)
+            .attr("class", "pie-chart pie-chart--" + getPieLabel(node).toLowerCase().replace(/\s/g, "_"))
+            .on("click", clickHandler)
+            .on("keypress", keypressHandler);
+    }
+
+    function makeCircleNodes(g, nodes, clickHandler, keypressHandler) {
+        nodes.each(function (datum) {
+            var group = g.append("g");
+            if (datum.hasOwnProperty("children")) {
+                makeCircleNode(group, datum, clickHandler, keypressHandler);
+            } else {
+                makePieNode(group, datum, clickHandler, keypressHandler);
+            }
+        });
+    }
+
     function makeTextNodes(g, nodes, root) {
         var dimensions = getTextDimensions(g, nodes);
 
@@ -271,6 +319,19 @@
             });
     }
 
+
+    function resetPieTabs(svg) {
+        svg.selectAll('.pie-chart')
+            .attr('tabindex', null)
+    }
+
+    function enablePieTabs(svg, filterTopLevelNodes) {
+        resetPieTabs(svg);
+        svg.selectAll('.pie-chart')
+            .filter(filterTopLevelNodes)
+            .attr('tabindex', '0')
+    }
+
     function createPieChartsFigure() {
         var PROCESSED_CLASS = "pie-charts-processed";
         if (this.classList.contains(PROCESSED_CLASS)) {
@@ -281,13 +342,11 @@
         svg.classed(PROCESSED_CLASS, true);
 
         var diameter = +svg.attr("width");
-        var g = svg.append("g").attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
 
         var pack = d3.pack()
             .size([diameter - margin, diameter - margin])
             .padding(2);
 
-        var text;
         var view;
         var focus;
 
@@ -305,38 +364,19 @@
             handleCircleZoom(dElem);
         }
 
-        function makeCircleNode(g, node) {
-            var circNode = g.append("circle")
-                .attr("r", node.r)
-                .datum(node)
-                .attr("class", function (d) { return d.parent ? "node" : "node node--root"; })
-                .on("click", handleCircleZoom)
-
-            if (node.parent) {
-                circNode.attr("tabindex", 0)
-                    .on("keypress", handleCircleKeypress)
-            }
+        function filterTopLevelNodes(d) {
+            return d.parent === focus;
         }
 
-        function makePieNode(g, node) {
-            var chart = chartBuilder(node.r);
-            d3.select(g.node())
-                .datum(node)
-                .call(chart)
-                .attr("class", "pie-chart pie-chart--" + getPieLabel(node).toLowerCase().replace(/\s/g, "_"))
-                .on("click", handleCircleZoom)
-                .on("keypress", handleCircleKeypress);
-        }
+        function zoomTo(v) {
+            var k = diameter / v[2];
+            view = v;
+            translateCommonNodes(svg, v[0], v[1], k);
+            scalePieCharts(svg, v[0], v[1], k);
+            resizeCircles(svg, k);
+            scalePieChartText(svg, v[0], v[1], k);
 
-        function makeCircleNodes(g, nodes) {
-            nodes.each(function (datum) {
-                var group = g.append("g");
-                if (datum.hasOwnProperty("children")) {
-                    makeCircleNode(group, datum);
-                } else {
-                    makePieNode(group, datum);
-                }
-            });
+            enablePieTabs(svg, filterTopLevelNodes);
         }
 
         function zoom(d) {
@@ -353,48 +393,24 @@
             handleTextZoom(transition, focus);
         }
 
-        function resetPieTabs() {
-            svg.selectAll('.pie-chart')
-                .attr('tabindex', null)
-        }
-
-        function enablePieTabs() {
-            resetPieTabs();
-            svg.selectAll('.pie-chart')
-                .filter(function (d) { return d.parent === focus; })
-                .attr('tabindex', '0')
-        }
-
-        function zoomTo(v) {
-            var k = diameter / v[2];
-            view = v;
-            translateCommonNodes(svg, v[0], v[1], k);
-            scalePieCharts(svg, v[0], v[1], k);
-            resizeCircles(svg, k);
-            scalePieChartText(svg, v[0], v[1], k);
-
-            enablePieTabs();
-        }
-
         function processJsonFile(error, root) {
             if (error) {
                 throw error;
             }
 
-            root = d3.hierarchy(root)
-                .sum(function(d) { return d.size; })
-                .sort(function(a, b) { return b.value - a.value; });
+            var g = svg.append("g").attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
 
-            focus = root;
-            var packednodes = pack(root);
-            var nodes = pack(root).descendants();
+            var rootNode = makeHierarchy(root);
+            focus = rootNode;
 
-            makeCircleNodes(g, packednodes);
-            makeTextNodes(g, nodes, root);
+            var packednodes = pack(rootNode);
 
-            svg.on("click", function() { zoom(root); });
+            makeCircleNodes(g, packednodes, handleCircleZoom, handleCircleKeypress);
+            makeTextNodes(g, packednodes.descendants(), rootNode);
 
-            zoomTo([root.x, root.y, root.r * 2 + margin]);
+            svg.on("click", function() { zoom(rootNode); });
+
+            zoomTo([rootNode.x, rootNode.y, rootNode.r * 2 + margin]);
         }
 
         d3.json("../../interactives/29_2/29_2.json", processJsonFile);

@@ -163,16 +163,16 @@
             .attr("r", node.r)
             .datum(node)
             .attr("class", (function(d) { return d.parent ? d.children ? "node" : "node node--leaf node--leaf--" + d.data["class"] : "node node--root"; })(node))
-            .on("click", (function (d) { return function(d) {
+            .on("click", function (d) {
                 if (focus !== d) {
                     zoom(d);
                     d3.event.stopPropagation();
                 }
-            }})(node));
+            })
 
         if (node.parent) {
             circNode.attr("tabindex", 0)
-                .on("keypress", (function (d) { return function(d) {
+                .on("keypress", function (d) {
                     if (d3.event.key !== "Enter") {
                         return;
                     }
@@ -180,7 +180,7 @@
                         zoom(d);
                         d3.event.stopPropagation();
                     }
-                }})(node));
+                })
         }
         //    console.log(node);
     }
@@ -266,7 +266,7 @@
                 rect.attr("y", -(dimensions[i].height + 20) / 2);
             })
 
-                g.selectAll("text.label")
+        g.selectAll("text.label")
             .data(nodes)
             .enter().append("text")
             .attr("class", "label")

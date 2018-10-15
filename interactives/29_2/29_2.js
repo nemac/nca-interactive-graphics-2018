@@ -17,6 +17,21 @@
             .sort(sortByValue);
     }
 
+    function makePack(width, height) {
+        return d3.pack()
+            .size([width, height])
+            .padding(2);
+    }
+
+    function makeTransition(svg, currentView, newView, zoomToView) {
+        return svg.transition()
+            .duration(750)
+            .tween("zoom", function() {
+                var i = d3.interpolateZoom(currentView, newView);
+                return function(t) { zoomToView(i(t)); };
+            });
+    }
+
     function pieGenerator(value) {
         var remainingPercent = 100 - value;
         return d3.pie().sort(null)([value, remainingPercent]);
@@ -332,6 +347,16 @@
             .attr('tabindex', '0')
     }
 
+    function zoomTo(v, svg, diameter, filterTopLevelNodes) {
+        var k = diameter / v[2];
+        translateCommonNodes(svg, v[0], v[1], k);
+        scalePieCharts(svg, v[0], v[1], k);
+        resizeCircles(svg, k);
+        scalePieChartText(svg, v[0], v[1], k);
+
+        enablePieTabs(svg, filterTopLevelNodes);
+    }
+
     function createPieChartsFigure() {
         var PROCESSED_CLASS = "pie-charts-processed";
         if (this.classList.contains(PROCESSED_CLASS)) {
@@ -342,10 +367,6 @@
         svg.classed(PROCESSED_CLASS, true);
 
         var diameter = +svg.attr("width");
-
-        var pack = d3.pack()
-            .size([diameter - margin, diameter - margin])
-            .padding(2);
 
         var view;
         var focus;
@@ -368,29 +389,23 @@
             return d.parent === focus;
         }
 
-        function zoomTo(v) {
-            var k = diameter / v[2];
+        function setView(v) {
             view = v;
-            translateCommonNodes(svg, v[0], v[1], k);
-            scalePieCharts(svg, v[0], v[1], k);
-            resizeCircles(svg, k);
-            scalePieChartText(svg, v[0], v[1], k);
+        }
 
-            enablePieTabs(svg, filterTopLevelNodes);
+        function setFocus(d) {
+            focus = d;
+        }
+
+        function zoomToView(v) {
+            setView(v);
+            zoomTo(v, svg, diameter, filterTopLevelNodes);
         }
 
         function zoom(d) {
-            focus = d;
+            setFocus(d);
             var isPie = getPieLabel(d) !== "" ? true : false;
-
-            var transition = svg.transition()
-                .duration(750)
-                .tween("zoom", function(d) {
-                    var i = d3.interpolateZoom(view, makeFocusArray(focus, isPie));
-                    return function(t) { zoomTo(i(t)); };
-                });
-
-            handleTextZoom(transition, focus);
+            handleTextZoom(makeTransition(svg, view, makeFocusArray(d, isPie), zoomToView), d);
         }
 
         function processJsonFile(error, root) {
@@ -403,14 +418,13 @@
             var rootNode = makeHierarchy(root);
             focus = rootNode;
 
-            var packednodes = pack(rootNode);
+            var packedNodes = makePack(diameter - margin, diameter - margin)(rootNode);
 
-            makeCircleNodes(g, packednodes, handleCircleZoom, handleCircleKeypress);
-            makeTextNodes(g, packednodes.descendants(), rootNode);
+            makeCircleNodes(g, packedNodes, handleCircleZoom, handleCircleKeypress);
+            makeTextNodes(g, packedNodes.descendants(), rootNode);
+            zoomToView([rootNode.x, rootNode.y, rootNode.r * 2 + margin]);
 
             svg.on("click", function() { zoom(rootNode); });
-
-            zoomTo([rootNode.x, rootNode.y, rootNode.r * 2 + margin]);
         }
 
         d3.json("../../interactives/29_2/29_2.json", processJsonFile);

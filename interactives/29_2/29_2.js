@@ -416,7 +416,7 @@
             var g = svg.append("g").attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
 
             var rootNode = makeHierarchy(root);
-            focus = rootNode;
+            setFocus(rootNode);
 
             var packedNodes = makePack(diameter - margin, diameter - margin)(rootNode);
 

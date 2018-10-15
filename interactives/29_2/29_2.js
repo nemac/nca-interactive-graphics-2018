@@ -234,36 +234,34 @@
         ];
     }
 
-    function makeCircleNode(g, node, clickHandler, keypressHandler) {
+    function makeCircleNode(g, node, clickHandler) {
         var circNode = g.append("circle")
             .attr("r", node.r)
             .datum(node)
             .attr("class", function (d) { return d.parent ? "node" : "node node--root"; })
-            .on("click", clickHandler)
-
-        if (node.parent) {
-            circNode.attr("tabindex", 0)
-                .on("keypress", keypressHandler)
-        }
+            .on("click", clickHandler);
     }
 
-    function makePieNode(g, node, clickHandler, keypressHandler) {
+    function makePieNodeClass(node) {
+        return "pie-chart--" + node.data["class"];
+    }
+
+    function makePieNode(g, node, clickHandler) {
         var chart = chartBuilder(node.r);
         d3.select(g.node())
             .datum(node)
             .call(chart)
-            .attr("class", "pie-chart pie-chart--" + getPieLabel(node).toLowerCase().replace(/\s/g, "_"))
-            .on("click", clickHandler)
-            .on("keypress", keypressHandler);
+            .attr("class", "pie-chart " + makePieNodeClass(node))
+            .on("click", clickHandler);
     }
 
-    function makeCircleNodes(g, nodes, clickHandler, keypressHandler) {
+    function makeCircleNodes(g, nodes, clickHandler) {
         nodes.each(function (datum) {
             var group = g.append("g");
             if (datum.hasOwnProperty("children")) {
-                makeCircleNode(group, datum, clickHandler, keypressHandler);
+                makeCircleNode(group, datum, clickHandler);
             } else {
-                makePieNode(group, datum, clickHandler, keypressHandler);
+                makePieNode(group, datum, clickHandler);
             }
         });
     }
@@ -335,26 +333,97 @@
     }
 
 
-    function resetPieTabs(svg) {
-        svg.selectAll('.pie-chart')
-            .attr('tabindex', null)
-    }
-
-    function enablePieTabs(svg, filterTopLevelNodes) {
-        resetPieTabs(svg);
-        svg.selectAll('.pie-chart')
-            .filter(filterTopLevelNodes)
-            .attr('tabindex', '0')
-    }
-
-    function zoomTo(v, svg, diameter, filterTopLevelNodes) {
+    function zoomTo(v, svg, diameter) {
         var k = diameter / v[2];
         translateCommonNodes(svg, v[0], v[1], k);
         scalePieCharts(svg, v[0], v[1], k);
         resizeCircles(svg, k);
         scalePieChartText(svg, v[0], v[1], k);
+    }
 
-        enablePieTabs(svg, filterTopLevelNodes);
+    function getPieFigureWrapper(d) {
+        return d3.select(d.node().closest(".circle-nodes-wrapper"));
+    }
+
+    function triggerPieChartClick(elem, className) {
+        getPieFigureWrapper(d3.select(elem))
+            .select("." + className)
+            .dispatch("click");
+    }
+
+    function triggerPieChartZoomOut (elem) {
+        getPieFigureWrapper(d3.select(elem)).select("svg").dispatch("click");
+    }
+
+    function triggerPieChartLinkReset(elem) {
+        d3.select(elem.parentNode)
+            .select(".circle-nodes-table--link:first-child")
+            .node().focus();
+    }
+
+    function handlePieChartLinkClick(d) {
+        d3.event.stopPropagation();
+        triggerPieChartClick(this, makePieNodeClass(d));
+    }
+
+    function handlePieChartLinkKeypress(d) {
+        if (d3.event.key !== "Enter") {
+            return;
+        }
+        d3.event.stopPropagation();
+        triggerPieChartClick(this, makePieNodeClass(d));
+    }
+
+    function handlePieChartResetLinkClick() {
+        d3.event.stopPropagation();
+        triggerPieChartLinkReset(this);
+    }
+
+    function handlePieChartResetLinkKeypress() {
+        if (d3.event.key !== "Enter") {
+            return;
+        }
+        d3.event.stopPropagation();
+        triggerPieChartLinkReset(this);
+    }
+
+    function handlePieChartSelectChange() {
+        d3.event.stopPropagation();
+        var value = d3.select(this).property("value");
+        if (value !== "zoom_out") {
+            triggerPieChartClick(this, d3.select(this).property("value"));
+        } else {
+            triggerPieChartZoomOut(this);
+        }
+    }
+
+    function createPieChartsAltUI(nodes, svg) {
+        var table = getPieFigureWrapper(svg).select(".circle-nodes-table");
+
+        table.selectAll("a.circle-nodes-table--link")
+            .data(nodes)
+            .enter().insert("a", ":last-child")
+            .attr("class", "circle-nodes-table--link")
+            .attr("data-for", makePieNodeClass)
+            .attr("tabindex", 0)
+            .text(getPieLabel)
+            .on("click", handlePieChartLinkClick)
+            .on("keypress", handlePieChartLinkKeypress);
+
+        getPieFigureWrapper(svg).select(".figure_29_2_reset")
+            .on("click", handlePieChartResetLinkClick)
+            .on("keypress", handlePieChartResetLinkKeypress);
+
+        var select = getPieFigureWrapper(svg).select(".circle-nodes-select")
+            .on("change", handlePieChartSelectChange);
+
+        select.selectAll("option.circle-nodes-select--option")
+            .data(nodes)
+            .enter().insert("option", ":last-child")
+            .attr("class", "circle-nodes-select--option")
+            .attr("value", makePieNodeClass)
+            .text(getPieLabel);
+
     }
 
     function createPieChartsFigure() {
@@ -378,17 +447,6 @@
             }
         }
 
-        function handleCircleKeypress(dElem) {
-            if (d3.event.key !== "Enter") {
-                return;
-            }
-            handleCircleZoom(dElem);
-        }
-
-        function filterTopLevelNodes(d) {
-            return d.parent === focus;
-        }
-
         function setView(v) {
             view = v;
         }
@@ -399,7 +457,7 @@
 
         function zoomToView(v) {
             setView(v);
-            zoomTo(v, svg, diameter, filterTopLevelNodes);
+            zoomTo(v, svg, diameter);
         }
 
         function zoom(d) {
@@ -420,9 +478,11 @@
 
             var packedNodes = makePack(diameter - margin, diameter - margin)(rootNode);
 
-            makeCircleNodes(g, packedNodes, handleCircleZoom, handleCircleKeypress);
+            makeCircleNodes(g, packedNodes, handleCircleZoom);
             makeTextNodes(g, packedNodes.descendants(), rootNode);
             zoomToView([rootNode.x, rootNode.y, rootNode.r * 2 + margin]);
+
+            createPieChartsAltUI(packedNodes.descendants().filter(getPieLabel), svg);
 
             svg.on("click", function() { zoom(rootNode); });
         }

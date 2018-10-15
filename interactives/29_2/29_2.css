@@ -1,6 +1,51 @@
+.circle-nodes-wrapper {
+    position: relative;
+}
+
 .figure-29_2--svg {
     width: 100%;
     height: auto;
+}
+
+.circle-nodes-svg {
+    padding-right: 150px;
+}
+
+@media (max-width: 767.98px) { 
+    .circle-nodes-svg {
+        padding-right: 0px;
+    }
+ }
+
+.circle-nodes-table {
+    position: absolute;
+    width: 140px;
+    height: 100%;
+    top: 0;
+    right: 0;
+    overflow: scroll;
+}
+
+.circle-nodes-table a {
+    display: block;
+    font-size: 13px;
+    line-height: 15px;
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+
+.circle-nodes-table a:hover {
+    border-bottom: 1px solid #2d5677;
+}
+
+.circle-nodes-select-wrapper label {
+    display: block;
+}
+
+.circle-nodes-select {
+    display: block;
+    cursor: pointer;
+    width: 100%;
 }
 
 .node, .pie-chart {
@@ -8,7 +53,7 @@
 }
 
 .label, .dimensionPlaceholder {
-  font: 17px Arial, sans-serif;
+  font: 19px Arial, sans-serif;
   text-anchor: middle;
 }
 
@@ -24,7 +69,7 @@
 }
 
 .pie-text--rcp8--value, .pie-text--rcp4--value {
-    font-size: 16px;
+    font-size: 20px;
     font-weight: bold;
 }
 

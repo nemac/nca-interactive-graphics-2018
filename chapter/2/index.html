@@ -2298,6 +2298,33 @@ M32.01,96.94 l1.69,-6.84 1.7,0.39 1.7,6.58 1.7,7.81 1.7,1.94 1.69,0.38 1.7,2.26 
 
 
 
+            <h2>Figure 14.3: Hospitals at Risk from Storm Surge by Tropical Cyclones</h2>
+        
+            <script src="../../interactives/2_8/leaflet.js"></script>
+            <script src="../../interactives/14_3/leaflet-ajax.min.js"></script>
+            <script src="../../interactives/14_3/topojson.min.js"></script>
+            <script src="../../interactives/14_3/leaflet-topo.js"></script>
+            <script src="https://api.mapbox.com/mapbox.js/plugins/leaflet-fullscreen/v1.0.1/Leaflet.fullscreen.min.js"></script>
+            <style> .figure14_3 { height: 600px; width: 100%; } @media (max-width: 480px) { #figure12_3 { height: 100%; } } .leaflet-container a.leaflet-popup-close-button { color: #f00; } .map-container { position: relative; } .map-overlay { position: absolute; z-index: 1000; left: 0; right: 0; top: 0; bottom: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.3); cursor: pointer; } .map-overlay-message { position: absolute; top: 20%; text-align: center; width: 100%; padding: 30px 0; color: #fff; font-size: 20px; background-color: rgba(0, 0, 0, 0.7);; } </style>
+            <div class="map-container">
+              <div class="figure14_3"></div>
+<!--
+              <div class="map-overlay" tabindex="0">
+                <div class="map-overlay-message"> <i class="fas fa-chart-line"></i> CLICK HERE TO INTERACT </div>
+              </div>
+-->
+            </div>
+
+            <script> function hide_map_overlay(el) { el.style.display = 'none'; } </script>
+<!--            <script src='../../interactives/14_3/assessments.json' async></script> -->
+            <script src="../../interactives/14_3/geojson/cat1.topo.json"></script>
+            <script src="../../interactives/14_3/geojson/cat2.topo.json"></script>
+            <script src="../../interactives/14_3/geojson/cat3.topo.json"></script>
+            <script src="../../interactives/14_3/geojson/cat4.topo.json"></script>
+            <script src="../../interactives/14_3/geojson/cat5.topo.json"></script>
+            <script src='../../interactives/14_3/figure14_3.js' async></script> 
+
+
 
 <aside id="box-2_2" class="section-box box clearfix">
     

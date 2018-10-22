@@ -1,71 +1,13 @@
 (function () {
     "use strict";
 
-/*
-    // returns fill color for each circle as a string
-    function getColor (type) {
-        switch (type) {
-            case "Screening":
-                return "#f0e68c";
-            case "Asset":
-                return "#87cfeb";
-            case "Hybrid":
-                return "#8fbc8e";
-        }
-    }
-
-    // returns object that contains all the leaflet config for each layer
-    function makeLayerConfig(type) {
-        return {
-            radius: 5,
-            fillOpacity: 0.9,
-            opacity: 1,
-            weight: 1,
-            color: "#000",
-            fill: true,
-            fillColor: getColor(type)
-        };
-    }
-
-    // returns string that contains the content for each popup
-    function makePopup (data) {
-        return "<div><strong><a href='" + data.url + "' target='_blank'>" + data.title + "</a></strong></div>"
-            + "<div><strong>Year</strong>: " + data.year + "</div>"
-            + "<div><strong>Type</strong>: " + (data.type === "Screening" ? "Hazard" : data.type) + "</div>"
-            + "<div><strong>Hazards(s)</strong>: " + data.hazards + "</div>"
-            + "<div><strong>Asset(s)</strong>: " + data.assets + "</div>";
-    }
-
-    // returns leaflet layer for each assessment
-    function makeAssessmentLayer(data) {
-        return new L.circleMarker(
-            [data.lat, data.lon],
-            makeLayerConfig(data.type),
-        ).bindPopup(makePopup(data));
-    }
-
-    // determines if the assessment is a hazard based study
-    function filterHazards(data) {
-        return data.type === "Screening";
-    }
-
-    // determines if the assessment is a asset based study
-    function filterAssets(data) {
-        return data.type === "Asset";
-    }
-
-    // determines if the assessment is a hybrid based study
-    function filterHybrids(data) {
-        return data.type === "Hybrid";
-    }
-*/
-
     // returns a generic Leaflet button which is slightly customized
     function makeButton(backgroundImage, title, type) {
         var button = L.DomUtil.create("a", "leaflet-control-view-" + type);
         button.title = title;
         button.href = "#";
         button.setAttribute("role", "button");
+        button.setAttribute("tabindex", "0");
         button.setAttribute("aria-label", title);
         button.style.backgroundImage = "url(" + backgroundImage + ")";
         button.style.backgroundSize = "contain";
@@ -132,52 +74,103 @@
             'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
         id: 'mapbox.streets'
     });
-/*
-    // splits the assessments into three layerGroups so they can be filterable
-    var layers = {
-        Hazards: L.layerGroup(assessments.filter(filterHazards).map(makeAssessmentLayer)),
-        Assets: L.layerGroup(assessments.filter(filterAssets).map(makeAssessmentLayer)),
-        Hybrid: L.layerGroup(assessments.filter(filterHybrids).map(makeAssessmentLayer))
-    };
-*/
 
     var mapContainer = document.getElementsByClassName("figure14_3")[0]
 
     function getStormLayerColor(category) {
         switch (category) {
+            case 1:
             case "Category 1":
                 return "#00549d";
+            case 2:
             case "Category 2":
                 return "#0184be";
+            case 3:
             case "Category 3":
                 return "#5eafd7";
+            case 4:
             case "Category 4":
                 return "#b9d7e7";
+            case 5:
             case "Category 5":
                 return "#eef3ff";
         }
     }
 
     function makeStormLayerConfig(category) {
-        var baseLayerOptions = {
-            weight: 1,
-            fillOpacity: 1
-        }
-
         return {
             style: function(feature) {
-                return Object.assign({
+                return {
                     color: getStormLayerColor(category),
                     fillColor: getStormLayerColor(category),
-                    pane: category
-                }, baseLayerOptions)
+                    pane: category,
+                    weight: 1,
+                    fillOpacity: 1
+                }
+            }
+        };
+    }
+
+    function getHospitalColor(param) {
+        switch (param) {
+            case 1:
+              return "#c31f21";
+            case 2:
+              return "#f84214";
+            case 3:
+              return "#ff8e35";
+            case 4:
+              return "#ffca56";
+            case 5:
+              return "#fffbb0";
+            default:
+              return "#4e4e4e";
+        }
+    }
+
+    function titleCaseHandler(word) {
+        return word.charAt(0).toUpperCase() + word.substr(1).toLowerCase();
+    }
+
+    function convertToTitleCase(string) {
+        return string.replace(/\w\S*/g, titleCaseHandler)
+    }
+
+    function makeHospitalFloodingString(category) {
+        return (category !== null) ? "Category " + category + " hurricanes and above" :
+            "No categories of hurricanes";
+    }
+
+    // returns string that contains the content for each popup
+    function makePopup (properties) {
+        return "<div><strong><a href='" + properties.WEBSITE + "' target='_blank'>" + convertToTitleCase(properties.NAME) + "</a></strong></div>"
+            + "<div><strong>Type of Services</strong>: " + convertToTitleCase(properties.TYPE) + "</div>"
+            + "<div><strong>Projected to be flooded by</strong>: " + makeHospitalFloodingString(properties.Low_Cat) + "</div>";
+    }
+
+    function makeHospitalLayerConfig() {
+        return {
+            pointToLayer: function (feature, latlng) {
+                return L.circleMarker(latlng, {
+                    fillColor: getHospitalColor(feature.properties.Low_Cat),
+                    radius: 8,
+                    color: "#000",
+                    weight: 1,
+                    opacity: 1,
+                    fillOpacity: 0.9
+                }).bindPopup(makePopup(feature.properties));
+            },
+
+            style: function(feature) {
+                return {
+                    pane: "Hospitals"
+                };
             }
         };
     }
 
     // creates the maps and adds all layers to it.
     var mymap = L.map(mapContainer, {
-//        layers: [basemap, stormLayers["Category 5"]],
         layers: [basemap],
         minZoom: 7,
         maxZoom: 18
@@ -188,7 +181,9 @@
     mymap.createPane("Category 3");
     mymap.createPane("Category 4");
     mymap.createPane("Category 5");
+    mymap.createPane("Hospitals");
 
+    mymap.getPane("Hospitals").style.zIndex = 460;
     mymap.getPane("Category 1").style.zIndex = 450;
     mymap.getPane("Category 2").style.zIndex = 440;
     mymap.getPane("Category 3").style.zIndex = 430;
@@ -201,9 +196,7 @@
         "Category 3": new L.GeoJSON.AJAX('../../interactives/14_3/geojson2/cat3.geojson', makeStormLayerConfig("Category 3")),
         "Category 4": new L.GeoJSON.AJAX('../../interactives/14_3/geojson2/cat4.geojson', makeStormLayerConfig("Category 4")),
         "Category 5": new L.GeoJSON.AJAX('../../interactives/14_3/geojson2/cat5.geojson', makeStormLayerConfig("Category 5")),
-        "Hospitals": new L.GeoJSON.AJAX("../../interactives/14_3/geojson2/hospitals.geojson", {
-            style: function (feature) { console.log(feature); }
-        })
+        "Hospitals": new L.GeoJSON.AJAX("../../interactives/14_3/geojson2/hospitals.geojson", makeHospitalLayerConfig())
 
 //        "Category 1": new L.TopoJSON(cat1, makeStormLayerConfig("Category 1")),
 //        "Category 2": new L.TopoJSON(cat2, makeStormLayerConfig("Category 2")),
@@ -231,7 +224,6 @@
 
 //T {_southWest: M, _northEast: M}_northEast: M {lat: 33.53890866167807, lng: -78.90970945358278}_southWest: M {lat: 32.15448738970588, lng: -80.79386472702028}__proto__: Object
 
-    // adds control which lets user zoom to alaska and conus
     var zoomButtons = L.Control.extend(makeZoomButtonConfig());
     mymap.addControl(new zoomButtons());
 })();

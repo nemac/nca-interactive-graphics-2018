@@ -213,7 +213,7 @@
         .addLayer(stormLayers["Hospitals"]);
 
     // adds filterable controls for the three types of layers to the map
-    L.control.layers({}, stormLayers).addTo(mymap);
+    L.control.layers({}, stormLayers, { collapsed: false }).addTo(mymap);
 
 //mymap.on('moveend', function() { 
 //     console.log(mymap.getCenter());

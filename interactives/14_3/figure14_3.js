@@ -1,8 +1,6 @@
 (function () {
     "use strict";
 
-
-
 /*
     // returns fill color for each circle as a string
     function getColor (type) {
@@ -170,18 +168,43 @@
             style: function(feature) {
                 return Object.assign({
                     color: getStormLayerColor(category),
-                    fillColor: getStormLayerColor(category)
+                    fillColor: getStormLayerColor(category),
+                    pane: category
                 }, baseLayerOptions)
             }
         };
     }
+
+    // creates the maps and adds all layers to it.
+    var mymap = L.map(mapContainer, {
+//        layers: [basemap, stormLayers["Category 5"]],
+        layers: [basemap],
+        minZoom: 7,
+        maxZoom: 18
+    }).setView([32.77572, -79.90775], 9);
+
+    mymap.createPane("Category 1");
+    mymap.createPane("Category 2");
+    mymap.createPane("Category 3");
+    mymap.createPane("Category 4");
+    mymap.createPane("Category 5");
+
+    mymap.getPane("Category 1").style.zIndex = 450;
+    mymap.getPane("Category 2").style.zIndex = 440;
+    mymap.getPane("Category 3").style.zIndex = 430;
+    mymap.getPane("Category 4").style.zIndex = 420;
+    mymap.getPane("Category 5").style.zIndex = 410;
 
     var stormLayers = {
         "Category 1": new L.GeoJSON.AJAX('../../interactives/14_3/geojson2/cat1.geojson', makeStormLayerConfig("Category 1")),
         "Category 2": new L.GeoJSON.AJAX('../../interactives/14_3/geojson2/cat2.geojson', makeStormLayerConfig("Category 2")),
         "Category 3": new L.GeoJSON.AJAX('../../interactives/14_3/geojson2/cat3.geojson', makeStormLayerConfig("Category 3")),
         "Category 4": new L.GeoJSON.AJAX('../../interactives/14_3/geojson2/cat4.geojson', makeStormLayerConfig("Category 4")),
-        "Category 5": new L.GeoJSON.AJAX('../../interactives/14_3/geojson2/cat5.geojson', makeStormLayerConfig("Category 5"))
+        "Category 5": new L.GeoJSON.AJAX('../../interactives/14_3/geojson2/cat5.geojson', makeStormLayerConfig("Category 5")),
+        "Hospitals": new L.GeoJSON.AJAX("../../interactives/14_3/geojson2/hospitals.geojson", {
+            style: function (feature) { console.log(feature); }
+        })
+
 //        "Category 1": new L.TopoJSON(cat1, makeStormLayerConfig("Category 1")),
 //        "Category 2": new L.TopoJSON(cat2, makeStormLayerConfig("Category 2")),
 //        "Category 3": new L.TopoJSON(cat3, makeStormLayerConfig("Category 3")),
@@ -189,13 +212,12 @@
 //        "Category 5": new L.TopoJSON(cat5, makeStormLayerConfig("Category 5"))
     };
 
-    // creates the maps and adds all layers to it.
-    var mymap = L.map(mapContainer, {
-//        layers: [basemap, stormLayers["Category 5"]],
-        layers: [basemap, stormLayers["Category 5"], stormLayers["Category 4"], stormLayers["Category 3"], stormLayers["Category 2"], stormLayers["Category 1"]],
-        minZoom: 7,
-        maxZoom: 18
-    }).setView([32.77572, -79.90775], 9);
+    mymap.addLayer(stormLayers["Category 1"])
+        .addLayer(stormLayers["Category 2"])
+        .addLayer(stormLayers["Category 3"])
+        .addLayer(stormLayers["Category 4"])
+        .addLayer(stormLayers["Category 5"])
+        .addLayer(stormLayers["Hospitals"]);
 
     // adds filterable controls for the three types of layers to the map
     L.control.layers({}, stormLayers).addTo(mymap);

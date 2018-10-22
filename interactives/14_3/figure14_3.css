@@ -1,60 +1,20 @@
 .figure14_3--legend {
-    margin-top: -10px;
     border: 1px solid #e3e3e3;
     border-top: 0;
-    padding: 0 10px 10px;
+    padding: 10px 20px;
+}
+
+.map-figure-legend--group {
+    width: 100%;
 }
 
 .map-legend--header {
+    width: 50%;
     font-weight: bold;
-    margin-top: 10px;
-    text-align: center;
+    vertical-align: top;
 }
 
-.map-legend--header > div {
-    padding-left: 5px;
-    padding-right: 5px;
-}
-
-.map-legend--items {
-    font-size: 15px;
-    margin-left: 0;
-    margin-right: 0;
-}
-
-
-.map-legend--items > div {
-/*    max-width: 100%;*/
-    padding-left: 0;
-    padding-right: 5px;
-/*    min-height: 1px;*/
-}
-/*
-@media (min-width: 768px) {
-    .map-legend--items > div {
-        -ms-flex-preferred-size: 0;
-        flex-basis: 0;
-        -ms-flex-positive: 1;
-        flex-grow: 1;
-    }
-}
-*/
-.map-figure-legend th {
-    width: 60px;
-    padding: 0 5px;
-}
-
-@media (min-width: 991.9px) and (max-width: 1181.9px) {
-    .map-legend-label--short {
-        display: inline !important;
-    }
-
-    .map-legend-label--full {
-        display: none !important;
-    }
-}
-
-.map-figure-legend-flood {
+.map-figure-legend-flood, .map-figure-legend-hospital {
     display: inline-block;
     width: 20px;
     height: 20px;
@@ -64,13 +24,7 @@
 }
 
 .map-figure-legend-hospital {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
     border-radius: 50%;
-    border: 2px solid #000;
-    vertical-align: middle;
-    margin-right: 5px;
 }
 
 .map-figure-legend-flood--1 {

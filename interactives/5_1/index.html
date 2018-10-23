@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+.axis text {
+  font: 10px sans-serif;
+}
+.axis line,
+.axis path {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+.path-line {
+  fill: none;
+  stroke: yellow;
+  stroke-width: 1.5px;
+}
+svg {
+  background: #f0f0f0;
+}
+
+.active {
+  background: #c3c3cb;
+}
+</style>
+<body>
+<h2>Stacked Bar Chart - d3.v4 implementation</h2>
+<div id="transitions">
+  Click to switch between stacked and grouped
+  <button id="stacked" class="active">Stacked</button>
+  <button id="grouped">Grouped</button>
+</div>
+<div id="stacked-bar"></div>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="./figure5_1.js"></script>

@@ -21,6 +21,28 @@ function typeColor(type) {
     }
 }
 
+function stackData(data) {
+    var stackedData = [];
+
+    data.forEach(function (d) {
+        var innerStack = [];
+        var x0 = 0;
+        var x1 = 0;
+
+        d.values.forEach(function (v) {
+            x0 = x1;
+            x1 += v.percent;
+            var processedData = [x0, x1];
+            processedData["data"] = v;
+            innerStack.push(processedData);
+        });
+
+        stackedData.push(innerStack);
+    });
+
+    return stackedData;
+}
+
 function transitionToGrouped(rects, x, y, n) {
     rects.transition()
         .duration(500)
@@ -39,6 +61,45 @@ function transitionToStacked(rects, x, y, n) {
     .transition()
         .attr("y", function(d) { return y(d.data.region); })
         .attr("height", function(d) { return y.bandwidth(); })
+}
+
+function orderDataByType(data, type) {
+    data.sort(function (a, b) {
+        if (a.type === type && b.type === type) {
+            return b.percent - a.percent;
+        } else if (a.type === type) {
+            return -1;
+        } else if (b.type === type) {
+            return 1;
+        } else {
+            return 0;
+        }
+    })
+}
+
+function resortSectors(data, type, svg, x, y, yAxis) {
+    orderDataByType(data, type);
+//    console.log(data)
+    console.log(data.map(function (d) { return d.region; }))
+    y.domain(data.map(function(d) { return d.region; }));
+//    console.log(data)
+
+    var groupedData = d3.nest().key(function (d) { return d.region; }).entries(data);
+    var stackedData = stackData(groupedData);
+
+    var transition = svg.transition()
+        .duration(500);
+
+//    var layers = svg.selectAll(".layer")
+//        .data(stackedData)
+//        .transition(transition)
+
+//    transitionToStacked(svg.selectAll("rects"), x, y, 9)
+
+    console.log(yAxis)
+    yAxis.transition(transition)
+        .call(y);
+    console.log(yAxis)
 }
 
 var initStackedBarChart = {
@@ -65,41 +126,14 @@ var initStackedBarChart = {
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-        var stack = d3.stack()
-            .keys(["percent"])
-            .offset(d3.stackOffsetNone);
-
-        var groupedData = d3.nest().key(function (d) { return d.region; }).entries(data);
-
-        var layers = stack(data);
-
         yScale.domain(data.map(function(d) { return d.region; }));
         xScale.domain([0, 1]).nice();
 
-        function stackData(data) {
-            var stackedData = [];
-
-            data.forEach(function (d) {
-                var innerStack = [];
-                var x0 = 0;
-                var x1 = 0;
-
-                d.values.forEach(function (v) {
-                    x0 = x1;
-                    x1 += v.percent;
-                    var processedData = [x0, x1];
-                    processedData["data"] = v;
-                    innerStack.push(processedData);
-                });
-
-                stackedData.push(innerStack);
-            });
-
-            return stackedData;
-        }
+        var groupedData = d3.nest().key(function (d) { return d.region; }).entries(data);
 
         var stackedData = stackData(groupedData);
 
+    console.log(data.map(function (d) { return d.region; }))
         var layer = svg.selectAll(".layer")
             .data(stackedData)
             .enter().append("g")
@@ -108,18 +142,18 @@ var initStackedBarChart = {
         var rects = layer.selectAll("rect")
             .data(function(d) { return d; })
             .enter().append("rect")
-            .attr("y", function(d) {  return yScale(d.data.region); })
+            .attr("y", function(d) { return yScale(d.data.region); })
             .attr("x", function(d) { return xScale(d[0]); })
             .attr("height", yScale.bandwidth())
             .attr("width", function(d) { return xScale(d[1]) - xScale(d[0]) })
-            .style("fill", function(d, i) { console.log(d); return typeColor(d.data.type); });
+            .style("fill", function(d, i) { return typeColor(d.data.type); });
         
         svg.append("g")
             .attr("class", "axis axis--x")
             .attr("transform", "translate(0," + (height+5) + ")")
             .call(xAxis);
         
-        svg.append("g")
+        var yAxis = svg.append("g")
             .attr("class", "axis axis--y")
             .attr("transform", "translate(0,0)")
             .call(yAxis);
@@ -128,7 +162,7 @@ var initStackedBarChart = {
             if (this.classList.contains("active")) {
                 return;
             } else {
-                document.getElementsByClassName("active")[0].classList.remove("active");
+                document.querySelector("#transitions .active").classList.remove("active");
                 this.classList.add("active");
             }
             transitionToGrouped(rects, xScale, yScale, 9);
@@ -138,14 +172,27 @@ var initStackedBarChart = {
             if (this.classList.contains("active")) {
                 return;
             } else {
-                document.getElementsByClassName("active")[0].classList.remove("active");
+                document.querySelector("#transitions .active").classList.remove("active");
                 this.classList.add("active");
             }
             transitionToStacked(rects, xScale, yScale, 9);
         }
 
+        function triggerTypeReorder() {
+            if (this.classList.contains("active")) {
+                return;
+            }
+            if (document.querySelector("#sectors .active")) {
+                document.querySelector("#sectors .active").classList.remove("active");
+            }
+
+            this.classList.add("active");
+            resortSectors(data, this.getAttribute("data-for"), svg, xScale, yScale, yAxis);
+        }
+
         d3.select("#stacked").on("click", triggerTransitionToStacked);
         d3.select("#grouped").on("click", triggerTransitionToGrouped);
+        d3.selectAll("#sectors button").on("click", triggerTypeReorder);
     }
 }
 

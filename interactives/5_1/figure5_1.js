@@ -27,23 +27,41 @@ function makeYDomain(data) {
     return Object.keys(temp);
 }
 
-function stackData(data) {
+function stackData(data, dataType) {
     var stackedData = [];
 
     data.forEach(function (d) {
-//        var innerStack = [];
         var x0 = 0;
         var x1 = 0;
 
         d.values.forEach(function (v) {
             x0 = x1;
-            x1 += v.percent;
+            x1 += v[dataType];
             var processedData = [x0, x1];
             processedData["data"] = v;
             stackedData.push(processedData);
         });
 
-//        stackedData.push(innerStack);
+    });
+
+    return stackedData;
+}
+
+function stackAreaData(data, dataType) {
+    var stackedData = [];
+
+    data.forEach(function (d) {
+        var x0 = 0;
+        var x1 = 0;
+
+        d.values.forEach(function (v) {
+            x0 = x1;
+            x1 += v.area;
+            var processedData = [x0, x1];
+            processedData["data"] = v;
+            stackedData.push(processedData);
+        });
+
     });
 
     return stackedData;
@@ -69,10 +87,10 @@ function transitionToStacked(rects, x, y, n) {
         .attr("height", function(d) { return y.bandwidth(); })
 }
 
-function orderDataByType(data, type) {
+function orderDataByType(data, dataType) {
     data.sort(function (a, b) {
         if (a.type === type && b.type === type) {
-            return a.percent - b.percent;
+            return a[dataType] - b[dataType];
         } else if (a.type === type) {
             return -1;
         } else if (b.type === type) {
@@ -83,12 +101,58 @@ function orderDataByType(data, type) {
     })
 }
 
+function handleTransitions(data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis) {
+    var max_area = (dataType === "area") ? 1809124505200 : 1;
+
+    if (sector) {
+        orderDataByType(data, dataType);
+    }
+    
+    x.domain([0, max_area]);
+    y.domain(makeYDomain(data));
+
+    var groupedData = d3.nest().key(function (d) { return d.region; }).entries(data);
+    var stackedData = stackData(groupedData, dataType);
+
+    var t = svg.transition()
+        .duration(300);
+    var xt = svg.transition()
+        .duration(500);
+
+    var n = 9;
+    if (barType === "stacked") {
+        rects.data(stackedData, function (d) { return d.data.id;})
+            .transition(t)
+                .attr("y", function(d) { return y(d.data.region); })
+            .transition(xt)
+                .delay(300)
+                .attr("x", function(d) { return x(d[0]); })
+                .attr("height", y.bandwidth())
+    } else if (barType === "grouped") {
+        rects.transition(t)
+            .attr("x", function (d, i) { return x(0); })
+            .attr("y", function(d, i) { return y(d.data.region) + ((y.bandwidth() / n ) * (i % 8)); })
+
+        rects.data(stackedData, function (d) { return d.data.id;})
+            .transition(xt)
+              .delay(300)
+              .attr("x", function (d, i) { return x(0); })
+              .attr("y", function(d, i) { return y(d.data.region) + ((y.bandwidth() / n ) * (i % 8)); })
+              .attr("height", function(d) { return y.bandwidth() / n; })
+    }
+
+    xAxis.transition(t)
+        .call(d3.axisBottom(x));
+    yAxis.transition(t)
+        .call(d3.axisLeft(y));
+}
+
 function resortSectors(data, type, svg, x, y, yAxis, rects, barType) {
     orderDataByType(data, type);
     y.domain(makeYDomain(data));
 
     var groupedData = d3.nest().key(function (d) { return d.region; }).entries(data);
-    var stackedData = stackData(groupedData);
+    var stackedData = stackData(groupedData, "percent");
 
     var t = svg.transition()
         .duration(300);
@@ -125,6 +189,8 @@ var initStackedBarChart = {
         var me = this;
 
         var barType = "stacked";
+        var sector = undefined;
+        var dataType = "percent";
 
         var domEle = config.element;
         var data = config.data;
@@ -150,7 +216,7 @@ var initStackedBarChart = {
 
         var groupedData = d3.nest().key(function (d) { return d.region; }).entries(data);
 
-        var stackedData = stackData(groupedData);
+        var stackedData = stackData(groupedData, dataType);
 
 //        var layer = svg.selectAll(".layer")
 //            .data(stackedData)
@@ -208,13 +274,28 @@ var initStackedBarChart = {
                 document.querySelector("#sectors .active").classList.remove("active");
             }
 
+            sector = this.getAttribute("data-for");
             this.classList.add("active");
-            resortSectors(data, this.getAttribute("data-for"), svg, x, y, yAxis, rects, barType);
+            resortSectors(data, sector, svg, x, y, yAxis, rects, barType, dataType);
+        }
+
+        function triggerDataSwap() {
+            if (this.classList.contains("active")) {
+                return;
+            }
+            if (document.querySelector("#data .active")) {
+                document.querySelector("#data .active").classList.remove("active");
+            }
+
+            dataType = this.getAttribute("data-for");
+            this.classList.add("active");
+            handleTransitions(data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis);
         }
 
         d3.select("#stacked").on("click", triggerTransitionToStacked);
         d3.select("#grouped").on("click", triggerTransitionToGrouped);
         d3.selectAll("#sectors button").on("click", triggerTypeReorder);
+        d3.selectAll("#data button").on("click", triggerDataSwap);
     }
 }
 

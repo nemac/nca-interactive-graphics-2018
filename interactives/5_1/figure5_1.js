@@ -47,46 +47,6 @@ function stackData(data, dataType) {
     return stackedData;
 }
 
-function stackAreaData(data, dataType) {
-    var stackedData = [];
-
-    data.forEach(function (d) {
-        var x0 = 0;
-        var x1 = 0;
-
-        d.values.forEach(function (v) {
-            x0 = x1;
-            x1 += v.area;
-            var processedData = [x0, x1];
-            processedData["data"] = v;
-            stackedData.push(processedData);
-        });
-
-    });
-
-    return stackedData;
-}
-
-function transitionToGrouped(rects, x, y, n) {
-    rects.transition()
-        .duration(500)
-        .delay(function(d, i) { return i * 20; })
-        .attr("y", function(d, i) { return y(d.data.region) + ((y.bandwidth() / n ) * (i % 8)); })
-        .attr("height", y.bandwidth() / n)
-    .transition()
-        .attr("x", function(d, i) { return x(0); })
-}
-
-function transitionToStacked(rects, x, y, n) {
-    rects.transition()
-        .duration(500)
-        .delay(function(d, i) { return i * 20; })
-        .attr("x", function(d, i) { return x(d[0]); })
-    .transition()
-        .attr("y", function(d) { return y(d.data.region); })
-        .attr("height", function(d) { return y.bandwidth(); })
-}
-
 function orderDataByType(data, sector, dataType) {
     data.sort(function (a, b) {
         if (a.type === sector && b.type === sector) {
@@ -167,47 +127,8 @@ function handleTransitions(data, barType, sector, dataType, svg, rects, x, y, xA
         .call(d3.axisLeft(y));
 }
 
-function resortSectors(data, type, svg, x, y, yAxis, rects, barType) {
-    orderDataByType(data, type);
-    y.domain(makeYDomain(data));
-
-    var groupedData = d3.nest().key(function (d) { return d.region; }).entries(data);
-    var stackedData = stackData(groupedData, "percent");
-
-    var t = svg.transition()
-        .duration(300);
-    var xt = svg.transition()
-        .duration(500);
-
-
-    if (barType === "stacked") {
-        rects.data(stackedData, function (d) { return d.data.id;})
-            .transition(t)
-                .attr("y", function(d) { return y(d.data.region); })
-            .transition(xt)
-                .delay(300)
-                .attr("x", function(d) { return x(d[0]); })
-    } else if (barType === "grouped") {
-        var n = 9;
-        rects.transition(t)
-            .attr("x", function (d, i) { return x(0); })
-            .attr("y", function(d, i) { return y(d.data.region) + ((y.bandwidth() / n ) * (i % 8)); })
-
-        rects.data(stackedData, function (d) { return d.data.id;})
-            .transition(xt)
-              .delay(300)
-              .attr("x", function (d, i) { return x(0); })
-              .attr("y", function(d, i) { return y(d.data.region) + ((y.bandwidth() / n ) * (i % 8)); })
-    }
-
-    yAxis.transition(t)
-        .call(d3.axisLeft(y));
-}
-
 var initStackedBarChart = {
     draw: function(config) {
-        var me = this;
-
         var barType = "stacked";
         var sector = undefined;
         var dataType = "percent";
@@ -232,16 +153,8 @@ var initStackedBarChart = {
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-//        yScale.domain(data.map(function(d) { return d.region; }));
-
         var groupedData = d3.nest().key(function (d) { return d.region; }).entries(data);
-
         var stackedData = stackData(groupedData, dataType);
-
-//        var layer = svg.selectAll(".layer")
-//            .data(stackedData)
-//            .enter().append("g")
-//            .attr("class", "layer")
         
         var rects = svg.selectAll("rect")
             .data(stackedData)
@@ -273,7 +186,6 @@ var initStackedBarChart = {
             document.querySelector("#transitions .active").classList.remove("active");
             this.classList.add("active");
             handleTransitions(data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis, true);
-//            transitionToGrouped(rects, x, y, 9);
         }
 
         function triggerTransitionToStacked() {
@@ -285,7 +197,6 @@ var initStackedBarChart = {
             document.querySelector("#transitions .active").classList.remove("active");
             this.classList.add("active");
             handleTransitions(data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis, true);
-//            transitionToStacked(rects, x, y, 9);
         }
 
         function triggerTypeReorder() {
@@ -299,7 +210,6 @@ var initStackedBarChart = {
             sector = this.getAttribute("data-for");
             this.classList.add("active");
             handleTransitions(data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis, false);
-//            resortSectors(data, sector, svg, x, y, yAxis, rects, barType, dataType);
         }
 
         function triggerDataSwap() {

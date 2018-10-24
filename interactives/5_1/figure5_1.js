@@ -87,13 +87,13 @@ function transitionToStacked(rects, x, y, n) {
         .attr("height", function(d) { return y.bandwidth(); })
 }
 
-function orderDataByType(data, dataType) {
+function orderDataByType(data, sector, dataType) {
     data.sort(function (a, b) {
-        if (a.type === type && b.type === type) {
+        if (a.type === sector && b.type === sector) {
             return a[dataType] - b[dataType];
-        } else if (a.type === type) {
+        } else if (a.type === sector) {
             return -1;
-        } else if (b.type === type) {
+        } else if (b.type === sector) {
             return 1;
         } else {
             return 0;
@@ -101,11 +101,11 @@ function orderDataByType(data, dataType) {
     })
 }
 
-function handleTransitions(data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis) {
-    var max_area = (dataType === "area") ? 1809124505200 : 1;
+function handleTransitions(data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis, changeBarType) {
+    var max_area = (dataType === "area") ? ( (barType === "stacked") ? 1809124505200 : 1193e9 ) : 1;
 
     if (sector) {
-        orderDataByType(data, dataType);
+        orderDataByType(data, sector, dataType);
     }
     
     x.domain([0, max_area]);
@@ -120,25 +120,45 @@ function handleTransitions(data, barType, sector, dataType, svg, rects, x, y, xA
         .duration(500);
 
     var n = 9;
-    if (barType === "stacked") {
-        rects.data(stackedData, function (d) { return d.data.id;})
-            .transition(t)
-                .attr("y", function(d) { return y(d.data.region); })
-            .transition(xt)
-                .delay(300)
-                .attr("x", function(d) { return x(d[0]); })
-                .attr("height", y.bandwidth())
-    } else if (barType === "grouped") {
-        rects.transition(t)
-            .attr("x", function (d, i) { return x(0); })
-            .attr("y", function(d, i) { return y(d.data.region) + ((y.bandwidth() / n ) * (i % 8)); })
+    if (changeBarType === true) {
+        if (barType === "stacked") {
+            rects.transition()
+                    .duration(400)
+                    .attr("x", function(d, i) { return x(d[0]); })
+                .transition()
+                    .attr("y", function(d) { return y(d.data.region); })
+                    .attr("height", function(d) { return y.bandwidth(); })
+        } else if (barType === "grouped") {
+            rects.transition()
+                .duration(300)
+                    .attr("y", function(d, i) { return y(d.data.region) + ((y.bandwidth() / n ) * (i % 8)); })
+                    .attr("height", y.bandwidth() / n)
+                .transition()
+                    .attr("x", function(d, i) { return x(0); })
+        }
+    } else {
+        if (barType === "stacked") {
+            rects.data(stackedData, function (d) { return d.data.id;})
+                .transition(t)
+                    .attr("y", function(d) { return y(d.data.region); })
+                .transition(xt)
+                    .delay(300)
+                    .attr("x", function(d) { return x(d[0]); })
+                    .attr("width", function(d) { return x(d[1]) - x(d[0]) })
+                    .attr("height", y.bandwidth())
+        } else if (barType === "grouped") {
+            rects.transition(t)
+                .attr("x", function (d, i) { return x(0); })
+                .attr("y", function(d, i) { return y(d.data.region) + ((y.bandwidth() / n ) * (i % 8)); })
 
-        rects.data(stackedData, function (d) { return d.data.id;})
-            .transition(xt)
-              .delay(300)
-              .attr("x", function (d, i) { return x(0); })
-              .attr("y", function(d, i) { return y(d.data.region) + ((y.bandwidth() / n ) * (i % 8)); })
-              .attr("height", function(d) { return y.bandwidth() / n; })
+            rects.data(stackedData, function (d) { return d.data.id;})
+                .transition(xt)
+                    .delay(300)
+                    .attr("x", function (d, i) { return x(0); })
+                    .attr("width", function(d) { return x(d[1]) - x(d[0]) })
+                    .attr("y", function(d, i) { return y(d.data.region) + ((y.bandwidth() / n ) * (i % 8)); })
+                    .attr("height", function(d) { return y.bandwidth() / n; })
+        }
     }
 
     xAxis.transition(t)
@@ -252,7 +272,8 @@ var initStackedBarChart = {
             barType = "grouped";
             document.querySelector("#transitions .active").classList.remove("active");
             this.classList.add("active");
-            transitionToGrouped(rects, x, y, 9);
+            handleTransitions(data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis, true);
+//            transitionToGrouped(rects, x, y, 9);
         }
 
         function triggerTransitionToStacked() {
@@ -263,7 +284,8 @@ var initStackedBarChart = {
             barType = "stacked";
             document.querySelector("#transitions .active").classList.remove("active");
             this.classList.add("active");
-            transitionToStacked(rects, x, y, 9);
+            handleTransitions(data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis, true);
+//            transitionToStacked(rects, x, y, 9);
         }
 
         function triggerTypeReorder() {
@@ -276,7 +298,8 @@ var initStackedBarChart = {
 
             sector = this.getAttribute("data-for");
             this.classList.add("active");
-            resortSectors(data, sector, svg, x, y, yAxis, rects, barType, dataType);
+            handleTransitions(data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis, false);
+//            resortSectors(data, sector, svg, x, y, yAxis, rects, barType, dataType);
         }
 
         function triggerDataSwap() {
@@ -289,7 +312,7 @@ var initStackedBarChart = {
 
             dataType = this.getAttribute("data-for");
             this.classList.add("active");
-            handleTransitions(data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis);
+            handleTransitions(data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis, false);
         }
 
         d3.select("#stacked").on("click", triggerTransitionToStacked);
@@ -305,3 +328,4 @@ d3.json("./5_1--NLCD.json", function (error, json) {
         element: 'stacked-bar'
     });
 });
+B

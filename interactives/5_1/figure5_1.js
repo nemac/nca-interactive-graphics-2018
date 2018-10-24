@@ -1,3 +1,11 @@
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " sq/m";
+}
+
+function formatPercentString(x) {
+    return (Math.round(x * 100000) / 1000).toString() + "%";
+}
+
 function typeColor(type) {
     switch (type) {
         case "Forest":
@@ -18,6 +26,16 @@ function typeColor(type) {
           return "#d3d3d3";
     }
 }
+
+var tip = d3.tip()
+    .attr('class', 'd3-tip')
+    .offset([-10, 0])
+    .html(function(d) {
+        return "<div><strong>Region:</strong> <span>" + d.data.region + "</span></div>" +
+            "<div><strong>Sector:</strong> <span>" + d.data.type + "</span></div>" +
+            "<div><strong>Percent:</strong> <span>" + formatPercentString(d.data.percent) + "</span></div>" +
+            "<div><strong>Area:</strong> <span>" + numberWithCommas(d.data.area) + "</span></div>";
+    });
 
 function makeYDomain(data) {
     var a = data.map(function (d) { return d.region;})
@@ -153,6 +171,8 @@ var initStackedBarChart = {
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+        svg.call(tip);
+
         var groupedData = d3.nest().key(function (d) { return d.region; }).entries(data);
         var stackedData = stackData(groupedData, dataType);
         
@@ -165,7 +185,9 @@ var initStackedBarChart = {
             .attr("data-type", function (d) { return d.data.type; })
             .attr("height", y.bandwidth())
             .attr("width", function(d) { return x(d[1]) - x(d[0]) })
-            .style("fill", function(d, i) { return typeColor(d.data.type); });
+            .style("fill", function(d, i) { return typeColor(d.data.type); })
+            .on('mouseover', tip.show)
+            .on('mouseout', tip.hide)
         
         var xAxis = svg.append("g")
             .attr("class", "axis axis--x")
@@ -238,4 +260,4 @@ d3.json("./5_1--NLCD.json", function (error, json) {
         element: 'stacked-bar'
     });
 });
-B
+

@@ -1,3 +1,22 @@
+.figure14_3 {
+    height: 600px;
+    width: 100%;
+}
+
+@media (max-width: 480px) {
+    #figure12_3 {
+        height: 100%;
+    }
+}
+
+.leaflet-container a.leaflet-popup-close-button {
+    color: #f00;
+}
+
+.map-container {
+    position: relative;
+}
+
 .figure14_3--legend {
     border: 1px solid #e3e3e3;
     border-top: 0;

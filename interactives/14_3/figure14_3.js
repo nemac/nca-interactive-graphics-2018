@@ -189,12 +189,12 @@
     // Initializes layers and adds them to the map
     function createLayers(map) {
         var stormLayers = {
-            "Category 1": new L.GeoJSON.AJAX('../../interactives/14_3/geojson2/cat1.geojson', makeStormLayerConfig("Category 1")),
-            "Category 2": new L.GeoJSON.AJAX('../../interactives/14_3/geojson2/cat2.geojson', makeStormLayerConfig("Category 2")),
-            "Category 3": new L.GeoJSON.AJAX('../../interactives/14_3/geojson2/cat3.geojson', makeStormLayerConfig("Category 3")),
-            "Category 4": new L.GeoJSON.AJAX('../../interactives/14_3/geojson2/cat4.geojson', makeStormLayerConfig("Category 4")),
-            "Category 5": new L.GeoJSON.AJAX('../../interactives/14_3/geojson2/cat5.geojson', makeStormLayerConfig("Category 5")),
-            "Hospitals": new L.GeoJSON.AJAX("../../interactives/14_3/geojson2/hospitals.geojson", makeHospitalLayerConfig())
+            "Category 1": new L.GeoJSON.AJAX('../../interactives/14_3/geojson/cat1.geojson', makeStormLayerConfig("Category 1")),
+            "Category 2": new L.GeoJSON.AJAX('../../interactives/14_3/geojson/cat2.geojson', makeStormLayerConfig("Category 2")),
+            "Category 3": new L.GeoJSON.AJAX('../../interactives/14_3/geojson/cat3.geojson', makeStormLayerConfig("Category 3")),
+            "Category 4": new L.GeoJSON.AJAX('../../interactives/14_3/geojson/cat4.geojson', makeStormLayerConfig("Category 4")),
+            "Category 5": new L.GeoJSON.AJAX('../../interactives/14_3/geojson/cat5.geojson', makeStormLayerConfig("Category 5")),
+            "Hospitals": new L.GeoJSON.AJAX("../../interactives/14_3/geojson/hospitals.geojson", makeHospitalLayerConfig())
         };
 
         map.addLayer(stormLayers["Category 1"])

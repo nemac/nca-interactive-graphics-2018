@@ -98,7 +98,7 @@
         var rcpTooltip = rcpWrapText.append('tspan')
             .attr("class", 'pie-text--tooltip')
             .text(tooltipText)
-            .attr('dy', '20')
+            .attr('dy', '30')
             .attr('x', 0)
 
         addBackgroundRect(rcpWrap, -5);
@@ -273,45 +273,44 @@
             .data(nodes.filter(getPieLabel))
             .enter().append("g")
             .attr("class", function (d) { return "outer-text " + d.data["class"]})
+            .each(function (d, i) {
+                var gt = d3.select(this);
+                var outerLabel = d.data.outerLabel
 
-        outerTitles.each(function (d, i) {
-            var gt = d3.select(this);
-            var outerLabel = d.data.outerLabel
-
-            var t = gt.append("text")
+                var t = gt.append("text")
                     .attr("class", "label pie-text--outer")
                     .style("fill-opacity", function(d) { return d.parent === root ? 1 : 0; })
                     .style("display", "inline")
                     .attr("y", function (d, i) { return ((-d.r * .53) * (diameter / (d.parent.r * 2 + margin))).toString(); })
-            if (outerLabel) {
-                outerLabel.forEach(function(l, i) {
-                    t.append("tspan")
-                        .text(l)
-                        .attr("dy", 36 * i)
-                        .attr("x", 0)
-                })
-            } else {
-                t.text(getPieLabel)
-            }
+                if (outerLabel) {
+                    outerLabel.forEach(function(l, i) {
+                        t.append("tspan")
+                            .text(l)
+                            .attr("dy", 36 * i)
+                            .attr("x", 0)
+                    })
+                } else {
+                    t.text(getPieLabel)
+                }
 
-            var bBox = gt.node().getBBox();
-            var width = bBox.width;
-            var height = bBox.height;
+                var bBox = gt.node().getBBox();
+                var width = bBox.width;
+                var height = bBox.height;
 
-            gt.insert("rect", ":first-child")
-                .attr("class", "label pie-text--outer")
-                .style('fill', '#fff')
-                .style("fill-opacity", function(d) { return d.parent === root ? .5 : 0; })
-                .style("display", function(d) { return d.parent === root ? "inline" : "none"; })
-                .attr("width", function (d, i) { return width + 20; })
-                .attr("height", function (d, i) { return height + 10; })
-                .attr("x", function (d, i) { return -(width + 20) / 2; })
-                .attr("y", function (d, i) { return -(
-                    (d.r * .53) * (diameter / (d.parent.r * 2 + margin)) +
-                        (height + 25) / (2 * (outerLabel ? outerLabel.length - .5 : 1))) })
+                gt.insert("rect", ":first-child")
+                    .attr("class", "label pie-text--outer")
+                    .style('fill', '#fff')
+                    .style("fill-opacity", function(d) { return d.parent === root ? .5 : 0; })
+                    .style("display", function(d) { return d.parent === root ? "inline" : "none"; })
+                    .attr("width", function (d, i) { return width + 20; })
+                    .attr("height", function (d, i) { return height + 10; })
+                    .attr("x", function (d, i) { return -(width + 20) / 2; })
+                    .attr("y", function (d, i) { return -(
+                        (d.r * .53) * (diameter / (d.parent.r * 2 + margin)) +
+                            (height + 25) / (2 * (outerLabel ? outerLabel.length - .5 : 1))) })
 
-            t.style("display", function(d) { return d.parent === root ? "inline" : "none"; });
-        })
+                t.style("display", function(d) { return d.parent === root ? "inline" : "none"; });
+            });
     }
 
     function makeTranslateFunction(elementData, focusX, focusY, scale) {
@@ -465,8 +464,6 @@
         svg.classed(PROCESSED_CLASS, true);
 
         var diameter = +svg.attr("width");
-
-        console.log(diameter)
 
         var view;
         var focus;

@@ -69,8 +69,12 @@
 }
 
 .pie-text--value {
-    font-size: 26px;
+    font-size: 28px;
     font-weight: bold;
+}
+
+.pie-text--tooltip {
+    font-size: 21px;
 }
 
 circle {

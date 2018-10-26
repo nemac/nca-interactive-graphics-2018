@@ -11,18 +11,23 @@
         return b.value - a.value;
     }
 
+    // Preprocesses the data to be passed to d3's circle packing functionality.
     function makeHierarchy(data) {
         return d3.hierarchy(data)
             .sum(getSize)
             .sort(sortByValue);
     }
 
+    // Processes the data for d3's circle packing, creates the x, y, and radius of each
+    // data point.
     function makePack(width, height) {
         return d3.pack()
             .size([width, height])
             .padding(2);
     }
 
+    // Creates the transition that zooms between the selected circle. Tween lets the
+    // transition be smooth and follow the interpolation
     function makeTransition(svg, currentView, newView, zoomToView) {
         return svg.transition()
             .duration(750)
@@ -32,11 +37,13 @@
             });
     }
 
+    // Computes the angles for each pie chart to be drawn
     function pieGenerator(value) {
         var remainingPercent = 100 - value;
         return d3.pie().sort(null)([value, remainingPercent]);
     }
 
+    // Handles the drawing of the arc for each pie chart segment
     function pieArcGenerator(radius) {
         var INNER_RADIUS = 0;
         return d3.arc()
@@ -44,17 +51,20 @@
             .outerRadius(radius);
     }
 
+    // Sets up the attributes on the pie wrapper
     function createPieWrapper(elem, width, height) {
         return d3.select(elem)
             .attr('width', width)
             .attr('height', height)
     }
 
+    // Returns classes for each segment of the pie charts
     function getPieSliceColorClass(d) {
         var classes = ['pie-slice pie-slice--avoided', 'pie-slice pie-slice--damages'];
         return classes[d.index];
     }
 
+    // Draws all segments of the pie charts
     function drawPieSlices(wrapper, pieData, arcHandler) {
         wrapper.selectAll('path')
             .data(pieData)
@@ -63,6 +73,7 @@
             .attr('class', getPieSliceColorClass);
     }
 
+    // Adds a partially transparent rectangle behind all inner pie text
     function addBackgroundRect(wrapper, yAdjustment) {
         var bBox = wrapper.node().getBBox();
         var width = bBox.width;
@@ -81,6 +92,7 @@
             .style('opacity', '.5');
     }
 
+    // Draws the RCP4 & RCP8 descriptive text
     function drawRCPLabel(wrapper, type, valueText, tooltipText, xOffset, yOffset, range) {
         var rcpWrap = wrapper.append('g')
             .attr('class', 'pie-text--wrap pie-text--wrap--' + type)
@@ -121,6 +133,7 @@
         addBackgroundRect(rcpWrap, 0);
     }
 
+    // Sets up parameters needed by drawRCPLabel to draw the RCP8 descriptive text
     function drawRCP8Label(wrapper, radius, valueText, range) {
         var TOOLTIP_TEXT = ["average damages in 2090", "under RCP8.5"];
         var xOffset = (-radius / 2).toString();
@@ -129,6 +142,7 @@
         drawRCPLabel(wrapper, 'rcp8', valueText, TOOLTIP_TEXT, xOffset, yOffset, range);
     }
 
+    // Sets up parameters needed by drawRCPLabel to draw the RCP4 descriptive text
     function drawRCP4Label(wrapper, radius, valueText, range) {
         var TOOLTIP_TEXT = ["average damages avoided", "under RCP4.5"];
         var xOffset = (radius / 2).toString();
@@ -137,6 +151,7 @@
         drawRCPLabel(wrapper, 'rcp4', valueText, TOOLTIP_TEXT, xOffset, yOffset, range);
     }
 
+    // Draws all of the text which is seen when a user click inside a circle
     function drawPieLabels(wrapper, radius, title, rcp8, rcp4, rcp8Range, rcp4Range) {
         var textGroup = wrapper.append("g")
             .attr("class", 'pie-text')
@@ -157,6 +172,8 @@
         drawRCP4Label(textGroup, radius, rcp4, rcp4Range);
     }
 
+    // Handles the drawing and metadata of pie charts. This is made as a function to allow
+    // for the storage and retreval of private variables for each pie chart
     function createPie() {
         var height = null;
         var width = null;
@@ -189,29 +206,15 @@
             return this;
         }
 
-        return exports
+        return exports;
     }
 
+    // Gets the label for a node
     function getPieLabel(d) {
         return d.data.name;
     }
 
-    function chartBuilder(radius) {
-        var diameter = radius * 2;
-        return createPie()
-            .width(diameter)
-            .height(diameter)
-            .radius(radius);
-    }
-
-    function getElemDimensions(dimensions) {
-        return function (d, i) {
-            var bBox = this.getBBox();
-            dimensions.push({ 'width': bBox.width, 'height': bBox.height });
-            this.remove();
-        }
-    }
-
+    // Either hides or displays all text in the graphic based on where the user is currently focused.
     function handleTextZoom(transition, focus) {
         transition.selectAll("text.label")
             .filter(function (d) { return d.parent === focus || this.style.display === 'inline'; })
@@ -230,6 +233,8 @@
             .on("end", function(d) { if (d === focus) this.style.display = "inline"; })
     }
 
+    // Builds array of data that determines where the user is looking. Gives an x coordinate, y
+    // coordinate, and relative scale.
     function makeFocusArray(focus, isPie) {
         return [
             focus.x,
@@ -238,6 +243,7 @@
         ];
     }
 
+    // Creates the outer "blue" circles that contain each group of pie charts
     function makeCircleNode(g, node, clickHandler) {
         var circNode = g.append("circle")
             .attr("r", node.r)
@@ -246,10 +252,21 @@
             .on("click", clickHandler);
     }
 
+    // Creates wrapper class for a pie chart
     function makePieNodeClass(node) {
         return "pie-chart--" + node.data["class"];
     }
 
+    // Returns function which will build out the pie chart when called
+    function chartBuilder(radius) {
+        var diameter = radius * 2;
+        return createPie()
+            .width(diameter)
+            .height(diameter)
+            .radius(radius);
+    }
+
+    // Builds each individual pie chart
     function makePieNode(g, node, clickHandler) {
         var chart = chartBuilder(node.r);
         d3.select(g.node())
@@ -259,6 +276,7 @@
             .on("click", clickHandler);
     }
 
+    // Iterates over all of the data nodes and builds either circles or pie charts fpr each
     function makeCircleNodes(g, nodes, clickHandler) {
         nodes.each(function (datum) {
             var group = g.append("g");
@@ -270,23 +288,8 @@
         });
     }
 
-    function getTextDimensions(g, nodes) {
-        var dimensions = [];
-
-        g.selectAll("text.dimensionPlaceholder")
-            .data(nodes.filter(getPieLabel))
-            .enter().append("text")
-            .attr("class", "dimensionPlaceholder")
-            .style("display", "inline")
-            .text(getPieLabel)
-            .each(getElemDimensions(dimensions));
-
-        return dimensions;
-    }
-
+    // Makes all of the labels that sit outside of un-zoomed-in circles
     function makeTextNodes(g, nodes, root, diameter, margin) {
-        var dimensions = getTextDimensions(g, nodes);
-
         var outerTitles = g.selectAll("g.outer-text")
             .data(nodes.filter(getPieLabel))
             .enter().append("g")
@@ -331,14 +334,17 @@
             });
     }
 
+    // Makes the translate function that is used in the transform for elements on zoom
     function makeTranslateFunction(elementData, focusX, focusY, scale) {
         return "translate(" + (elementData.x - focusX) * scale + "," + (elementData.y - focusY) * scale + ")";
     }
 
+    // Makes the scale function that is used in the transform for elements on zoom
     function makeScaleFunction(scale) {
         return "scale(" + scale + ")";
     }
 
+    // Moves the circles and inner text into the correct positions on zoom
     function translateCommonNodes(svg, focusX, focusY, scale) {
         svg.selectAll("circle, .pie-text")
             .attr("transform", function (d) {
@@ -346,6 +352,7 @@
             });
     }
 
+    // Moves the pie charts and outer text into the correct positions on zoom
     function scalePieCharts(svg, focusX, focusY, scale) {
         svg.selectAll(".pie-chart")
             .attr("transform", function(d) {
@@ -363,12 +370,12 @@
             })
     }
 
+    // Scales the circles on zoom
     function resizeCircles(svg, scale) {
         svg.selectAll("circle")
             .attr("r", function(d) {
                 return d.r * scale;
             });
-
     }
 
     function scalePieChartText(svg, focusX, focusY, scale) {

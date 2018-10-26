@@ -378,7 +378,6 @@
             });
     }
 
-
     function zoomTo(v, svg, diameter) {
         var k = diameter / v[2];
         translateCommonNodes(svg, v[0], v[1], k);
@@ -459,15 +458,15 @@
             .enter().insert("a", ":last-child")
             .attr("class", "circle-nodes-table--link")
             .attr("data-for", makePieNodeClass)
+            .attr("tabindex", 0)
             .text(getPieLabel)
             .on("click", handlePieChartLinkClick)
             .on("keypress", handlePieChartLinkKeypress);
 
         table.insert("a", ":first-child")
             .text("Zoom Out")
-            .attr("class", "circle-nodes-table--link")
+            .attr("class", "circle-nodes-table--link circle-nodes-table--link--zoom-out")
             .attr("tabindex", 0)
-            .attr("value", "zoom_out")
             .on("click", triggerZoomOut)
             .on("keypress", triggerZoomOut);
 

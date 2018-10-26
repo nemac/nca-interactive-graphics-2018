@@ -443,6 +443,14 @@
         }
     }
 
+    function triggerZoomOut() {
+        if (d3.event.key && d3.event.key !== "Enter") {
+            return;
+        }
+
+        triggerPieChartZoomOut(this);
+    }
+
     function createPieChartsAltUI(nodes, svg) {
         var table = getPieFigureWrapper(svg).select(".circle-nodes-table");
 
@@ -451,10 +459,17 @@
             .enter().insert("a", ":last-child")
             .attr("class", "circle-nodes-table--link")
             .attr("data-for", makePieNodeClass)
-            .attr("tabindex", 0)
             .text(getPieLabel)
             .on("click", handlePieChartLinkClick)
             .on("keypress", handlePieChartLinkKeypress);
+
+        table.insert("a", ":first-child")
+            .text("Zoom Out")
+            .attr("class", "circle-nodes-table--link")
+            .attr("tabindex", 0)
+            .attr("value", "zoom_out")
+            .on("click", triggerZoomOut)
+            .on("keypress", triggerZoomOut);
 
         getPieFigureWrapper(svg).select(".figure_29_2_reset")
             .on("click", handlePieChartResetLinkClick)

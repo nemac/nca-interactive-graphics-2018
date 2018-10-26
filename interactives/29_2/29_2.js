@@ -70,19 +70,18 @@
         var xPadding = 20;
         var yPadding = 10;
         var xOffset = xPadding / 2;
-        var yOffset = (yPadding / 2) + yAdjustment; // SVG positioning is weird
     
         wrapper.insert('rect', ':first-child')
             .attr('width', width + xPadding)
             .attr('height', height + yPadding)
             .attr('x', -(width / 2) - xOffset)
-            .attr('y', -(height / 2) - yOffset)
+            .attr('y', -30 + yAdjustment)
             .attr('class', 'pie-text--scalable')
             .attr('fill', '#fff')
             .style('opacity', '.5');
     }
 
-    function drawRCPLabel(wrapper, type, valueText, tooltipText, xOffset, yOffset) {
+    function drawRCPLabel(wrapper, type, valueText, tooltipText, xOffset, yOffset, range) {
         var rcpWrap = wrapper.append('g')
             .attr('class', 'pie-text--wrap pie-text--wrap--' + type)
             .attr('transform', 'translate(' + xOffset + ' ' + yOffset + ')');
@@ -90,37 +89,55 @@
         var rcpWrapText = rcpWrap.append('text')
             .attr('class', 'pie-text--scalable')
 
-        var rcpValue = rcpWrapText.append('tspan')
+        rcpWrapText.append('tspan')
             .attr('class', 'pie-text--value')
             .text(valueText)
             .attr('x', 0)
 
-        var rcpTooltip = rcpWrapText.append('tspan')
-            .attr("class", 'pie-text--tooltip')
-            .text(tooltipText)
-            .attr('dy', '30')
-            .attr('x', 0)
+        tooltipText.forEach(function (t, i) {
+            rcpWrapText.append('tspan')
+                .attr("class", 'pie-text--tooltip')
+                .text(t)
+                .attr('dy', (i === 0) ? 30 : 25)
+                .attr('x', 0)
+        })
 
-        addBackgroundRect(rcpWrap, -5);
+        if (range) {
+            var rangeText = rcpWrap.append('text')
+                .attr('class', 'pie-text--scalable')
+                .attr("y", 100);
+
+            rangeText.append('tspan')
+                .attr('class', 'pie-text--value')
+                .text(range)
+
+            rangeText.append("tspan")
+                .text("projection range low and high")
+                .attr("class", 'pie-text--tooltip')
+                .attr("x", 0)
+                .attr("dy", 30)
+        }
+
+        addBackgroundRect(rcpWrap, 0);
     }
 
-    function drawRCP8Label(wrapper, radius, valueText) {
-        var TOOLTIP_TEXT = '(damages in 2090 under RCP8.5)';
+    function drawRCP8Label(wrapper, radius, valueText, range) {
+        var TOOLTIP_TEXT = ["average damages in 2090", "under RCP8.5"];
         var xOffset = (-radius / 2).toString();
         var yOffset = (-(radius * .4)).toString();
 
-        drawRCPLabel(wrapper, 'rcp8', valueText, TOOLTIP_TEXT, xOffset, yOffset);
+        drawRCPLabel(wrapper, 'rcp8', valueText, TOOLTIP_TEXT, xOffset, yOffset, range);
     }
 
-    function drawRCP4Label(wrapper, radius, valueText) {
-        var TOOLTIP_TEXT = '(damages avoided under RCP4.5)';
+    function drawRCP4Label(wrapper, radius, valueText, range) {
+        var TOOLTIP_TEXT = ["average damages avoided", "under RCP4.5"];
         var xOffset = (radius / 2).toString();
         var yOffset = (-(radius * .4)).toString();
 
-        drawRCPLabel(wrapper, 'rcp4', valueText, TOOLTIP_TEXT, xOffset, yOffset);
+        drawRCPLabel(wrapper, 'rcp4', valueText, TOOLTIP_TEXT, xOffset, yOffset, range);
     }
 
-    function drawPieLabels(wrapper, radius, title, rcp8, rcp4) {
+    function drawPieLabels(wrapper, radius, title, rcp8, rcp4, rcp8Range, rcp4Range) {
         var textGroup = wrapper.append("g")
             .attr("class", 'pie-text')
             .attr("width", radius * 2)
@@ -134,10 +151,10 @@
         titleWrap.append("text")
             .attr("class", 'pie-text--scalable')
             .text(title)
-        addBackgroundRect(titleWrap, 10);
+        addBackgroundRect(titleWrap, -15);
 
-        drawRCP8Label(textGroup, radius, rcp8);
-        drawRCP4Label(textGroup, radius, rcp4);
+        drawRCP8Label(textGroup, radius, rcp8, rcp8Range);
+        drawRCP4Label(textGroup, radius, rcp4, rcp4Range);
     }
 
     function createPie() {
@@ -147,12 +164,13 @@
 
         function exports (selection) {
             selection.each(function (datum) {
-                var pies = pieGenerator(datum.data.avoided);
+                var data = datum.data;
+                var pies = pieGenerator(data.avoided);
                 var arc = pieArcGenerator(radius);
                 var wrapper = createPieWrapper(this, width, height);
 
                 drawPieSlices(wrapper, pies, arc);
-                drawPieLabels(wrapper, radius, datum.data.name, datum.data.rcp8, datum.data.rcp4);
+                drawPieLabels(wrapper, radius, data.name, data.rcp8, data.rcp4, data.rcp8Range, data.rcp4Range);
             });
         }
 

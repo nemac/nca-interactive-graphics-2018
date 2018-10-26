@@ -1,42 +1,42 @@
 {
     "name": "",
     "children": [
-        {"name": "Labor", "size": 155087000000, "avoided": 48, "class": "labor", "rcp8": "$155B/year", "rcp4": "48%"},
-        {"name": "Extreme Temperature Mortality \u2666", "outerLabel": ["Extreme Temerature", "Mortality \u2666"], "size": 140743100000, "avoided": 58, "class": "extreme_temperature_mortality", "rcp8": "$141B/year", "rcp4": "58%"},
+        {"name": "Labor", "size": 155087000000, "avoided": 48, "class": "labor", "rcp8": "$155B/year", "rcp4": "48%", "rcp8Range": "$87B \u2014 $221B", "rcp4Range": "40% \u2014 60%"},
+        {"name": "Extreme Temperature Mortality \u2666", "outerLabel": ["Extreme Temerature", "Mortality \u2666"], "size": 140743100000, "avoided": 58, "class": "extreme_temperature_mortality", "rcp8": "$141B/year", "rcp4": "58%", "rcp8Range": "$82B \u2014 $201B", "rcp4Range": "44% \u2014 69%"},
         {"name": "Coastal Property \u2666", "outerLabel": ["Coastal", "Property"], "size": 118298200000, "avoided": 22, "class": "coastal_property", "rcp8": "$118B/year", "rcp4": "22%"},
         {
             "name": "",
             "children": [
                 {"name": "Air Quality", "size": 26000000000, "avoided": 31, "class": "air_quality", "rcp8": "$26B/year", "rcp4": "31%"},
-                {"name": "Roads \u2666", "size": 19863300000, "avoided": 59, "class": "roads", "rcp8": "$20B/year", "rcp4": "59%"}
+                {"name": "Roads \u2666", "size": 19863300000, "avoided": 59, "class": "roads", "rcp8": "$20B/year", "rcp4": "59%", "rcp8Range": "$7B \u2014 $37B", "rcp4Range": "45% \u2014 82%"}
             ]
         },
         {
             "name": "",
             "children": [
-                {"name": "Electricity Supply and Demand", "outerLabel": ["Electricity Supply", "and Demand"], "size": 9178600000, "avoided": 63, "class": "electricity_supply_and_demand", "rcp8": "$9B/year", "rcp4": "63%"},
+                {"name": "Electricity Supply and Demand", "outerLabel": ["Electricity Supply", "and Demand"], "size": 9178600000, "avoided": 63, "class": "electricity_supply_and_demand", "rcp8": "$9B/year", "rcp4": "63%", "rcp8Range": "$6B \u2014 $11B", "rcp4Range": "54% \u2014 72%"},
                 {"name": "Inland Flooding", "size": 8051200000, "avoided": 47, "class": "inland_flooding", "rcp8": "$8B/year", "rcp4": "47%"},
-                {"name": "Urban Damage", "size": 5582900000, "avoided": 26, "class": "urban_damage", "rcp8": "$6B/year", "rcp4": "26%"},
-                {"name": "Rail \u2666", "size": 5501600000, "avoided": 36, "class": "Rail", "rcp8": "$6B/year", "rcp4": "36%"},
-                {"name": "Water Quality", "size": 4840300000, "avoided": 35, "class": "water_quality", "rcp8": "$5B/year", "rcp4": "35%"},
-                {"name": "Coral Reefs", "size": 4067100000, "avoided": 12, "class": "coral_reefs", "rcp8": "$4B/year", "rcp4": "12%"},
-                {"name": "West Nile Virus", "outerLabel": ["West Nile", "Virus"], "size": 3345400000, "avoided": 47, "class": "west_nile_virus", "rcp8": "$3B/year", "rcp4": "47%"},
-                {"name": "Freshwater Fish", "outerLabel": ["Freshwater", "Fish"], "size": 3097400000, "avoided": 44, "class": "freshwater_fish", "rcp8": "$3B/year", "rcp4": "44%"},
-                {"name": "Winter Recreation", "outerLabel": ["Winter", "Recreation"], "size": 2045600000, "avoided": 100, "class": "winter_recreation", "rcp8": "$2B/year", "rcp4": "107%"},
-                {"name": "Bridges", "size": 1136100000, "avoided": 48, "class": "bridges", "rcp8": "$1B/year", "rcp4": "48%"},
+                {"name": "Urban Damage", "size": 5582900000, "avoided": 26, "class": "urban_damage", "rcp8": "$6B/year", "rcp4": "26%", "rcp8Range": "$3B \u2014 $7B", "rcp4Range": "-2% \u2014 49%"},
+                {"name": "Rail \u2666", "size": 5501600000, "avoided": 36, "class": "Rail", "rcp8": "$6B/year", "rcp4": "36%", "rcp8Range": "$4B \u2014 $7B", "rcp4Range": "33% \u2014 40%"},
+                {"name": "Water Quality", "size": 4840300000, "avoided": 35, "class": "water_quality", "rcp8": "$5B/year", "rcp4": "35%", "rcp8Range": "$3B \u2014 $6B", "rcp4Range": "24% \u2014 46%"},
+                {"name": "Coral Reefs", "size": 4067100000, "avoided": 12, "class": "coral_reefs", "rcp8": "$4B/year", "rcp4": "12%", "rcp8Range": "$4B \u2014 $4B", "rcp4Range": "-1% \u2014 48%"},
+                {"name": "West Nile Virus", "outerLabel": ["West Nile", "Virus"], "size": 3345400000, "avoided": 47, "class": "west_nile_virus", "rcp8": "$3B/year", "rcp4": "47%", "rcp8Range": "$2B \u2014 $5B", "rcp4Range": "40% \u2014 51%"},
+                {"name": "Freshwater Fish", "outerLabel": ["Freshwater", "Fish"], "size": 3097400000, "avoided": 44, "class": "freshwater_fish", "rcp8": "$3B/year", "rcp4": "44%", "rcp8Range": "-$408M \u2014 $5B", "rcp4Range": "27% \u2014 82%"},
+                {"name": "Winter Recreation", "outerLabel": ["Winter", "Recreation"], "size": 2045600000, "avoided": 100, "class": "winter_recreation", "rcp8": "$2B/year", "rcp4": "107%", "rcp8Range": "$28M \u2014 $3B", "rcp4Range": "72% \u2014 6900%"},
+                {"name": "Bridges", "size": 1136100000, "avoided": 48, "class": "bridges", "rcp8": "$1B/year", "rcp4": "48%", "rcp8Range": "$786M \u2014 $1B", "rcp4Range": "31% \u2014 69%"},
                 {
                     "name": "",
                     "children": [
-                        {"name": "Munic. and Industrial Water Supply", "outerLabel": ["Munic. and Industrial", "Water Supply"], "size": 315500000, "avoided": 33, "class": "munic_and_industrial_water_supply", "rcp8": "$316M/year", "rcp4": "33%"},
-                        {"name": "Harmful Algal Blooms", "outerLabel": ["Harmful Algal", "Blooms"], "size": 198900000, "avoided": 45, "class": "harmful_algal_blooms", "rcp8": "$199M/year", "rcp4": "45%"},
-                        {"name": "Alaska Infrastructure \u2666", "outerLabel": ["Alaska", "Infrastructure \u2666"], "size": 174300000, "avoided": 53, "class": "alaska_infrastructure", "rcp8": "$174M/year", "rcp4": "53%"},
-                        {"name": "Wildfire", "size": 105700000, "avoided": 100, "class": "wildfire", "rcp8": "-$106M/year", "rcp4": "-134%"},
+                        {"name": "Munic. and Industrial Water Supply", "outerLabel": ["Munic. and Industrial", "Water Supply"], "size": 315500000, "avoided": 33, "class": "munic_and_industrial_water_supply", "rcp8": "$316M/year", "rcp4": "33%", "rcp8Range": "$188M \u2014 $642M", "rcp4Range": "-17% \u2014 105%"},
+                        {"name": "Harmful Algal Blooms", "outerLabel": ["Harmful Algal", "Blooms"], "size": 198900000, "avoided": 45, "class": "harmful_algal_blooms", "rcp8": "$199M/year", "rcp4": "45%", "rcp8Range": "$133M \u2014 $388M", "rcp4Range": "13% \u2014 65%"},
+                        {"name": "Alaska Infrastructure \u2666", "outerLabel": ["Alaska", "Infrastructure \u2666"], "size": 174300000, "avoided": 53, "class": "alaska_infrastructure", "rcp8": "$174M/year", "rcp4": "53%", "rcp8Range": "$129M \u2014 $220M", "rcp4Range": "38% \u2014 62%"},
+                        {"name": "Wildfire", "size": 105700000, "avoided": 100, "class": "wildfire", "rcp8": "-$106M/year", "rcp4": "-134%", "rcp8Range": "-$338M \u2014 $9M", "rcp4Range": "-3337% \u2014 4%"},
                         {
                             "name": "",
                             "children": [
-                                {"name": "Shellfish*", "size": 22500000, "avoided": 57, "class": "shellfish", "rcp8": "$23M/year", "rcp4": "57%"},
-                                {"name": "Agriculture*", "size": 11900000, "avoided": 11, "class": "agriculture", "rcp8": "$12M/year", "rcp4": "11%"},
-                                {"name": "Aeroallergens*", "size": 1200000, "avoided": 57, "class": "aeroallergens", "rcp8": "$1M/year", "rcp4": "57%"}
+                                {"name": "Shellfish*", "size": 22500000, "avoided": 57, "class": "shellfish", "rcp8": "$23M/year", "rcp4": "57%", "rcp8Range": "$9M \u2014 $35M", "rcp4Range": "54% \u2014 62%"},
+                                {"name": "Agriculture*", "size": 11900000, "avoided": 11, "class": "agriculture", "rcp8": "$12M/year", "rcp4": "11%", "rcp8Range": "$11M \u2014 $13M", "rcp4Range": "-3% \u2014 17%"},
+                                {"name": "Aeroallergens*", "size": 1200000, "avoided": 57, "class": "aeroallergens", "rcp8": "$1M/year", "rcp4": "57%", "rcp8Range": "$0M \u2014 $2M", "rcp4Range": "42% \u2014 109%"}
                             ]
                         }
                     ]

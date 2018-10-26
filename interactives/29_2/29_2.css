@@ -53,7 +53,7 @@
 }
 
 .label, .dimensionPlaceholder {
-  font: 19px Arial, sans-serif;
+  font: 32px Arial, sans-serif;
   text-anchor: middle;
 }
 
@@ -64,12 +64,12 @@
 }
 
 .pie-text--title {
-    font-size: 32px;
+    font-size: 42px;
     font-weight: bold;
 }
 
-.pie-text--rcp8--value, .pie-text--rcp4--value {
-    font-size: 20px;
+.pie-text--value {
+    font-size: 26px;
     font-weight: bold;
 }
 

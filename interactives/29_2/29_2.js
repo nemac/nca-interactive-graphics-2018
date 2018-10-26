@@ -106,8 +106,8 @@
 
     function drawRCP8Label(wrapper, radius, valueText) {
         var TOOLTIP_TEXT = '(damages in 2090 under RCP8.5)';
-        var xOffset = '0';
-        var yOffset = (-(radius * .76)).toString();
+        var xOffset = (-radius / 2).toString();
+        var yOffset = (-(radius * .4)).toString();
 
         drawRCPLabel(wrapper, 'rcp8', valueText, TOOLTIP_TEXT, xOffset, yOffset);
     }
@@ -130,7 +130,7 @@
 
         var titleWrap = textGroup.append('g')
             .attr("class", 'pie-text--title')
-            .attr('transform', 'translate(0 ' + (-(radius * .88)).toString() + ')')
+            .attr('transform', 'translate(0 ' + (-(radius * .73)).toString() + ')')
         titleWrap.append("text")
             .attr("class", 'pie-text--scalable')
             .text(title)
@@ -198,7 +198,7 @@
         var dimensions = [];
 
         g.selectAll("text.dimensionPlaceholder")
-            .data(nodes)
+            .data(nodes.filter(getPieLabel))
             .enter().append("text")
             .attr("class", "dimensionPlaceholder")
             .style("display", "inline")
@@ -266,34 +266,30 @@
         });
     }
 
-    function makeTextNodes(g, nodes, root) {
+    function makeTextNodes(g, nodes, root, diameter, margin) {
         var dimensions = getTextDimensions(g, nodes);
 
-        g.selectAll("rect.label")
-            .data(nodes)
-            .enter().append("rect")
-            .attr("class", "label")
+        var outerTitles = g.selectAll("g.outer-text")
+            .data(nodes.filter(getPieLabel))
+            .enter().append("g")
+            .attr("class", function (d) { return "outer-text " + d.data["class"]})
+
+        outerTitles.append("rect")
+            .attr("class", "label pie-text--outer")
             .style('fill', '#fff')
             .style("fill-opacity", function(d) { return d.parent === root ? .5 : 0; })
             .style("display", function(d) { return d.parent === root ? "inline" : "none"; })
-            .each(function(d, i) {
-                if (!getPieLabel(d)) {
-                    this.remove();
-                }
-                var rect = d3.select(this);
-                rect.attr("width", dimensions[i].width + 20);
-                rect.attr("height", dimensions[i].height + 10);
-                rect.attr("x", -(dimensions[i].width + 20) / 2);
-                rect.attr("y", -(dimensions[i].height + 20) / 2);
-            })
+            .attr("width", function (d, i) { return dimensions[i].width + 20; })
+            .attr("height", function (d, i) { return dimensions[i].height + 10; })
+            .attr("x", function (d, i) { return -(dimensions[i].width + 20) / 2; })
+            .attr("y", function (d, i) { return -((d.r * .63) * (diameter / (d.parent.r * 2 + margin)) + (dimensions[i].height + 25) / 2); })
 
-        g.selectAll("text.label")
-            .data(nodes)
-            .enter().append("text")
-            .attr("class", "label")
+        outerTitles.append("text")
+            .attr("class", "label pie-text--outer")
             .style("fill-opacity", function(d) { return d.parent === root ? 1 : 0; })
             .style("display", function(d) { return d.parent === root ? "inline" : "none"; })
-            .text(getPieLabel);
+            .text(getPieLabel)
+            .attr("y", function (d, i) { return ((-d.r * .63) * (diameter / (d.parent.r * 2 + margin))).toString(); })
     }
 
     function makeTranslateFunction(elementData, focusX, focusY, scale) {
@@ -305,7 +301,7 @@
     }
 
     function translateCommonNodes(svg, focusX, focusY, scale) {
-        svg.selectAll("circle, text.label, rect.label, .pie-text")
+        svg.selectAll("circle, .pie-text")
             .attr("transform", function (d) {
                 return makeTranslateFunction(d, focusX, focusY, scale);
             });
@@ -316,6 +312,16 @@
             .attr("transform", function(d) {
                 return makeTranslateFunction(d, focusX, focusY, scale) + " " + makeScaleFunction(scale);
             });
+
+        svg.selectAll(".outer-text")
+            .attr("transform", function(d) {
+                return makeTranslateFunction(d, focusX, focusY, scale) + " " + makeScaleFunction(scale);
+            })
+
+        svg.selectAll(".pie-text--outer")
+            .attr("transform", function(d) {
+                return makeScaleFunction(1 / scale);
+            })
     }
 
     function resizeCircles(svg, scale) {
@@ -323,6 +329,7 @@
             .attr("r", function(d) {
                 return d.r * scale;
             });
+
     }
 
     function scalePieChartText(svg, focusX, focusY, scale) {
@@ -437,6 +444,8 @@
 
         var diameter = +svg.attr("width");
 
+        console.log(diameter)
+
         var view;
         var focus;
 
@@ -479,7 +488,7 @@
             var packedNodes = makePack(diameter - margin, diameter - margin)(rootNode);
 
             makeCircleNodes(g, packedNodes, handleCircleZoom);
-            makeTextNodes(g, packedNodes.descendants(), rootNode);
+            makeTextNodes(g, packedNodes.descendants(), rootNode, diameter, margin);
             zoomToView([rootNode.x, rootNode.y, rootNode.r * 2 + margin]);
 
             createPieChartsAltUI(packedNodes.descendants().filter(getPieLabel), svg);

@@ -130,7 +130,7 @@
 
         var titleWrap = textGroup.append('g')
             .attr("class", 'pie-text--title')
-            .attr('transform', 'translate(0 ' + (-(radius * .73)).toString() + ')')
+            .attr('transform', 'translate(0 ' + (-(radius * .63)).toString() + ')')
         titleWrap.append("text")
             .attr("class", 'pie-text--scalable')
             .text(title)
@@ -194,20 +194,6 @@
         }
     }
 
-    function getTextDimensions(g, nodes) {
-        var dimensions = [];
-
-        g.selectAll("text.dimensionPlaceholder")
-            .data(nodes.filter(getPieLabel))
-            .enter().append("text")
-            .attr("class", "dimensionPlaceholder")
-            .style("display", "inline")
-            .text(getPieLabel)
-            .each(getElemDimensions(dimensions));
-
-        return dimensions;
-    }
-
     function handleTextZoom(transition, focus) {
         transition.selectAll("text.label")
             .filter(function (d) { return d.parent === focus || this.style.display === 'inline'; })
@@ -266,6 +252,20 @@
         });
     }
 
+    function getTextDimensions(g, nodes) {
+        var dimensions = [];
+
+        g.selectAll("text.dimensionPlaceholder")
+            .data(nodes.filter(getPieLabel))
+            .enter().append("text")
+            .attr("class", "dimensionPlaceholder")
+            .style("display", "inline")
+            .text(getPieLabel)
+            .each(getElemDimensions(dimensions));
+
+        return dimensions;
+    }
+
     function makeTextNodes(g, nodes, root, diameter, margin) {
         var dimensions = getTextDimensions(g, nodes);
 
@@ -274,22 +274,44 @@
             .enter().append("g")
             .attr("class", function (d) { return "outer-text " + d.data["class"]})
 
-        outerTitles.append("rect")
-            .attr("class", "label pie-text--outer")
-            .style('fill', '#fff')
-            .style("fill-opacity", function(d) { return d.parent === root ? .5 : 0; })
-            .style("display", function(d) { return d.parent === root ? "inline" : "none"; })
-            .attr("width", function (d, i) { return dimensions[i].width + 20; })
-            .attr("height", function (d, i) { return dimensions[i].height + 10; })
-            .attr("x", function (d, i) { return -(dimensions[i].width + 20) / 2; })
-            .attr("y", function (d, i) { return -((d.r * .63) * (diameter / (d.parent.r * 2 + margin)) + (dimensions[i].height + 25) / 2); })
+        outerTitles.each(function (d, i) {
+            var gt = d3.select(this);
+            var outerLabel = d.data.outerLabel
 
-        outerTitles.append("text")
-            .attr("class", "label pie-text--outer")
-            .style("fill-opacity", function(d) { return d.parent === root ? 1 : 0; })
-            .style("display", function(d) { return d.parent === root ? "inline" : "none"; })
-            .text(getPieLabel)
-            .attr("y", function (d, i) { return ((-d.r * .63) * (diameter / (d.parent.r * 2 + margin))).toString(); })
+            var t = gt.append("text")
+                    .attr("class", "label pie-text--outer")
+                    .style("fill-opacity", function(d) { return d.parent === root ? 1 : 0; })
+                    .style("display", "inline")
+                    .attr("y", function (d, i) { return ((-d.r * .53) * (diameter / (d.parent.r * 2 + margin))).toString(); })
+            if (outerLabel) {
+                outerLabel.forEach(function(l, i) {
+                    t.append("tspan")
+                        .text(l)
+                        .attr("dy", 36 * i)
+                        .attr("x", 0)
+                })
+            } else {
+                t.text(getPieLabel)
+            }
+
+            var bBox = gt.node().getBBox();
+            var width = bBox.width;
+            var height = bBox.height;
+
+            gt.insert("rect", ":first-child")
+                .attr("class", "label pie-text--outer")
+                .style('fill', '#fff')
+                .style("fill-opacity", function(d) { return d.parent === root ? .5 : 0; })
+                .style("display", function(d) { return d.parent === root ? "inline" : "none"; })
+                .attr("width", function (d, i) { return width + 20; })
+                .attr("height", function (d, i) { return height + 10; })
+                .attr("x", function (d, i) { return -(width + 20) / 2; })
+                .attr("y", function (d, i) { return -(
+                    (d.r * .53) * (diameter / (d.parent.r * 2 + margin)) +
+                        (height + 25) / (2 * (outerLabel ? outerLabel.length - .5 : 1))) })
+
+            t.style("display", function(d) { return d.parent === root ? "inline" : "none"; });
+        })
     }
 
     function makeTranslateFunction(elementData, focusX, focusY, scale) {

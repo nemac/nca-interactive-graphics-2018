@@ -378,6 +378,7 @@
             });
     }
 
+    // resizes and repositions the text inside of pie charts
     function scalePieChartText(svg, focusX, focusY, scale) {
         svg.selectAll(".pie-text--scalable")
             .attr("transform", function(d) {
@@ -385,6 +386,10 @@
             });
     }
 
+    // Handles all of the zooming and repositioning of the graphic
+    //
+    // @param v | Array. First two values are the pixel coordinates for the center of the new circle
+    //            that is being focused on. Third value is its diameter plus the margin around it.
     function zoomTo(v, svg, diameter) {
         var k = diameter / v[2];
         translateCommonNodes(svg, v[0], v[1], k);
@@ -393,31 +398,30 @@
         scalePieChartText(svg, v[0], v[1], k);
     }
 
+    // Gets the parent wrapper of the graphic
     function getPieFigureWrapper(d) {
         return d3.select(d.node().closest(".circle-nodes-wrapper"));
     }
 
+    // Handler for the extra text UI elements. Lets user zoom to specified pie chart.
     function triggerPieChartClick(elem, className) {
         getPieFigureWrapper(d3.select(elem))
             .select("." + className)
             .dispatch("click");
     }
 
+    // Handler for the extra text UI elements.
     function triggerPieChartZoomOut (elem) {
         getPieFigureWrapper(d3.select(elem)).select("svg").dispatch("click");
     }
 
-    function triggerPieChartLinkReset(elem) {
-        d3.select(elem.parentNode)
-            .select(".circle-nodes-table--link:first-child")
-            .node().focus();
-    }
-
+    // Dispatches click events for the text UI elements
     function handlePieChartLinkClick(d) {
         d3.event.stopPropagation();
         triggerPieChartClick(this, makePieNodeClass(d));
     }
 
+    // Dispatches keypress events for the text UI elements
     function handlePieChartLinkKeypress(d) {
         if (d3.event.key !== "Enter") {
             return;
@@ -426,19 +430,7 @@
         triggerPieChartClick(this, makePieNodeClass(d));
     }
 
-    function handlePieChartResetLinkClick() {
-        d3.event.stopPropagation();
-        triggerPieChartLinkReset(this);
-    }
-
-    function handlePieChartResetLinkKeypress() {
-        if (d3.event.key !== "Enter") {
-            return;
-        }
-        d3.event.stopPropagation();
-        triggerPieChartLinkReset(this);
-    }
-
+    // Dispatches change events for the mobile select UI element
     function handlePieChartSelectChange() {
         d3.event.stopPropagation();
         var value = d3.select(this).property("value");
@@ -449,20 +441,23 @@
         }
     }
 
+    // Dispatches zoom out events for the text UI element
     function triggerZoomOut() {
         if (d3.event.key && d3.event.key !== "Enter") {
             return;
         }
 
+        d3.event.stopPropagation();
         triggerPieChartZoomOut(this);
     }
 
+    // Creates the links and options
     function createPieChartsAltUI(nodes, svg) {
         var table = getPieFigureWrapper(svg).select(".circle-nodes-table");
 
         table.selectAll("a.circle-nodes-table--link")
             .data(nodes)
-            .enter().insert("a", ":last-child")
+            .enter().append("a")
             .attr("class", "circle-nodes-table--link")
             .attr("data-for", makePieNodeClass)
             .attr("tabindex", 0)
@@ -477,10 +472,6 @@
             .on("click", triggerZoomOut)
             .on("keypress", triggerZoomOut);
 
-        getPieFigureWrapper(svg).select(".figure_29_2_reset")
-            .on("click", handlePieChartResetLinkClick)
-            .on("keypress", handlePieChartResetLinkKeypress);
-
         var select = getPieFigureWrapper(svg).select(".circle-nodes-select")
             .on("change", handlePieChartSelectChange);
 
@@ -490,9 +481,9 @@
             .attr("class", "circle-nodes-select--option")
             .attr("value", makePieNodeClass)
             .text(getPieLabel);
-
     }
 
+    // Creates the graphic and stores state information about each instance
     function createPieChartsFigure() {
         var PROCESSED_CLASS = "pie-charts-processed";
         if (this.classList.contains(PROCESSED_CLASS)) {
@@ -504,15 +495,8 @@
 
         var diameter = +svg.attr("width");
 
-        var view;
-        var focus;
-
-        function handleCircleZoom(dElem) {
-            if (focus !== dElem) {
-                zoom(dElem);
-                d3.event.stopPropagation();
-            }
-        }
+        var view; // Tracks the x, y, and width of the currently displayed circle
+        var focus; // Tracks the d3 data object of the currently displayed circle
 
         function setView(v) {
             view = v;
@@ -522,17 +506,28 @@
             focus = d;
         }
 
+        // Zooms graphic to new location
         function zoomToView(v) {
             setView(v);
             zoomTo(v, svg, diameter);
         }
 
+        // Dispaches zoom events
         function zoom(d) {
             setFocus(d);
             var isPie = getPieLabel(d) !== "" ? true : false;
             handleTextZoom(makeTransition(svg, view, makeFocusArray(d, isPie), zoomToView), d);
         }
 
+        // Handler for the user clicking on one of the circles/pie charts
+        function handleCircleZoom(dElem) {
+            if (focus !== dElem) {
+                d3.event.stopPropagation();
+                zoom(dElem);
+            }
+        }
+
+        // Processes data and creates graphic
         function processJsonFile(error, root) {
             if (error) {
                 throw error;
@@ -559,3 +554,25 @@
 
     d3.selectAll(".figure-29_2--svg").each(createPieChartsFigure);
 })();
+
+// Polyfill for Element.closest
+// https://developer.mozilla.org/en-US/docs/Web/API/Element/closest
+if (!Element.prototype.matches) {
+    Element.prototype.matches = Element.prototype.msMatchesSelector || Element.prototype.webkitMatchesSelector;
+}
+
+if (!Element.prototype.closest) {
+    Element.prototype.closest = function(s) {
+        var el = this;
+        if (!document.documentElement.contains(el)) {
+            return null;
+        }
+        do {
+            if (el.matches(s)) {
+                return el;
+            }
+            el = el.parentElement || el.parentNode;
+        } while (el !== null && el.nodeType === 1);
+        return null;
+    };
+}

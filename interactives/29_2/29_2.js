@@ -75,6 +75,7 @@
 
     // Adds a partially transparent rectangle behind all inner pie text
     function addBackgroundRect(wrapper, yAdjustment) {
+        console.log(wrapper)
         var bBox = wrapper.node().getBBox();
         var width = bBox.width;
         var height = bBox.height;
@@ -157,7 +158,6 @@
             .attr("class", 'pie-text')
             .attr("width", radius * 2)
             .attr("height", radius * 2)
-            .style('display', 'none')
             .attr('text-anchor', 'middle')
 
         var titleWrap = textGroup.append('g')
@@ -170,6 +170,8 @@
 
         drawRCP8Label(textGroup, radius, rcp8, rcp8Range);
         drawRCP4Label(textGroup, radius, rcp4, rcp4Range);
+
+        textGroup.style('display', 'none');
     }
 
     // Handles the drawing and metadata of pie charts. This is made as a function to allow

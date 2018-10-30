@@ -53,7 +53,7 @@
 }
 
 .label, .dimensionPlaceholder {
-  font: 32px Arial, sans-serif;
+  font-size: 32px;
   text-anchor: middle;
 }
 

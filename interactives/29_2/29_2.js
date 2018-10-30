@@ -80,7 +80,7 @@
         var width = bBox.width;
         var height = bBox.height;
         var xPadding = 20;
-        var yPadding = 10;
+        var yPadding = 15;
         var xOffset = xPadding / 2;
     
         wrapper.insert('rect', ':first-child')
@@ -111,7 +111,7 @@
             rcpWrapText.append('tspan')
                 .attr("class", 'pie-text--tooltip')
                 .text(t)
-                .attr('dy', (i === 0) ? 30 : 25)
+                .attr('dy', (i === 0) ? 30 : 27)
                 .attr('x', 0)
         })
 
@@ -138,7 +138,7 @@
     function drawRCP8Label(wrapper, radius, valueText, range) {
         var TOOLTIP_TEXT = ["average damages in 2090", "under RCP8.5"];
         var xOffset = (-radius / 2).toString();
-        var yOffset = (-(radius * .4)).toString();
+        var yOffset = (-(radius * .2)).toString();
 
         drawRCPLabel(wrapper, 'rcp8', valueText, TOOLTIP_TEXT, xOffset, yOffset, range);
     }
@@ -147,7 +147,7 @@
     function drawRCP4Label(wrapper, radius, valueText, range) {
         var TOOLTIP_TEXT = ["average damages avoided", "under RCP4.5"];
         var xOffset = (radius / 2).toString();
-        var yOffset = (-(radius * .4)).toString();
+        var yOffset = (-(radius * .2)).toString();
 
         drawRCPLabel(wrapper, 'rcp4', valueText, TOOLTIP_TEXT, xOffset, yOffset, range);
     }
@@ -162,7 +162,7 @@
 
         var titleWrap = textGroup.append('g')
             .attr("class", 'pie-text--title')
-            .attr('transform', 'translate(0 ' + (-(radius * .63)).toString() + ')')
+            .attr('transform', 'translate(0 ' + (-(radius * .43)).toString() + ')')
         titleWrap.append("text")
             .attr("class", 'pie-text--scalable')
             .text(title)
@@ -241,7 +241,7 @@
         return [
             focus.x,
             focus.y,
-            focus.r * 2 + (isPie ? margin / (focus.depth + 1) : margin)
+            focus.r * 2 + (isPie ? 3 / (focus.depth * focus.depth) : margin)
         ];
     }
 
@@ -304,7 +304,7 @@
                     .attr("class", "label pie-text--outer")
                     .style("fill-opacity", function(d) { return d.parent === root ? 1 : 0; })
                     .style("display", "inline")
-                    .attr("y", function (d, i) { return ((-d.r * .53) * (diameter / (d.parent.r * 2 + margin))).toString(); })
+                    .attr("y", function (d, i) { return ((-d.r * .19) * (diameter / (d.parent.r * 2 + margin))).toString(); })
                 if (outerLabel) {
                     outerLabel.forEach(function(l, i) {
                         t.append("tspan")
@@ -329,7 +329,7 @@
                     .attr("height", function (d, i) { return height + 10; })
                     .attr("x", function (d, i) { return -(width + 20) / 2; })
                     .attr("y", function (d, i) { return -(
-                        (d.r * .53) * (diameter / (d.parent.r * 2 + margin)) +
+                        (d.r * .19) * (diameter / (d.parent.r * 2 + margin)) +
                             (height + 25) / (2 * (outerLabel ? outerLabel.length - .5 : 1))) })
 
                 t.style("display", function(d) { return d.parent === root ? "inline" : "none"; });

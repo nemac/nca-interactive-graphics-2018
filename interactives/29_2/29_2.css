@@ -5,10 +5,11 @@
 .figure-29_2--svg {
     width: 100%;
     height: auto;
+    font-family: Arial, sans-serif;
 }
 
 .circle-nodes-svg {
-    padding-right: 150px;
+    padding-right: 170px;
 }
 
 @media (max-width: 767.98px) { 
@@ -19,7 +20,7 @@
 
 .circle-nodes-table {
     position: absolute;
-    width: 140px;
+    width: 160px;
     height: 100%;
     top: 0;
     right: 0;
@@ -28,8 +29,8 @@
 
 .circle-nodes-table a {
     display: block;
-    font-size: 13px;
-    line-height: 15px;
+    font-size: 15px;
+    line-height: 17px;
     margin-bottom: 5px;
     cursor: pointer;
 }
@@ -74,7 +75,7 @@
 }
 
 .pie-text--tooltip {
-    font-size: 21px;
+    font-size: 23px;
 }
 
 circle {
@@ -115,9 +116,13 @@ circle:hover {
 .pie-chart--coastal_property .pie-slice--damages {
     fill: #542788;
 }
-
+ 
 .pie-chart--coastal_property .pie-slice--avoided {
-    fill: #988ec3;
+   fill: #988ec3;
+}
+
+.pie-chart--coastal_property rect {
+    opacity: .7 !important;
 }
 
 .pie-chart--air_quality .pie-slice--damages {

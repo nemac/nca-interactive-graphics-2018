@@ -75,7 +75,6 @@
 
     // Adds a partially transparent rectangle behind all inner pie text
     function addBackgroundRect(wrapper, yAdjustment) {
-        console.log(wrapper)
         var bBox = wrapper.node().getBBox();
         var width = bBox.width;
         var height = bBox.height;
@@ -535,7 +534,11 @@
                 throw error;
             }
 
-            var g = svg.append("g").attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
+            var tempSVG = d3.select("body")
+                .append("svg")
+                .classed("figure-29_2--svg", true);
+
+            var g = tempSVG.append("g").attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
 
             var rootNode = makeHierarchy(root);
             setFocus(rootNode);
@@ -544,6 +547,13 @@
 
             makeCircleNodes(g, packedNodes, handleCircleZoom);
             makeTextNodes(g, packedNodes.descendants(), rootNode, diameter, margin);
+
+            g.remove();
+            tempSVG.remove();
+            svg.append(function () {
+                return g.node();
+            })
+
             zoomToView([rootNode.x, rootNode.y, rootNode.r * 2 + margin]);
 
             createPieChartsAltUI(packedNodes.descendants().filter(getPieLabel), svg);

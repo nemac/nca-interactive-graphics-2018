@@ -48,6 +48,14 @@
     fill: #4b297a;
 }
 
+.svg-map-group-hi .st2 {
+    fill:#542e89;
+}
+
+.svg-map-group-hi .st5 , .svg-map-group-hi .st4 {
+    fill: #eaf6ff;
+}
+
 .svg-map-outline-mw {
     fill: #b1202a;
 }
@@ -102,6 +110,14 @@
 
 .svg-map-group-pr:hover .svg-map-outline-pr {
     fill: #b51c73;
+}
+
+.svg-map-group-pr .st0 {
+    fill: #c51f7d;
+}
+
+.svg-map-group-pr .st1 {
+    fill: #eaf6ff;
 }
 
 .svg-map-box {

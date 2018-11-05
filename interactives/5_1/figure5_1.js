@@ -264,10 +264,10 @@ var initStackedBarChart = {
 
         var domEle = config.element;
         var data = config.data;
-        var margin = {top: 20, right: 20, bottom: 30, left: 120};
+        var margin = {top: 40, right: 20, bottom: 70, left: 100};
 
         var width = 960 - margin.left - margin.right;
-        var height = 500 - margin.top - margin.bottom;
+        var height = 600 - margin.top - margin.bottom;
 
         var x = d3.scaleLinear().rangeRound([0, width])
             .domain([0, 1]).nice();
@@ -312,6 +312,30 @@ var initStackedBarChart = {
 
         yAxis.selectAll("text").each(splitLabels);
 
+        var xAxisTitle = xAxis.append("g")
+                .attr("class", "axis--title axis--title--x")
+            .append("text")
+                .attr("x", (width / 2))
+                .attr("y", 40);
+
+        xAxisTitle.append("tspan")
+                .attr("class", "data-type-changer")
+                .text("Percent \u25BC")
+                .on("click", triggerDataSwap);
+
+        xAxisTitle.append("tspan").text("of land area").attr("dx", 10);
+
+        xAxis.select(".axis--title--x")
+            .insert("rect", ":first-child")
+            .attr("x", 339)
+            .attr("y", 25)
+            .attr("width", 75)
+            .attr("height", 20)
+            .attr("stroke", "#333")
+            .attr("fill", "#999")
+            .attr("opacity", .6)
+            .on("click", triggerDataSwap);
+
         function triggerTransitionToGrouped() {
             if (this.classList.contains("active")) {
                 return;
@@ -348,15 +372,9 @@ var initStackedBarChart = {
         }
 
         function triggerDataSwap() {
-            if (this.classList.contains("active")) {
-                return;
-            }
-            if (document.querySelector("#data .active")) {
-                document.querySelector("#data .active").classList.remove("active");
-            }
-
-            dataType = this.getAttribute("data-for");
-            this.classList.add("active");
+            dataType = (dataType === "percent") ? "area" : "percent";
+            xAxisTitle.select(".data-type-changer")
+                .text(((dataType === "percent") ? "Percent " : "Sq/m \u00A0\u00A0") + "\u25BC")
             handleTransitions(data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis, false);
         }
 

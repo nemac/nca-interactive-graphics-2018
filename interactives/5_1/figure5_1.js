@@ -162,8 +162,10 @@ function handleTransitions(data, barType, sector, dataType, svg, rects, x, y, xA
         orderDataByType(data, sector, dataType);
     }
     
+    var yDomain = makeYDomain(data);
+
     x.domain([0, max_area]);
-    y.domain(makeYDomain(data));
+    y.domain(yDomain);
 
     var groupedData = d3.nest().key(function (d) { return d.region; }).entries(data);
     var stackedData = stackData(groupedData, dataType);
@@ -217,8 +219,41 @@ function handleTransitions(data, barType, sector, dataType, svg, rects, x, y, xA
 
     xAxis.transition(t)
         .call(d3.axisBottom(x));
-    yAxis.transition(t)
-        .call(d3.axisLeft(y));
+
+    var bandwidthOffset = y.bandwidth() / 2;
+    var offset = .5 // No idea where this comes from but is needed
+    yAxis.transition(t).selectAll("g")
+        .attr("transform", function (d, i) { return "translate(0," + (y(d) + bandwidthOffset + offset) + ")" });
+
+}
+
+function splitLabels(d) {
+//    console.log(d)
+    var el = d3.select(this);
+    if (d !== "Northern Great Plains" && d !== "Southern Great Plains") {
+        return;
+    }
+
+    var labels = [
+        (d === "Northern Great Plains") ? "Northern" : "Southern",
+        "Great Plains"
+    ]
+
+    el.text("");
+    labels.forEach(function (l, i) {
+        el.append("tspan")
+            .text(l)
+            .attr("x", 0)
+            .attr("dy", i * 15)
+    });
+//    console.log("in here")
+}
+
+function wrappedAxis(y) {
+    return function (g) {
+        g.call(d3.axisLeft(y))
+            .selectAll("text").each(splitLabels);
+    }
 }
 
 var initStackedBarChart = {
@@ -274,6 +309,8 @@ var initStackedBarChart = {
             .attr("class", "axis axis--y")
             .attr("transform", "translate(0,0)")
             .call(d3.axisLeft(y));
+
+        yAxis.selectAll("text").each(splitLabels);
 
         function triggerTransitionToGrouped() {
             if (this.classList.contains("active")) {

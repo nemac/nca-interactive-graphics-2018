@@ -79,7 +79,7 @@ function numberWithCommas(x) {
 }
 
 function formatPercentString(x) {
-    return (Math.round(x * 100000) / 1000).toString() + "%";
+    return (Math.round(x * 10) / 10).toString() + "%";
 }
 
 function typeColor(type) {
@@ -156,7 +156,7 @@ function orderDataByType(data, sector, dataType) {
 }
 
 function handleTransitions(data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis, changeBarType) {
-    var max_area = (dataType === "area") ? ( (barType === "stacked") ? 1809124505200 : 1193e9 ) : 1;
+    var max_area = (dataType === "area") ? ( (barType === "stacked") ? 1809124505200 : 1193e9 ) : 100;
 
     if (sector) {
         orderDataByType(data, sector, dataType);
@@ -217,8 +217,16 @@ function handleTransitions(data, barType, sector, dataType, svg, rects, x, y, xA
         }
     }
 
+    var f = d3.format((dataType === "area") ? ".3s" : ".3");
+
     xAxis.transition(t)
-        .call(d3.axisBottom(x));
+        .call(d3.axisBottom(x).tickFormat(function (d) {
+            return f(d).replace("G", "B");
+        }))
+    xAxis.selectAll(".tick text")
+        .text(function (d) {
+            console.log(d)
+        })
 
     var bandwidthOffset = y.bandwidth() / 2;
     var offset = .5 // No idea where this comes from but is needed
@@ -228,7 +236,6 @@ function handleTransitions(data, barType, sector, dataType, svg, rects, x, y, xA
 }
 
 function splitLabels(d) {
-//    console.log(d)
     var el = d3.select(this);
     if (d !== "Northern Great Plains" && d !== "Southern Great Plains") {
         return;
@@ -241,12 +248,19 @@ function splitLabels(d) {
 
     el.text("");
     labels.forEach(function (l, i) {
-        el.append("tspan")
+        var tspan = el.append("tspan")
             .text(l)
             .attr("x", 0)
             .attr("dy", i * 15)
+
+        if (i === 0) {
+            tspan.attr("dx", -18)
+                .attr("dy", -5);
+        }
+        if (i === 1) {
+            tspan.attr("dx", -9);
+        }
     });
-//    console.log("in here")
 }
 
 function wrappedAxis(y) {
@@ -263,14 +277,17 @@ var initStackedBarChart = {
         var dataType = "percent";
 
         var domEle = config.element;
-        var data = config.data;
-        var margin = {top: 40, right: 20, bottom: 70, left: 100};
+        var data = config.data.map(function (d) {
+            d.percent = d.percent * 100;
+            return d;
+        });
+        var margin = {top: 40, right: 15, bottom: 70, left: 83};
 
-        var width = 960 - margin.left - margin.right;
+        var width = 720 - margin.left - margin.right;
         var height = 600 - margin.top - margin.bottom;
 
         var x = d3.scaleLinear().rangeRound([0, width])
-            .domain([0, 1]).nice();
+            .domain([0, 100]).nice();
         var y = d3.scaleBand().rangeRound([height, 0]).padding(0.1)
             .domain(makeYDomain(data));
 
@@ -323,11 +340,19 @@ var initStackedBarChart = {
                 .text("Percent \u25BC")
                 .on("click", triggerDataSwap);
 
-        xAxisTitle.append("tspan").text("of land area").attr("dx", 10);
+        xAxisTitle.append("tspan").text("of land area as ").attr("dx", 10);
+
+        xAxisTitle.append("tspan")
+            .attr("class", "bar-type-changer")
+            .text("Stacked \u25BC")
+            .attr("dx", 5)
+            .on("click", triggerBarTypeTransition);
+
+        xAxisTitle.append("tspan").text("bars").attr("dx", 10);
 
         xAxis.select(".axis--title--x")
             .insert("rect", ":first-child")
-            .attr("x", 339)
+            .attr("x", 163)
             .attr("y", 25)
             .attr("width", 75)
             .attr("height", 20)
@@ -335,6 +360,24 @@ var initStackedBarChart = {
             .attr("fill", "#999")
             .attr("opacity", .6)
             .on("click", triggerDataSwap);
+
+        xAxis.select(".axis--title--x")
+            .insert("rect", ":first-child")
+            .attr("x", 343)
+            .attr("y", 25)
+            .attr("width", 75)
+            .attr("height", 20)
+            .attr("stroke", "#333")
+            .attr("fill", "#999")
+            .attr("opacity", .6)
+            .on("click", triggerBarTypeTransition);
+
+        function triggerBarTypeTransition() {
+            barType = (barType === "grouped") ? "stacked" : "grouped";
+            xAxisTitle.select(".bar-type-changer")
+                .text(((barType === "grouped") ? "Grouped" : "Stacked") + " \u25BC")
+            handleTransitions(data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis, true);
+        }
 
         function triggerTransitionToGrouped() {
             if (this.classList.contains("active")) {
@@ -381,7 +424,6 @@ var initStackedBarChart = {
         d3.select("#stacked").on("click", triggerTransitionToStacked);
         d3.select("#grouped").on("click", triggerTransitionToGrouped);
         d3.selectAll("#sectors button").on("click", triggerTypeReorder);
-        d3.selectAll("#data button").on("click", triggerDataSwap);
     }
 }
 

@@ -91,7 +91,7 @@ function typeColor(type) {
         case "Grass/Shrub":
           return "#d7db56";
         case "Snow/Ice":
-          return "#fff";
+          return "#fffff0";
         case "Water":
           return "#4a6aa7";
         case "Wetland":
@@ -223,10 +223,6 @@ function handleTransitions(data, barType, sector, dataType, svg, rects, x, y, xA
         .call(d3.axisBottom(x).tickFormat(function (d) {
             return f(d).replace("G", "B");
         }))
-    xAxis.selectAll(".tick text")
-        .text(function (d) {
-            console.log(d)
-        })
 
     var bandwidthOffset = y.bandwidth() / 2;
     var offset = .5 // No idea where this comes from but is needed
@@ -281,7 +277,7 @@ var initStackedBarChart = {
             d.percent = d.percent * 100;
             return d;
         });
-        var margin = {top: 40, right: 15, bottom: 70, left: 83};
+        var margin = {top: 5, right: 15, bottom: 70, left: 83};
 
         var width = 720 - margin.left - margin.right;
         var height = 600 - margin.top - margin.bottom;
@@ -311,9 +307,11 @@ var initStackedBarChart = {
             .attr("x", function(d) { return x(d[0]); })
             .attr("data-region", function (d) { return d.data.region; })
             .attr("data-type", function (d) { return d.data.type; })
+            .attr("data-for", function (d) { return d.data.type; })
             .attr("height", y.bandwidth())
             .attr("width", function(d) { return x(d[1]) - x(d[0]) })
             .style("fill", function(d, i) { return typeColor(d.data.type); })
+            .on('click', triggerTypeReorder)
             .on('mouseover', tip.show)
             .on('mouseout', tip.hide)
         
@@ -379,38 +377,15 @@ var initStackedBarChart = {
             handleTransitions(data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis, true);
         }
 
-        function triggerTransitionToGrouped() {
-            if (this.classList.contains("active")) {
-                return;
-            }
-
-            barType = "grouped";
-            document.querySelector("#transitions .active").classList.remove("active");
-            this.classList.add("active");
-            handleTransitions(data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis, true);
-        }
-
-        function triggerTransitionToStacked() {
-            if (this.classList.contains("active")) {
-                return;
-            }
-
-            barType = "stacked";
-            document.querySelector("#transitions .active").classList.remove("active");
-            this.classList.add("active");
-            handleTransitions(data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis, true);
-        }
-
         function triggerTypeReorder() {
-            if (this.classList.contains("active")) {
+            var newSector = this.getAttribute("data-for");
+            if (newSector === sector) {
                 return;
             }
-            if (document.querySelector("#sectors .active")) {
-                document.querySelector("#sectors .active").classList.remove("active");
-            }
 
-            sector = this.getAttribute("data-for");
-            this.classList.add("active");
+            sector = newSector;
+
+            d3.select(".legend-item--" + sector.toLowerCase().replace("/", "")).lower();
             handleTransitions(data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis, false);
         }
 
@@ -421,9 +396,7 @@ var initStackedBarChart = {
             handleTransitions(data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis, false);
         }
 
-        d3.select("#stacked").on("click", triggerTransitionToStacked);
-        d3.select("#grouped").on("click", triggerTransitionToGrouped);
-        d3.selectAll("#sectors button").on("click", triggerTypeReorder);
+        d3.selectAll(".graphic--stacked-bar--legend a").on("click", triggerTypeReorder);
     }
 }
 

@@ -1,3 +1,9 @@
+.icon--7-5 {
+    stroke-width: 0;
+    stroke: #fff;
+    fill: #fff;
+}
+
 .figure1_1 svg {
     max-width: 100%;
 }
@@ -48,12 +54,27 @@
     fill: #4b297a;
 }
 
-.svg-map-group-hi .st2 {
-    fill:#542e89;
+.svg-map--island-background {
+    fill: #eaf6ff;
 }
 
-.svg-map-group-hi .st5 , .svg-map-group-hi .st4 {
-    fill: #eaf6ff;
+.svg-map-group-hi:hover .svg-map--island-background,
+.svg-map-group-pr:hover .svg-map--island-background {
+    fill: #d6edff;
+}
+
+.svg-map-icon-background-hi {
+    fill: rgba(84, 46, 137, .4);
+    stroke: rgb(84, 46, 137);
+    stroke-width: 1px;
+}
+
+.svg-map-icon-outline-hi {
+    transform: scale(1.45) translate(138px,198px);
+}
+
+.svg-map-group-hi:hover .svg-map-icon-background-hi {
+    fill: rgba(84, 46, 137, .55);
 }
 
 .svg-map-outline-mw {
@@ -104,6 +125,11 @@
     fill: #48873b;
 }
 
+.svg-map-group-pr {
+    transform: scale(15) translate(-34px, -250px);
+    stroke-width: .1px;
+}
+
 .svg-map-outline-pr {
     fill: #c51f7d;
 }
@@ -112,12 +138,18 @@
     fill: #b51c73;
 }
 
-.svg-map-group-pr .st0 {
-    fill: #c51f7d;
+.svg-map-icon-background-pr {
+    stroke: #c51f7d;
+    stroke-width: .4px;
+    fill: rgba(197, 31, 125, .4);
 }
 
-.svg-map-group-pr .st1 {
-    fill: #eaf6ff;
+.svg-map-group-pr:hover .svg-map-icon-background-pr {
+    fill: rgba(197, 31, 125, .55);
+}
+
+.svg-map-icon-outline-pr {
+    transform: scale(.92) translate(243px,391px);
 }
 
 .svg-map-box {

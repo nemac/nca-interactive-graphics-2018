@@ -109,6 +109,15 @@
     fill: #b51c73;
 }
 
+.svg-map--island-background {
+    fill: #eaf6ff;
+}
+
+.svg-map-group-hi:hover .svg-map--island-background,
+.svg-map-group-pr:hover .svg-map--island-background {
+    fill: #d6edff;
+}
+
 .svg-map-box {
     stroke-width: 7px;
     stroke: #777;

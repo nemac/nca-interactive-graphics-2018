@@ -217,11 +217,11 @@ function handleTransitions(data, barType, sector, dataType, svg, rects, x, y, xA
         }
     }
 
-    var f = d3.format((dataType === "area") ? ".3s" : ".3");
+    var f = d3.format(".3s");
 
     xAxis.transition(t)
         .call(d3.axisBottom(x).tickFormat(function (d) {
-            return f(d).replace("G", "B");
+            return dataType === "area" ? f(d).replace("G", "B") : (d + "%");
         }))
 
     var bandwidthOffset = y.bandwidth() / 2;
@@ -277,10 +277,10 @@ var initStackedBarChart = {
             d.percent = d.percent * 100;
             return d;
         });
-        var margin = {top: 5, right: 15, bottom: 70, left: 83};
+        var margin = {top: 5, right: 22, bottom: 19, left: 88};
 
         var width = 720 - margin.left - margin.right;
-        var height = 600 - margin.top - margin.bottom;
+        var height = 560 - margin.top - margin.bottom;
 
         var x = d3.scaleLinear().rangeRound([0, width])
             .domain([0, 100]).nice();
@@ -317,8 +317,8 @@ var initStackedBarChart = {
         
         var xAxis = svg.append("g")
             .attr("class", "axis axis--x")
-            .attr("transform", "translate(0," + (height+5) + ")")
-            .call(d3.axisBottom(x));
+            .attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom(x).tickFormat(function (d) { return d + "%"; }));
         
         var yAxis = svg.append("g")
             .attr("class", "axis axis--y")
@@ -327,53 +327,10 @@ var initStackedBarChart = {
 
         yAxis.selectAll("text").each(splitLabels);
 
-        var xAxisTitle = xAxis.append("g")
-                .attr("class", "axis--title axis--title--x")
-            .append("text")
-                .attr("x", (width / 2))
-                .attr("y", 40);
-
-        xAxisTitle.append("tspan")
-                .attr("class", "data-type-changer")
-                .text("Percent \u25BC")
-                .on("click", triggerDataSwap);
-
-        xAxisTitle.append("tspan").text("of land area as ").attr("dx", 10);
-
-        xAxisTitle.append("tspan")
-            .attr("class", "bar-type-changer")
-            .text("Stacked \u25BC")
-            .attr("dx", 5)
-            .on("click", triggerBarTypeTransition);
-
-        xAxisTitle.append("tspan").text("bars").attr("dx", 10);
-
-        xAxis.select(".axis--title--x")
-            .insert("rect", ":first-child")
-            .attr("x", 163)
-            .attr("y", 25)
-            .attr("width", 75)
-            .attr("height", 20)
-            .attr("stroke", "#333")
-            .attr("fill", "#999")
-            .attr("opacity", .6)
-            .on("click", triggerDataSwap);
-
-        xAxis.select(".axis--title--x")
-            .insert("rect", ":first-child")
-            .attr("x", 343)
-            .attr("y", 25)
-            .attr("width", 75)
-            .attr("height", 20)
-            .attr("stroke", "#333")
-            .attr("fill", "#999")
-            .attr("opacity", .6)
-            .on("click", triggerBarTypeTransition);
-
         function triggerBarTypeTransition() {
             barType = (barType === "grouped") ? "stacked" : "grouped";
-            xAxisTitle.select(".bar-type-changer")
-                .text(((barType === "grouped") ? "Grouped" : "Stacked") + " \u25BC")
+            d3.select(".type-changer--bar .type-changer--helper").text((barType === "grouped") ? "G" : "S")
+            d3.select(".type-changer--bar .stacked-bar--UI--label").text((barType === "grouped") ? "Grouped" : "Stacked")
             handleTransitions(data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis, true);
         }
 
@@ -391,11 +348,13 @@ var initStackedBarChart = {
 
         function triggerDataSwap() {
             dataType = (dataType === "percent") ? "area" : "percent";
-            xAxisTitle.select(".data-type-changer")
-                .text(((dataType === "percent") ? "Percent " : "Sq/m \u00A0\u00A0") + "\u25BC")
+            d3.select(".type-changer--data .type-changer--helper").text((dataType === "percent") ? "%" : "A");
+            d3.select(".type-changer--data .stacked-bar--UI--label").text((dataType === "percent") ? "Percent" : "Square Meters")
             handleTransitions(data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis, false);
         }
 
+        d3.select(".type-changer--data").on("click", triggerDataSwap);
+        d3.select(".type-changer--bar").on("click", triggerBarTypeTransition);
         d3.selectAll(".graphic--stacked-bar--legend a").on("click", triggerTypeReorder);
     }
 }
@@ -404,4 +363,3 @@ initStackedBarChart.draw({
     data: NLCD,
     element: 'stacked-bar'
 });
-

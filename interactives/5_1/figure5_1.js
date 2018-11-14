@@ -155,6 +155,59 @@ function orderDataByType(data, sector, dataType) {
     })
 }
 
+function groupedToStacked(rects, stackedData, x, y) {
+    rects.data(stackedData, function (d) { return d.data.id;})
+        .transition()
+            .duration(400)
+            .attr("width", function (d, i) { return x(d[1]) - x(d[0]); })
+            .attr("x", function(d, i) { return x(d[0]); })
+        .transition()
+            .attr("y", function(d) { return y(d.data.region); })
+            .attr("height", function(d) { return y.bandwidth(); });
+}
+
+function stackedToGrouped(rects, stackedData, x, y, n) {
+    var sectors = 8;
+
+    rects.data(stackedData, function (d) { return d.data.id;})
+        .transition()
+            .duration(300)
+            .attr("y", function(d, i) { return y(d.data.region) + ((y.bandwidth() / n ) * (i % sectors)); })
+            .attr("height", y.bandwidth() / n)
+        .transition()
+            .attr("x", x(0));
+}
+
+// Reorder based on sector
+function stackedToStacked(rects, stackedData, x, y) {
+    rects.data(stackedData, function (d) { return d.data.id;})
+        .transition()
+            .duration(300)
+            .attr("y", function(d) { return y(d.data.region); })
+        .transition()
+            .duration(300)
+            .delay(300)
+            .attr("x", function(d) { return x(d[0]); })
+            .attr("width", function(d) { return x(d[1]) - x(d[0]) })
+            .attr("height", y.bandwidth())
+}
+
+function groupedToGrouped(rects, stackedData, x, y, n) {
+    var sectors = 8;
+
+    rects.transition(300)
+        .attr("x", x(0))
+        .attr("y", function(d, i) { return y(d.data.region) + ((y.bandwidth() / n ) * (i % sectors)); })
+
+    rects.data(stackedData, function (d) { return d.data.id;})
+        .transition(500)
+            .delay(300)
+            .attr("x", x(0))
+            .attr("width", function(d) { return x(d[1]) - x(d[0]) })
+            .attr("y", function(d, i) { return y(d.data.region) + ((y.bandwidth() / n ) * (i % sectors)); })
+            .attr("height", y.bandwidth() / n)
+}
+
 function handleTransitions(data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis, changeBarType) {
     var max_area = (dataType === "area") ? ( (barType === "stacked") ? 1809124505200 : 1193e9 ) : 100;
 
@@ -178,42 +231,15 @@ function handleTransitions(data, barType, sector, dataType, svg, rects, x, y, xA
     var n = 9;
     if (changeBarType === true) {
         if (barType === "stacked") {
-            rects.transition()
-                    .duration(400)
-                    .attr("x", function(d, i) { return x(d[0]); })
-                .transition()
-                    .attr("y", function(d) { return y(d.data.region); })
-                    .attr("height", function(d) { return y.bandwidth(); })
-        } else if (barType === "grouped") {
-            rects.transition()
-                .duration(300)
-                    .attr("y", function(d, i) { return y(d.data.region) + ((y.bandwidth() / n ) * (i % 8)); })
-                    .attr("height", y.bandwidth() / n)
-                .transition()
-                    .attr("x", function(d, i) { return x(0); })
+            groupedToStacked(rects, stackedData, x, y);
+        } else if (barType === "grouped") { 
+            stackedToGrouped(rects, stackedData, x, y, n);
         }
     } else {
         if (barType === "stacked") {
-            rects.data(stackedData, function (d) { return d.data.id;})
-                .transition(t)
-                    .attr("y", function(d) { return y(d.data.region); })
-                .transition(xt)
-                    .delay(300)
-                    .attr("x", function(d) { return x(d[0]); })
-                    .attr("width", function(d) { return x(d[1]) - x(d[0]) })
-                    .attr("height", y.bandwidth())
+            stackedToStacked(rects, stackedData, x, y);
         } else if (barType === "grouped") {
-            rects.transition(t)
-                .attr("x", function (d, i) { return x(0); })
-                .attr("y", function(d, i) { return y(d.data.region) + ((y.bandwidth() / n ) * (i % 8)); })
-
-            rects.data(stackedData, function (d) { return d.data.id;})
-                .transition(xt)
-                    .delay(300)
-                    .attr("x", function (d, i) { return x(0); })
-                    .attr("width", function(d) { return x(d[1]) - x(d[0]) })
-                    .attr("y", function(d, i) { return y(d.data.region) + ((y.bandwidth() / n ) * (i % 8)); })
-                    .attr("height", function(d) { return y.bandwidth() / n; })
+            groupedToGrouped(rects, stackedData, x, y, n);
         }
     }
 

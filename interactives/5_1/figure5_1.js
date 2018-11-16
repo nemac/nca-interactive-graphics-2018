@@ -209,6 +209,11 @@ function groupedToGrouped(rects, stackedData, x, y, n) {
 }
 
 function handleTransitions(data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis, changeBarType) {
+    if (y.domain().length === 1) {
+        filterToRegion("switchDataType", data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis, changeBarType);
+        return;
+    }
+
     var max_area = (dataType === "area") ? ( (barType === "stacked") ? 1809124505200 : 1193e9 ) : 100;
 
     if (sector) {
@@ -265,7 +270,6 @@ function getActiveRegionY(index) {
 }
 
 function drawActiveRegionBar(yAxis, index) {
-
     yAxis.append("rect")
         .classed("region-highlight", true)
         .attr("x", -85)
@@ -275,12 +279,32 @@ function drawActiveRegionBar(yAxis, index) {
         .attr("fill", "#0056b3");
 }
 
+function unfilterToRegion(data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis, changeBarType) {
+    y.domain(makeYDomain(data));
+
+    handleTransitions(data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis, changeBarType);
+    yAxis.selectAll("g").classed("inactive", false);
+    yAxis.select(".region-highlight").remove();
+    d3.select(".type-changer--bar").classed("inactive", false);
+    d3.selectAll(".legend-item").classed("inactive", false);
+}
+
 function filterToRegion(region, data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis, changeBarType) {
+    if (y.domain().length === 1 && y.domain()[0] === region) {
+        unfilterToRegion(data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis, changeBarType);
+        return;
+    }
 
+    if (region === "switchDataType") {
+        region = y.domain()[0]
+    }
 
-    if (barType !== "stacked") {
+    if (barType === "stacked") {
         d3.select(".type-changer--bar").on("click")();
     }
+
+    d3.select(".type-changer--bar").classed("inactive", true);
+    d3.selectAll(".legend-item").classed("inactive", true);
 
     var yDomain = makeYDomain(data);
     var groupedData = d3.nest().key(function (d) { return d.region; }).entries(data);
@@ -375,10 +399,6 @@ function splitLabels(d) {
     });
 }
 
-function setupRegionZoom(d) {
-    
-}
-
 function wrappedAxis(y) {
     return function (g) {
         g.call(d3.axisLeft(y))
@@ -435,7 +455,6 @@ var initStackedBarChart = {
             .on('click', triggerTypeReorder)
             .on('mouseover', tip.show)
             .on('mouseout', tip.hide)
-
         
         var xAxis = svg.append("g")
             .attr("class", "axis axis--x")
@@ -465,13 +484,21 @@ var initStackedBarChart = {
         });
 
         function triggerBarTypeTransition() {
+            if (d3.select(".type-changer--bar").classed("inactive")) {
+                return;
+            }
             barType = (barType === "grouped") ? "stacked" : "grouped";
-            d3.select(".type-changer--bar .type-changer--helper").text((barType === "grouped") ? "G" : "S")
+            d3.select(".type-changer--bar .type-changer--helper").classed("grouped", (barType === "grouped") ? true : false)
+            d3.select(".type-changer--bar .type-changer--helper").classed("stacked", (barType === "stacked") ? true : false)
             d3.select(".type-changer--bar .stacked-bar--UI--label").text((barType === "grouped") ? "Grouped" : "Stacked")
             handleTransitions(data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis, true);
         }
 
         function triggerTypeReorder() {
+            if (d3.select(this.parentNode).classed("inactive")) {
+                return;
+            }
+
             var newSector = this.getAttribute("data-for");
             if (newSector === sector) {
                 return;

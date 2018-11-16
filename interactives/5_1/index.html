@@ -18,6 +18,18 @@ font-family: Arial;
     fill: #999;
 }
 
+.tick.inactive line {
+    stroke: #999;
+}
+
+.tick.inactive:hover text {
+    fill: #444;
+}
+
+.tick.inactive:hover line {
+    stroke: #444;
+}
+
 text {
     fill: #000;
 }
@@ -131,6 +143,7 @@ text {
 .legend-item {
     position: absolute;
     display: inline-block;
+    cursor: pointer;
     width: 50%;
     height: 25%;
     text-align: left;
@@ -168,10 +181,9 @@ text {
   padding: 5px 10px 2px 30px;
   position: relative;
   display: block;
-  cursor: pointer;
 }
 
-.legend-item a:hover {
+.legend-item:hover {
   background: #eee;
 }
 
@@ -245,6 +257,9 @@ text {
 }
 
 .type-changer--helper {
+  display: inline-block;
+  width: 16px;
+  text-align: center;
   font-size: .9em;
   margin-right: 10px;
   color: #777;
@@ -257,6 +272,20 @@ text {
   display: inline-block;
 }
 
+.type-changer--bar.inactive, .legend-item.inactive {
+  cursor: default;
+  background: #9ea6ab;
+  color: #fff;
+}
+
+.type-changer--bar.inactive .type-changer--helper {
+  color: #fff;
+}
+
+.legend-item.inactive:hover {
+  background: #9ea6ab;
+}
+
 .graphic--stacked-bar-map {
   width: 720px;
   margin-bottom: 20px;
@@ -267,6 +296,18 @@ text {
   width: 100%;
   height: auto;
   display: block;
+}
+
+.type-changer--helper path {
+  fill: currentColor;
+}
+
+.type-changer--helper.grouped .type-changer--helper--stacked {
+  display: none;
+}
+
+.type-changer--helper.stacked .type-changer--helper--grouped {
+  display: none;
 }
 </style>
 <body>
@@ -281,7 +322,7 @@ text {
       <a class="type-changer type-changer--data" tabindex="0"><span class="type-changer--helper">%</span><span class="stacked-bar--UI--label">Percent</span><svg class="type-changer--dropdown" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><title>Switch units of bars</title><path fill="currentColor" d="M143 352.3L7 216.3c-9.4-9.4-9.4-24.6 0-33.9l22.6-22.6c9.4-9.4 24.6-9.4 33.9 0l96.4 96.4 96.4-96.4c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9l-136 136c-9.2 9.4-24.4 9.4-33.8 0z"></path></svg></a>
     </div><div class="graphic--stacked-bar--UI--item">
       <p>Bars viewed as</p>
-      <a class="type-changer type-changer--bar" tabindex="0"><span class="type-changer--helper">S</span><span class="stacked-bar--UI--label">Stacked</span><svg class="type-changer--dropdown" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><title>Switch rendering of bars</title><path fill="currentColor" d="M143 352.3L7 216.3c-9.4-9.4-9.4-24.6 0-33.9l22.6-22.6c9.4-9.4 24.6-9.4 33.9 0l96.4 96.4 96.4-96.4c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9l-136 136c-9.2 9.4-24.4 9.4-33.8 0z"></path></svg></a>
+      <a class="type-changer type-changer--bar" tabindex="0"><span class="type-changer--helper stacked"><svg viewBox="0 0 16 16" role="img" xmlns="http://www.w3.org/2000/svg"><path class="type-changer--helper--grouped" d="M1,0h14v2h-14zm0,3h7v2h-7zm0,3h9v2h-9zm0,5h10v2h-10zm0,3h6v2h-6z"></path><path class="type-changer--helper--stacked" d="M1,0h7v4h-7zm8,0h3v4h-3zm4,0h2v4h-2z m-12,6h4v4h-4zm5,0h9v4h-9z m-5,6h3v4h-3zm4,0h5v4h-5zm6,0h4v4h-4z"></path></svg></span><span class="stacked-bar--UI--label">Stacked</span><svg class="type-changer--dropdown" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><title>Switch rendering of bars</title><path fill="currentColor" d="M143 352.3L7 216.3c-9.4-9.4-9.4-24.6 0-33.9l22.6-22.6c9.4-9.4 24.6-9.4 33.9 0l96.4 96.4 96.4-96.4c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9l-136 136c-9.2 9.4-24.4 9.4-33.8 0z"></path></svg></a>
     </div>
   </div>
   <div id="stacked-bar"></div>

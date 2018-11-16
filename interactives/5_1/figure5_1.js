@@ -253,65 +253,64 @@ function handleTransitions(data, barType, sector, dataType, svg, rects, x, y, xA
 
 }
 
+function getActiveRegionY(index) {
+    var sidebarHeight = 536; // height - margintop - marginbottom
+    var tickRegionOffset = 7; // I dunno where this is from. But it's the top and bottom pixel offset
+    var regions = 9; // Number of regions
+    var tickRegionHeight = sidebarHeight - (tickRegionOffset * 2);
+    var tickHeight = tickRegionHeight / regions;
+    var offset = tickRegionOffset - 12;
 
+    return (tickRegionHeight - (index * tickHeight)) + offset;
+}
+
+function drawActiveRegionBar(yAxis, index) {
+
+    yAxis.append("rect")
+        .classed("region-highlight", true)
+        .attr("x", -85)
+        .attr("y", getActiveRegionY(index))
+        .attr("width", 0)
+        .attr("height", 3)
+        .attr("fill", "#0056b3");
+}
 
 function filterToRegion(region, data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis, changeBarType) {
-    var max_area = (dataType === "area") ? ( (barType === "stacked") ? 1809124505200 : 1193e9 ) : 100;
 
-    if (sector) {
-        orderDataByType(data, sector, dataType);
+
+    if (barType !== "stacked") {
+        d3.select(".type-changer--bar").on("click")();
     }
-    
+
     var yDomain = makeYDomain(data);
-
-    x.domain([0, max_area]);
-    y.domain(yDomain);
-
     var groupedData = d3.nest().key(function (d) { return d.region; }).entries(data);
-    var stackedData = stackData(groupedData, dataType);
-
-    if (barType === "stacked") {
-        stackedToGrouped(rects, stackedData, x, y, 9);
-    }
-
-    var f = d3.format(".3s");
-
-    xAxis.transition()
-        .duration(300)
-        .call(d3.axisBottom(x).tickFormat(function (d) {
-            return dataType === "area" ? f(d).replace("G", "B") : (d + "%");
-        }))
-
-    var bandwidthOffset = y.bandwidth() / 2;
-    var offset = .5 // No idea where this comes from but is needed
-    yAxis.transition().duration(300).selectAll("g")
-        .attr("transform", function (d, i) { return "translate(0," + (y(d) + bandwidthOffset + offset) + ")" });
-
     var i, l;
     for (i = 0, l = groupedData.length; i < l; i++) {
         groupedData[i].values = groupedData[i].values.sort(function (a, b) { return b[dataType] - a[dataType]; })
     }
-    stackedData = stackData(groupedData, dataType);
-    console.log(groupedData)
+    var stackedData = stackData(groupedData, dataType);
+
+    var max_area = 100;
 
     var index = yDomain.indexOf(region)
     if (dataType === "area") {
-        max_area = 0;
+        var max_area = 0;
         var regionValues = groupedData[index].values
         for (i = 0, l = regionValues.length; i < l; i++) {
             if (regionValues[i].area > max_area) {
                 max_area = regionValues[i].area;
             }
         }
-//        max_area += 2000;
     }
     y.domain([region]);
     x.domain([0, max_area]);
 
+    var delay = (yAxis.select(".region-highlight").empty() === true) ? 850 : 0;
+
     rects.data(stackedData, function (d) { return d.data.id;})
         .transition()
         .duration(500)
-        .delay(850)
+        .delay(delay)
         .attr("y", function (d, i) {
             if (yDomain.indexOf(d.data.region) < index) {
                 return 1000;
@@ -327,12 +326,25 @@ function filterToRegion(region, data, barType, sector, dataType, svg, rects, x, 
         })
         .attr("width", function(d) { return x(d[1]) - x(d[0]) })
 
+    var f = d3.format(".3s");
+
     xAxis.transition()
         .duration(300)
         .call(d3.axisBottom(x).tickFormat(function (d) {
             return dataType === "area" ? f(d).replace("G", "B") : (d + "%");
         }))
 
+    yAxis.selectAll("g")
+        .classed("inactive", function (d) {  return d !== region; });
+
+    if (yAxis.select(".region-highlight").empty() === true) {
+        drawActiveRegionBar(yAxis, index);
+    }
+
+    yAxis.select(".region-highlight").transition()
+        .duration(300)
+        .attr("y", getActiveRegionY(index))
+        .attr("width", 83)
 }
 
 function splitLabels(d) {
@@ -436,21 +448,21 @@ var initStackedBarChart = {
             .call(d3.axisLeft(y));
 
         yAxis.selectAll("text")
-            .each(splitLabels)
+            .each(splitLabels);
 
-                yAxis.selectAll("g").each(function (d, i) {
-                    d3.select(this).append("rect")
-                        .classed("stacked--region--handler", true)
-                        .attr("data-for", d)
-                        .attr("transform", "translate(-83," + (-(y.bandwidth()/2)) + ")")
-                        .attr("width", "80px")
-                        .attr("height", y.bandwidth())
-                        .attr("fill", "#000")
-                        .attr("opacity", "0")
-                        .on("click", function () {
-                            filterToRegion(d, data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis, true)
-                        })
-                });
+        yAxis.selectAll("g").each(function (d, i) {
+            d3.select(this).append("rect")
+                .classed("stacked--region--handler", true)
+                .attr("data-for", d)
+                .attr("transform", "translate(-83," + (-(y.bandwidth()/2)) + ")")
+                .attr("width", "80px")
+                .attr("height", y.bandwidth())
+                .attr("fill", "#000")
+                .attr("opacity", "0")
+                .on("click", function () {
+                    filterToRegion(d, data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis, true)
+                })
+        });
 
         function triggerBarTypeTransition() {
             barType = (barType === "grouped") ? "stacked" : "grouped";

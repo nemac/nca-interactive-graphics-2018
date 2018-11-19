@@ -1,0 +1,339 @@
+*, *:after, *:before {
+    box-sizing: border-box;
+    font-family: Arial;
+}
+
+.graphic--stacked-bar .stacked-bar svg {
+    width: 100%;
+}
+
+.graphic--stacked-bar .axis text {
+    font: 14px Arial;
+}
+
+.graphic--stacked-bar .axis .tick text {
+    font-size: 13px;
+}
+
+.graphic--stacked-bar .axis--label--x {
+    font-weight: bold;
+}
+
+.graphic--stacked-bar .axis--label--x--unit {
+    font-size: .9em;
+    fill: #555;
+}
+
+.graphic--stacked-bar .tick.inactive text {
+    fill: #999;
+}
+
+.graphic--stacked-bar .tick.inactive line {
+    stroke: #999;
+}
+
+.graphic--stacked-bar .tick.inactive:hover text {
+    fill: #444;
+}
+
+.graphic--stacked-bar .tick.inactive:hover line {
+    stroke: #444;
+}
+
+.graphic--stacked-bar text {
+    fill: #000;
+}
+
+.graphic--stacked-bar .axis--title--x rect, .graphic--stacked-bar .data-type-changer, .graphic--stacked-bar .bar-type-changer {
+    cursor: pointer;
+}
+
+.graphic--stacked-bar .axis line,
+.graphic--stacked-bar .axis path {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+
+.graphic--stacked-bar .active {
+    background: #c3c3cb;
+}
+
+.graphic--stacked-bar--tip {
+    line-height: 1.2em;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    border-radius: 2px;
+    font-family: sans-serif;
+}
+
+/* Creates a small triangle extender for the tooltip */
+.graphic--stacked-bar--tip:after {
+    box-sizing: border-box;
+    display: inline;
+    font-size: 10px;
+    width: 100%;
+    line-height: 1;
+    color: rgba(0, 0, 0, 0.8);
+    content: "\25BC";
+    position: absolute;
+    text-align: center;
+}
+
+/* Style northward tooltips differently */
+.graphic--stacked-bar--tip.n:after {
+    margin: -1px 0 0 0;
+    top: 100%;
+    left: 0;
+}
+
+.graphic--stacked-bar {
+    position: relative;
+    width: 720px;
+    max-width: 100%;
+    padding-top: 10px;
+    padding-bottom: 15px;
+    background: #efefef;
+}
+
+.graphic--stacked-bar rect {
+    cursor: pointer;
+}
+
+.graphic--stacked-bar rect[data-type="Agriculture"]:hover {
+    fill: #946324 !important;
+}
+
+.graphic--stacked-bar rect[data-type="Barren"]:hover {
+    fill: #bfbfbf !important;
+}
+
+.graphic--stacked-bar rect[data-type="Developed"]:hover {
+    fill: #c70f21 !important;
+}
+
+.graphic--stacked-bar rect[data-type="Forest"]:hover {
+    fill: #8dbe55 !important;
+}
+
+.graphic--stacked-bar rect[data-type="Grass/Shrub"]:hover {
+    fill: #c7cc38 !important;
+}
+
+.graphic--stacked-bar rect[data-type="Snow/Ice"]:hover {
+    fill: #bebcbb !important;
+}
+
+.graphic--stacked-bar rect[data-type="Water"]:hover {
+    fill: #3e5a8e !important;
+}
+
+.graphic--stacked-bar rect[data-type="Wetland"]:hover {
+    fill: #88badd !important;
+}
+
+.graphic--stacked-bar--legend--wrapper {
+    padding-left: 88px;
+    padding-right: 22px;
+    margin: 10px 0;
+}
+
+.graphic--stacked-bar--legend {
+    position: relative;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.graphic--stacked-bar .legend-item {
+    display: inline-block;
+    width: 25%;
+    text-align: left;
+    line-height: 18px;
+}
+
+.graphic--stacked-bar .legend-item:nth-child(1), .graphic--stacked-bar .legend-item:nth-child(5) {
+    padding-right: 10px;
+}
+
+.graphic--stacked-bar .legend-item:nth-child(4), .graphic--stacked-bar .legend-item:nth-child(8) {
+    padding-left: 10px;
+}
+
+.graphic--stacked-bar .legend-item:nth-child(2), .graphic--stacked-bar .legend-item:nth-child(3), .graphic--stacked-bar .legend-item:nth-child(6), .graphic--stacked-bar .legend-item:nth-child(7) {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.graphic--stacked-bar .legend-item:nth-child(-n+4) {
+    padding-bottom: 10px;
+}
+
+.graphic--stacked-bar .legend-item a {
+    padding: 5px 10px 2px 30px;
+    position: relative;
+    display: block;
+    cursor: pointer;
+    border: 1px solid #999;
+    border-radius: 3px;
+    background: #fff;
+    box-shadow: #aaa 1px 1px 1px;
+}
+
+.graphic--stacked-bar .legend-item a:hover {
+    background: #eee;
+}
+
+.graphic--stacked-bar .legend-item a:before {
+    content: "";
+    width: 16px;
+    height: 16px;
+    border: 1px solid #999;
+    position: absolute;
+    left: 8px;
+}
+
+.graphic--stacked-bar .legend-item--agriculture a:before {
+    background-color: #ae742a;
+}
+
+.graphic--stacked-bar .legend-item--forest a:before {
+    background-color: #a1d06a;
+}
+
+.graphic--stacked-bar .legend-item--developed a:before {
+    background-color: #e31126;
+}
+
+.graphic--stacked-bar .legend-item--grassshrub a:before {
+    background-color: #d7db56;
+}
+
+.graphic--stacked-bar .legend-item--snowice a:before {
+    background-color: #fffff0;
+}
+
+.graphic--stacked-bar .legend-item--water a:before {
+    background-color: #4a6aa7;
+}
+
+.graphic--stacked-bar .legend-item--wetland a:before {
+    background-color: #aacee7;
+}
+
+.graphic--stacked-bar .legend-item--barren a:before {
+    background-color: #d3d3d3;
+}
+
+.graphic--stacked-bar .graphic--stacked-bar--UI {
+    font-family: Arial;
+    padding-left: 88px;
+}
+
+.graphic--stacked-bar .graphic--stacked-bar--UI--item {
+    display: inline-block;
+    width: 50%;
+}
+
+.graphic--stacked-bar .graphic--stacked-bar--legend--wrapper p,
+.graphic--stacked-bar .graphic--stacked-bar--UI p {
+    font-size: 12px;
+    color: #555;
+    margin: 0;
+    padding: 0;
+}
+
+.graphic--stacked-bar .type-changer {
+    background: #fff;
+    display: inline-block;
+    width: 90%;
+    padding: 10px;
+    border: 1px solid #aaa;
+    border-radius: 3px;
+    cursor: pointer;
+    box-shadow: #aaa 1px 1px 1px;
+}
+
+.graphic--stacked-bar .type-changer--helper {
+    display: inline-block;
+    width: 16px;
+    text-align: center;
+    font-size: .9em;
+    margin-right: 10px;
+    color: #777;
+    vertical-align: middle;
+}
+
+.graphic--stacked-bar .type-changer--dropdown {
+    float: right;
+    width: .625em;
+    height: 1em;
+    display: inline-block;
+}
+
+.graphic--stacked-bar .type-changer--bar.inactive, .graphic--stacked-bar .legend-item.inactive a {
+    cursor: default;
+    background: #9ea6ab;
+    color: #e2eaeb;
+}
+
+.graphic--stacked-bar .type-changer--bar.inactive .type-changer--helper {
+    color: #fff;
+}
+
+.graphic--stacked-bar .legend-item.inactive a:hover {
+    background: #9ea6ab;
+}
+
+.graphic--stacked-bar .graphic--stacked-bar-map {
+    margin-bottom: 20px;
+    padding: 0 5px;
+}
+
+.graphic--stacked-bar .graphic--stacked-bar-map img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.graphic--stacked-bar .type-changer--helper path {
+    fill: currentColor;
+}
+
+.graphic--stacked-bar .type-changer--helper.grouped .type-changer--helper--stacked {
+    display: none;
+}
+
+.graphic--stacked-bar .type-changer--helper.stacked .type-changer--helper--grouped {
+    display: none;
+}
+
+@media (max-width: 575.9px) {
+    .graphic--stacked-bar .graphic--stacked-bar--legend--wrapper, .graphic--stacked-bar .graphic--stacked-bar--UI {
+        padding-left: 0;
+    }
+    
+    .graphic--stacked-bar .legend-item {
+        width: 50%;
+    }
+    
+    .graphic--stacked-bar .legend-item:nth-child(2n) {
+        padding-left: 8px;
+        padding-right: 0;
+    }
+    
+    .graphic--stacked-bar .legend-item:nth-child(2n + 1) {
+        padding-left: 0;
+        padding-right: 8px;
+    }
+    
+    .graphic--stacked-bar .legend-item:nth-child(-n + 6) {
+        padding-bottom: 10px;
+    }
+}
+
+@media (min-width: 576px) and (max-width: 767.98px) {
+    .graphic--stacked-bar .legend-item {
+        font-size: .75em;
+    }
+}

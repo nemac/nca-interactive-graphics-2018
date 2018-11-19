@@ -272,7 +272,7 @@ function getActiveRegionY(index) {
 function drawActiveRegionBar(yAxis, index) {
     yAxis.append("rect")
         .classed("region-highlight", true)
-        .attr("x", -85)
+        .attr("x", -82)
         .attr("y", getActiveRegionY(index))
         .attr("width", 0)
         .attr("height", 3)
@@ -287,6 +287,7 @@ function unfilterToRegion(data, barType, sector, dataType, svg, rects, x, y, xAx
     yAxis.select(".region-highlight").remove();
     d3.select(".type-changer--bar").classed("inactive", false);
     d3.selectAll(".legend-item").classed("inactive", false);
+    d3.selectAll(".type-changer--bar, .legend-item a").attr("tabindex", 0)
 }
 
 function filterToRegion(region, data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis, changeBarType) {
@@ -305,6 +306,8 @@ function filterToRegion(region, data, barType, sector, dataType, svg, rects, x, 
 
     d3.select(".type-changer--bar").classed("inactive", true);
     d3.selectAll(".legend-item").classed("inactive", true);
+
+    d3.selectAll(".type-changer--bar, .legend-item a").attr("tabindex", null)
 
     var yDomain = makeYDomain(data);
     var groupedData = d3.nest().key(function (d) { return d.region; }).entries(data);
@@ -368,7 +371,7 @@ function filterToRegion(region, data, barType, sector, dataType, svg, rects, x, 
     yAxis.select(".region-highlight").transition()
         .duration(300)
         .attr("y", getActiveRegionY(index))
-        .attr("width", 83)
+        .attr("width", 77)
 }
 
 function splitLabels(d) {
@@ -478,7 +481,14 @@ var initStackedBarChart = {
                 .attr("height", y.bandwidth())
                 .attr("fill", "#000")
                 .attr("opacity", "0")
+                .attr("tabindex", "0")
                 .on("click", function () {
+                    filterToRegion(d, data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis, true)
+                }).on("keypress", function () {
+                    if (d3.event.key !== "Enter") {
+                        return;
+                    }
+                    d3.event.stopPropagation();
                     filterToRegion(d, data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis, true)
                 })
         });
@@ -492,6 +502,14 @@ var initStackedBarChart = {
             d3.select(".type-changer--bar .type-changer--helper").classed("stacked", (barType === "stacked") ? true : false)
             d3.select(".type-changer--bar .stacked-bar--UI--label").text((barType === "grouped") ? "Grouped" : "Stacked")
             handleTransitions(data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis, true);
+        }
+
+        function triggerBarTypeTransitionKeypress() {
+            if (d3.event.key !== "Enter") {
+                return;
+            }
+            d3.event.stopPropagation();
+            triggerBarTypeTransition();
         }
 
         function triggerTypeReorder() {
@@ -510,6 +528,14 @@ var initStackedBarChart = {
             handleTransitions(data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis, false);
         }
 
+        function triggerTypeReorderKeypress() {
+            if (d3.event.key !== "Enter") {
+                return;
+            }
+            d3.event.stopPropagation();
+            triggerTypeReorder.call(this);
+        }
+
         function triggerDataSwap() {
             dataType = (dataType === "percent") ? "area" : "percent";
             d3.select(".type-changer--data .type-changer--helper").text((dataType === "percent") ? "%" : "A");
@@ -517,9 +543,20 @@ var initStackedBarChart = {
             handleTransitions(data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis, false);
         }
 
+        function triggerDataSwapKeypress() {
+            if (d3.event.key !== "Enter") {
+                return;
+            }
+            d3.event.stopPropagation();
+            triggerDataSwap();
+        }
+
         d3.select(".type-changer--data").on("click", triggerDataSwap);
+        d3.select(".type-changer--data").on("keypress", triggerDataSwapKeypress);
         d3.select(".type-changer--bar").on("click", triggerBarTypeTransition);
+        d3.select(".type-changer--bar").on("keypress", triggerBarTypeTransitionKeypress);
         d3.selectAll(".graphic--stacked-bar--legend a").on("click", triggerTypeReorder);
+        d3.selectAll(".graphic--stacked-bar--legend a").on("keypress", triggerTypeReorderKeypress);
     }
 }
 

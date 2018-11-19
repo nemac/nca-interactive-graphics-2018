@@ -595,7 +595,7 @@ var initStackedBarChart = {
     }
 }
 
-d3.selectAll(".figure--5_1_a").each(function () {
+d3.selectAll(".figure--5_1__nlcd").each(function () {
     initStackedBarChart.draw({
         data: NLCD,
         element: 'stacked-bar',

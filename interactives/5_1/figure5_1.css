@@ -104,6 +104,14 @@
     fill: #bfbfbf !important;
 }
 
+.graphic--stacked-bar rect[data-type="Built-up"]:hover {
+    fill: #cd170a !important;
+}
+
+.graphic--stacked-bar rect[data-type="Conservation"]:hover {
+    fill: #88c13e !important;
+}
+
 .graphic--stacked-bar rect[data-type="Developed"]:hover {
     fill: #c70f21 !important;
 }
@@ -114,6 +122,14 @@
 
 .graphic--stacked-bar rect[data-type="Grass/Shrub"]:hover {
     fill: #c7cc38 !important;
+}
+
+.graphic--stacked-bar rect[data-type="Production"]:hover {
+    fill: #808ac6 !important;
+}
+
+.graphic--stacked-bar rect[data-type="Recreation"]:hover {
+    fill: #ff9a42 !important;
 }
 
 .graphic--stacked-bar rect[data-type="Snow/Ice"]:hover {
@@ -136,7 +152,7 @@
 
 .graphic--stacked-bar--legend {
     position: relative;
-    text-align: center;
+    text-align: left;
     margin: 0 auto;
 }
 
@@ -193,6 +209,14 @@
     background-color: #ae742a;
 }
 
+.graphic--stacked-bar .legend-item--builtup a:before {
+    background-color: #f42c1f;
+}
+
+.graphic--stacked-bar .legend-item--conservation a:before {
+    background-color: #b2d57f;
+}
+
 .graphic--stacked-bar .legend-item--forest a:before {
     background-color: #a1d06a;
 }
@@ -203,6 +227,14 @@
 
 .graphic--stacked-bar .legend-item--grassshrub a:before {
     background-color: #d7db56;
+}
+
+.graphic--stacked-bar .legend-item--production a:before {
+    background-color: #a3aad6;
+}
+
+.graphic--stacked-bar .legend-item--recreation a:before {
+    background-color: #ffc572;
 }
 
 .graphic--stacked-bar .legend-item--snowice a:before {

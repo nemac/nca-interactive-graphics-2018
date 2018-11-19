@@ -1,8 +1,15 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
+<style>
+*, *:after, *:before {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+</style>
 <body>
 <h2>Figure 5.1: Land Use Composition of the United States</h2>
-<div class="graphic--stacked-bar figure--5_1_a">
+<div class="graphic--stacked-bar figure--5_1__nlud">
   <div class="graphic--stacked-bar-map">
     <img src="map2.jpg" title="Map which shows the land use of the CONUS, Alaska, and Hawaii">
   </div>
@@ -17,19 +24,16 @@
   </div>
   <div class="graphic--stacked-bar--legend--wrapper"><p>Land use sectors</p>
     <div class="graphic--stacked-bar--legend"><div
-          class="legend-item legend-item--agriculture"><a data-for="Agriculture" tabindex="0">Agriculture</a></div><div
-          class="legend-item legend-item--barren"><a data-for="Barren" tabindex="0">Barren</a></div><div
-          class="legend-item legend-item--developed"><a data-for="Developed" tabindex="0">Developed</a></div><div
-          class="legend-item legend-item--forest"><a data-for="Forest" tabindex="0">Forest</a></div><div
-          class="legend-item legend-item--grassshrub"><a data-for="Grass/Shrub" tabindex="0">Grass/Shrub</a></div><div
-          class="legend-item legend-item--snowice"><a data-for="Snow/Ice" tabindex="0">Snow/Ice</a></div><div
-          class="legend-item legend-item--water"><a data-for="Water" tabindex="0">Water</a></div><div
-          class="legend-item legend-item--wetland"><a data-for="Wetland" tabindex="0">Wetland</a></div></div>
+          class="legend-item legend-item--builtup"><a data-for="Built-up" tabindex="0">Built-Up</a></div><div
+          class="legend-item legend-item--conservation"><a data-for="Conservation" tabindex="0">Conservation</a></div><div
+          class="legend-item legend-item--production"><a data-for="Production" tabindex="0">Production</a></div><div
+          class="legend-item legend-item--recreation"><a data-for="Recreation" tabindex="0">Recreation</a></div><div
+          class="legend-item legend-item--water"><a data-for="Water" tabindex="0">Water</a></div></div>
   </div>
   <div class="stacked-bar"></div>
 </div>
 
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script src="./d3-tip.js"></script>
-<script src="./figure5_1.js"></script>
+<script src="./figure5_1_nlud.js"></script>
 <link rel="stylesheet" href="./figure5_1.css">

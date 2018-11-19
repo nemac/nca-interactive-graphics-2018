@@ -6,64 +6,63 @@ box-sizing: border-box;
 font-family: Arial;
 }
 
-.axis text {
+.graphic--stacked-bar .stacked-bar svg {
+  width: 100%;
+}
+
+.graphic--stacked-bar .axis text {
   font: 14px Arial;
 }
 
-.axis .tick text {
+.graphic--stacked-bar .axis .tick text {
   font-size: 13px;
 }
 
-.axis--label--x {
+.graphic--stacked-bar .axis--label--x {
   font-weight: bold;
 }
 
-.axis--label--x--unit {
+.graphic--stacked-bar .axis--label--x--unit {
   font-size: .9em;
   fill: #555;
 }
 
-.tick.inactive text {
+.graphic--stacked-bar .tick.inactive text {
     fill: #999;
 }
 
-.tick.inactive line {
+.graphic--stacked-bar .tick.inactive line {
     stroke: #999;
 }
 
-.tick.inactive:hover text {
+.graphic--stacked-bar .tick.inactive:hover text {
     fill: #444;
 }
 
-.tick.inactive:hover line {
+.graphic--stacked-bar .tick.inactive:hover line {
     stroke: #444;
 }
 
-text {
+.graphic--stacked-bar text {
     fill: #000;
 }
 
-.axis--title--x rect, .data-type-changer, .bar-type-changer {
+.graphic--stacked-bar .axis--title--x rect, .graphic--stacked-bar .data-type-changer, .graphic--stacked-bar .bar-type-changer {
     cursor: pointer;
 }
 
-.axis line,
-.axis path {
+.graphic--stacked-bar .axis line,
+.graphic--stacked-bar .axis path {
   fill: none;
   stroke: #000;
   shape-rendering: crispEdges;
 }
-.path-line {
-  fill: none;
-  stroke: yellow;
-  stroke-width: 1.5px;
-}
 
-.active {
+.graphic--stacked-bar .active {
   background: #c3c3cb;
 }
 
-.d3-tip {
+.graphic--stacked-bar--tip {
   line-height: 1.2em;
   padding: 12px;
   background: rgba(0, 0, 0, 0.8);
@@ -73,7 +72,7 @@ text {
 }
 
 /* Creates a small triangle extender for the tooltip */
-.d3-tip:after {
+.graphic--stacked-bar--tip:after {
   box-sizing: border-box;
   display: inline;
   font-size: 10px;
@@ -86,7 +85,7 @@ text {
 }
 
 /* Style northward tooltips differently */
-.d3-tip.n:after {
+.graphic--stacked-bar--tip.n:after {
   margin: -1px 0 0 0;
   top: 100%;
   left: 0;
@@ -95,6 +94,7 @@ text {
 .graphic--stacked-bar {
   position: relative;
   width: 720px;
+  max-width: 100%;
   padding-top: 10px;
   padding-bottom: 15px;
   background: #efefef;
@@ -148,30 +148,31 @@ text {
   margin: 0 auto;
 }
 
-.legend-item {
+.graphic--stacked-bar .legend-item {
     display: inline-block;
     width: 25%;
     text-align: left;
+    line-height: 18px;
 }
 
-.legend-item:nth-child(1), .legend-item:nth-child(5) {
+.graphic--stacked-bar .legend-item:nth-child(1), .graphic--stacked-bar .legend-item:nth-child(5) {
     padding-right: 10px;
 }
 
-.legend-item:nth-child(4), .legend-item:nth-child(8) {
+.graphic--stacked-bar .legend-item:nth-child(4), .graphic--stacked-bar .legend-item:nth-child(8) {
     padding-left: 10px;
 }
 
-.legend-item:nth-child(2), .legend-item:nth-child(3), .legend-item:nth-child(6), .legend-item:nth-child(7) {
+.graphic--stacked-bar .legend-item:nth-child(2), .graphic--stacked-bar .legend-item:nth-child(3), .graphic--stacked-bar .legend-item:nth-child(6), .graphic--stacked-bar .legend-item:nth-child(7) {
     padding-left: 5px;
     padding-right: 5px;
 }
 
-.legend-item:nth-child(-n+4) {
+.graphic--stacked-bar .legend-item:nth-child(-n+4) {
     padding-bottom: 10px;
 }
 
-.legend-item a {
+.graphic--stacked-bar .legend-item a {
   padding: 5px 10px 2px 30px;
   position: relative;
   display: block;
@@ -182,11 +183,11 @@ text {
     box-shadow: #aaa 1px 1px 1px;
 }
 
-.legend-item a:hover {
+.graphic--stacked-bar .legend-item a:hover {
   background: #eee;
 }
 
-.legend-item a:before {
+.graphic--stacked-bar .legend-item a:before {
   content: "";
   width: 16px;
   height: 16px;
@@ -195,57 +196,57 @@ text {
   left: 8px;
 }
 
-.legend-item--agriculture a:before {
+.graphic--stacked-bar .legend-item--agriculture a:before {
   background-color: #ae742a;
 }
 
-.legend-item--forest a:before {
+.graphic--stacked-bar .legend-item--forest a:before {
   background-color: #a1d06a;
 }
 
-.legend-item--developed a:before {
+.graphic--stacked-bar .legend-item--developed a:before {
   background-color: #e31126;
 }
 
-.legend-item--grassshrub a:before {
+.graphic--stacked-bar .legend-item--grassshrub a:before {
   background-color: #d7db56;
 }
 
-.legend-item--snowice a:before {
+.graphic--stacked-bar .legend-item--snowice a:before {
   background-color: #fffff0;
 }
 
-.legend-item--water a:before {
+.graphic--stacked-bar .legend-item--water a:before {
   background-color: #4a6aa7;
 }
 
-.legend-item--wetland a:before {
+.graphic--stacked-bar .legend-item--wetland a:before {
   background-color: #aacee7;
 }
 
-.legend-item--barren a:before {
+.graphic--stacked-bar .legend-item--barren a:before {
   background-color: #d3d3d3;
 }
 
-.graphic--stacked-bar--UI {
+.graphic--stacked-bar .graphic--stacked-bar--UI {
   font-family: Arial;
   padding-left: 88px;
 }
 
-.graphic--stacked-bar--UI--item {
+.graphic--stacked-bar .graphic--stacked-bar--UI--item {
   display: inline-block;
   width: 50%;
 }
 
-.graphic--stacked-bar--legend--wrapper p,
-.graphic--stacked-bar--UI p {
+.graphic--stacked-bar .graphic--stacked-bar--legend--wrapper p,
+.graphic--stacked-bar .graphic--stacked-bar--UI p {
   font-size: 12px;
   color: #555;
   margin: 0;
   padding: 0;
 }
 
-.type-changer {
+.graphic--stacked-bar .type-changer {
   background: #fff;
   display: inline-block;
   width: 90%;
@@ -256,7 +257,7 @@ text {
   box-shadow: #aaa 1px 1px 1px;
 }
 
-.type-changer--helper {
+.graphic--stacked-bar .type-changer--helper {
   display: inline-block;
   width: 16px;
   text-align: center;
@@ -266,54 +267,83 @@ text {
   vertical-align: middle;
 }
 
-.type-changer--dropdown {
+.graphic--stacked-bar .type-changer--dropdown {
   float: right;
   width: .625em;
   height: 1em;
   display: inline-block;
 }
 
-.type-changer--bar.inactive, .legend-item.inactive a {
+.graphic--stacked-bar .type-changer--bar.inactive, .graphic--stacked-bar .legend-item.inactive a {
   cursor: default;
   background: #9ea6ab;
   color: #e2eaeb;
 }
 
-.type-changer--bar.inactive .type-changer--helper {
+.graphic--stacked-bar .type-changer--bar.inactive .type-changer--helper {
   color: #fff;
 }
 
-.legend-item.inactive a:hover {
+.graphic--stacked-bar .legend-item.inactive a:hover {
   background: #9ea6ab;
 }
 
-.graphic--stacked-bar-map {
-  width: 720px;
+.graphic--stacked-bar .graphic--stacked-bar-map {
   margin-bottom: 20px;
   padding: 0 5px;
 }
 
-.graphic--stacked-bar-map img {
+.graphic--stacked-bar .graphic--stacked-bar-map img {
   width: 100%;
   height: auto;
   display: block;
 }
 
-.type-changer--helper path {
+.graphic--stacked-bar .type-changer--helper path {
   fill: currentColor;
 }
 
-.type-changer--helper.grouped .type-changer--helper--stacked {
+.graphic--stacked-bar .type-changer--helper.grouped .type-changer--helper--stacked {
   display: none;
 }
 
-.type-changer--helper.stacked .type-changer--helper--grouped {
+.graphic--stacked-bar .type-changer--helper.stacked .type-changer--helper--grouped {
   display: none;
+}
+
+@media (max-width: 575.9px) {
+  .graphic--stacked-bar .graphic--stacked-bar--legend--wrapper, .graphic--stacked-bar .graphic--stacked-bar--UI {
+    padding-left: 0;
+  }
+
+  .graphic--stacked-bar .legend-item {
+    width: 50%;
+  }
+
+  .graphic--stacked-bar .legend-item:nth-child(2n) {
+    padding-left: 8px;
+    padding-right: 0;
+  }
+
+  .graphic--stacked-bar .legend-item:nth-child(2n + 1) {
+    padding-left: 0;
+    padding-right: 8px;
+  }
+
+  .graphic--stacked-bar .legend-item:nth-child(-n + 6) {
+    padding-bottom: 10px;
+  }
+}
+
+@media (min-width: 576px) and (max-width: 767.98px) {
+  .graphic--stacked-bar .legend-item {
+    font-size: .75em;
+  }
 }
 </style>
 <body>
 <h2>Figure 5.1: Land Use Composition of the United States</h2>
-<div class="graphic--stacked-bar" id="figure--5_1_a">
+<div class="graphic--stacked-bar figure--5_1_a">
   <div class="graphic--stacked-bar-map">
     <img src="map2.jpg" title="Map which shows the land use of the CONUS, Alaska, and Hawaii">
   </div>
@@ -337,7 +367,7 @@ text {
           class="legend-item legend-item--water"><a data-for="Water" tabindex="0">Water</a></div><div
           class="legend-item legend-item--wetland"><a data-for="Wetland" tabindex="0">Wetland</a></div></div>
   </div>
-  <div id="stacked-bar"></div>
+  <div class="stacked-bar"></div>
 </div>
 
 <script src="https://d3js.org/d3.v4.min.js"></script>

@@ -104,7 +104,7 @@ function typeColor(type) {
 }
 
 var tip = d3.tip()
-    .attr('class', 'd3-tip')
+    .attr('class', 'd3-tip graphic--stacked-bar--tip')
     .offset([-10, 0])
     .html(function(d) {
         return "<div><strong>Region:</strong> <span>" + d.data.region + "</span></div>" +
@@ -444,9 +444,12 @@ var initStackedBarChart = {
 
         var color = d3.scaleOrdinal(d3.schemeCategory20);
 
-        var svg = d3.select("#"+domEle).append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
+        var svg = d3.select("."+domEle).append("svg")
+            .attr("viewBox", "0 0 " +
+                  (width + margin.left + margin.right) + " " +
+                  (height + margin.top + margin.bottom)
+                 )
+            .attr("xmlns", "http://www.w3.org/2000/svg")
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 

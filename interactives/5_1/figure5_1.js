@@ -155,6 +155,11 @@ function orderDataByType(data, sector, dataType) {
     })
 }
 
+function setAxisLabel(svg, dataType) {
+    svg.select(".axis--label--x--unit")
+        .text((dataType === "percent") ? "(Percent)" : "(Square Meters)");
+}
+
 function groupedToStacked(rects, stackedData, x, y) {
     rects.data(stackedData, function (d) { return d.data.id;})
         .transition()
@@ -174,8 +179,9 @@ function stackedToGrouped(rects, stackedData, x, y, n) {
             .duration(300)
             .attr("y", function(d, i) { return y(d.data.region) + ((y.bandwidth() / n ) * (i % sectors)); })
             .attr("height", y.bandwidth() / n)
+            .attr("width", function(d) { return x(d[1]) - x(d[0]) })
         .transition()
-            .attr("x", x(0));
+            .attr("x", x(0))
 }
 
 // Reorder based on sector
@@ -215,6 +221,8 @@ function handleTransitions(data, barType, sector, dataType, svg, rects, x, y, xA
     }
 
     var max_area = (dataType === "area") ? ( (barType === "stacked") ? 1809124505200 : 1193e9 ) : 100;
+    console.log(max_area)
+    console.log(barType)
 
     if (sector) {
         orderDataByType(data, sector, dataType);
@@ -250,11 +258,13 @@ function handleTransitions(data, barType, sector, dataType, svg, rects, x, y, xA
         .call(d3.axisBottom(x).tickFormat(function (d) {
             return dataType === "area" ? f(d).replace("G", "B") : (d + "%");
         }))
+    setAxisLabel(svg, dataType)
 
     var bandwidthOffset = y.bandwidth() / 2;
     var offset = .5 // No idea where this comes from but is needed
     yAxis.transition().duration(300).selectAll("g")
         .attr("transform", function (d, i) { return "translate(0," + (y(d) + bandwidthOffset + offset) + ")" });
+
 
 }
 
@@ -372,6 +382,8 @@ function filterToRegion(region, data, barType, sector, dataType, svg, rects, x, 
         .duration(300)
         .attr("y", getActiveRegionY(index))
         .attr("width", 77)
+
+    setAxisLabel(svg, dataType)
 }
 
 function splitLabels(d) {
@@ -420,10 +432,10 @@ var initStackedBarChart = {
             d.percent = d.percent * 100;
             return d;
         });
-        var margin = {top: 5, right: 22, bottom: 19, left: 88};
+        var margin = {top: 5, right: 22, bottom: 59, left: 88};
 
         var width = 720 - margin.left - margin.right;
-        var height = 560 - margin.top - margin.bottom;
+        var height = 600 - margin.top - margin.bottom;
 
         var x = d3.scaleLinear().rangeRound([0, width])
             .domain([0, 100]).nice();
@@ -463,6 +475,21 @@ var initStackedBarChart = {
             .attr("class", "axis axis--x")
             .attr("transform", "translate(0," + height + ")")
             .call(d3.axisBottom(x).tickFormat(function (d) { return d + "%"; }));
+
+        var xAxisLabel = xAxis.append("text")
+            .attr("class", "axis--label")
+            .attr("transform", "translate(" + (width/2) + ",40)");
+
+        xAxisLabel.append("tspan")
+            .attr("x", 0)
+            .attr("class", "axis--label--x")
+            .text("Land Area");
+        
+        xAxisLabel.append("tspan")
+            .attr("x", 0)
+            .attr("dy", 15)
+            .attr("class", "axis--label--x--unit")
+            .text("(Percent)");
         
         var yAxis = svg.append("g")
             .attr("class", "axis axis--y")

@@ -82,6 +82,10 @@ function formatPercentString(x) {
     return (Math.round(x * 10) / 10).toString() + "%";
 }
 
+function getWrapper(svg) {
+    return d3.select(svg.node().closest(".graphic--stacked-bar"))
+}
+
 function typeColor(type) {
     switch (type) {
         case "Forest":
@@ -221,8 +225,6 @@ function handleTransitions(data, barType, sector, dataType, svg, rects, x, y, xA
     }
 
     var max_area = (dataType === "area") ? ( (barType === "stacked") ? 1809124505200 : 1193e9 ) : 100;
-    console.log(max_area)
-    console.log(barType)
 
     if (sector) {
         orderDataByType(data, sector, dataType);
@@ -295,12 +297,15 @@ function unfilterToRegion(data, barType, sector, dataType, svg, rects, x, y, xAx
     handleTransitions(data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis, changeBarType);
     yAxis.selectAll("g").classed("inactive", false);
     yAxis.select(".region-highlight").remove();
-    d3.select(".type-changer--bar").classed("inactive", false);
-    d3.selectAll(".legend-item").classed("inactive", false);
-    d3.selectAll(".type-changer--bar, .legend-item a").attr("tabindex", 0)
+
+    var wrapper = getWrapper(svg);
+    wrapper.select(".type-changer--bar").classed("inactive", false);
+    wrapper.selectAll(".legend-item").classed("inactive", false);
+    wrapper.selectAll(".type-changer--bar, .legend-item a").attr("tabindex", 0)
 }
 
 function filterToRegion(region, data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis, changeBarType) {
+    var wrapper = getWrapper(svg);
     if (y.domain().length === 1 && y.domain()[0] === region) {
         unfilterToRegion(data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis, changeBarType);
         return;
@@ -311,13 +316,13 @@ function filterToRegion(region, data, barType, sector, dataType, svg, rects, x, 
     }
 
     if (barType === "stacked") {
-        d3.select(".type-changer--bar").on("click")();
+        wrapper.select(".type-changer--bar").on("click")();
     }
 
-    d3.select(".type-changer--bar").classed("inactive", true);
-    d3.selectAll(".legend-item").classed("inactive", true);
+    wrapper.select(".type-changer--bar").classed("inactive", true);
+    wrapper.selectAll(".legend-item").classed("inactive", true);
 
-    d3.selectAll(".type-changer--bar, .legend-item a").attr("tabindex", null)
+    wrapper.selectAll(".type-changer--bar, .legend-item a").attr("tabindex", null)
 
     var yDomain = makeYDomain(data);
     var groupedData = d3.nest().key(function (d) { return d.region; }).entries(data);
@@ -444,7 +449,7 @@ var initStackedBarChart = {
 
         var color = d3.scaleOrdinal(d3.schemeCategory20);
 
-        var svg = d3.select("."+domEle).append("svg")
+        var svg = d3.select(config.wrapper).select("."+domEle).append("svg")
             .attr("viewBox", "0 0 " +
                   (width + margin.left + margin.right) + " " +
                   (height + margin.top + margin.bottom)
@@ -590,7 +595,31 @@ var initStackedBarChart = {
     }
 }
 
-initStackedBarChart.draw({
-    data: NLCD,
-    element: 'stacked-bar'
-});
+d3.selectAll(".figure--5_1_a").each(function () {
+    initStackedBarChart.draw({
+        data: NLCD,
+        element: 'stacked-bar',
+        wrapper: this
+    });
+})
+
+// https://developer.mozilla.org/en-US/docs/Web/API/Element/closest
+if (!Element.prototype.matches) {
+    Element.prototype.matches = Element.prototype.msMatchesSelector || Element.prototype.webkitMatchesSelector;
+}
+
+if (!Element.prototype.closest) {
+    Element.prototype.closest = function(s) {
+        var el = this;
+        if (!document.documentElement.contains(el)) {
+            return null;
+        }
+        do {
+            if (el.matches(s)) {
+                return el;
+            }
+            el = el.parentElement || el.parentNode;
+        } while (el !== null && el.nodeType === 1);
+        return null;
+    };
+}

@@ -360,10 +360,10 @@
             var wrapper = d3.select(config.wrapper);
             var domEle = config.element;
             var data = config.data.reverse();
-            var margin = {top: 5, right: 22, bottom: 45, left: 108};
+            var margin = {top: 5, right: 22, bottom: 45, left: 145};
 
             var width = 720 - margin.left - margin.right;
-            var height = 1086 - margin.top - margin.bottom;
+            var height = 1146 - margin.top - margin.bottom;
 
             var x = d3.scaleLinear().rangeRound([0, width])
                 .domain([0, 30]).nice();

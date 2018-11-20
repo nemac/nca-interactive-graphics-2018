@@ -6,8 +6,8 @@
     font: 14px Arial;
 }
 
-.graphic--stacked-bar .axis .tick text {
-    font-size: 13px;
+.figure--29_1 .axis .tick text {
+    font-size: 18px;
 }
 
 .graphic--stacked-bar text.axis--label--x {
@@ -154,24 +154,26 @@
     font-family: Arial;
 }
 
-.graphic--stacked-bar .legend-item:nth-child(1), .graphic--stacked-bar .legend-item:nth-child(4) {
+.figure--29_1 .legend-item:nth-child(1), .figure--29_1 .legend-item:nth-child(4) {
+    padding-left: 0;
     padding-right: 10px;
 }
 
-.graphic--stacked-bar .legend-item:nth-child(3), .graphic--stacked-bar .legend-item:nth-child(6) {
+.figure--29_1 .legend-item:nth-child(3), .figure--29_1 .legend-item:nth-child(6) {
     padding-left: 10px;
+    padding-right: 0;
 }
 
-.graphic--stacked-bar .legend-item:nth-child(2), .graphic--stacked-bar .legend-item:nth-child(5) {
+.figure--29_1 .legend-item:nth-child(2), .figure--29_1 .legend-item:nth-child(5) {
     padding-left: 5px;
     padding-right: 5px;
 }
 
-.graphic--stacked-bar .legend-item:nth-child(-n+3) {
+.figure--29_1 .legend-item:nth-child(-n+3) {
     padding-bottom: 10px;
 }
 
-.graphic--stacked-bar .legend-item a {
+.figure--29_1 .legend-item a {
     height: 46px;
     line-height: 46px;
     padding: 0px 10px 0px 30px;
@@ -194,7 +196,7 @@
     background: #eee;
 }
 
-.graphic--stacked-bar .legend-item a:before {
+.figure--29_1 .legend-item a:before {
     content: "";
     width: 16px;
     height: 16px;

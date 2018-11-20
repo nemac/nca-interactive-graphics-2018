@@ -229,12 +229,12 @@ function handleTransitions(data, barType, sector, dataType, svg, rects, x, y, xA
 }
 
 function getActiveRegionY(index) {
-    var sidebarHeight = 536; // height - margintop - marginbottom
+    var sidebarHeight = 353; // height - margintop - marginbottom
     var tickRegionOffset = 7; // I dunno where this is from. But it's the top and bottom pixel offset
     var regions = 7; // Number of regions
     var tickRegionHeight = sidebarHeight - (tickRegionOffset * 2);
     var tickHeight = tickRegionHeight / regions;
-    var offset = tickRegionOffset - 12;
+    var offset = tickRegionOffset - 11;
 
     return (tickRegionHeight - (index * tickHeight)) + offset;
 }

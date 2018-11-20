@@ -1,3 +1,4 @@
+(function () {
 var NLCD = [
     { "id": 0, "type":"Agriculture", "region": "Alaska", "area": 333637200, "percent": 2.0113345836599527e-4 },
     { "id": 1, "type":"Agriculture", "region": "Hawaii", "area": 295296490, "percent": 0.16118072989672022 },
@@ -432,6 +433,7 @@ var initStackedBarChart = {
         var sector = undefined;
         var dataType = "percent";
 
+        var wrapper = d3.select(config.wrapper);
         var domEle = config.element;
         var data = config.data.map(function (d) {
             d.percent = d.percent * 100;
@@ -449,7 +451,7 @@ var initStackedBarChart = {
 
         var color = d3.scaleOrdinal(d3.schemeCategory20);
 
-        var svg = d3.select(config.wrapper).select("."+domEle).append("svg")
+        var svg = wrapper.select("."+domEle).append("svg")
             .attr("viewBox", "0 0 " +
                   (width + margin.left + margin.right) + " " +
                   (height + margin.top + margin.bottom)
@@ -529,13 +531,13 @@ var initStackedBarChart = {
         });
 
         function triggerBarTypeTransition() {
-            if (d3.select(".type-changer--bar").classed("inactive")) {
+            if (wrapper.select(".type-changer--bar").classed("inactive")) {
                 return;
             }
             barType = (barType === "grouped") ? "stacked" : "grouped";
-            d3.select(".type-changer--bar .type-changer--helper").classed("grouped", (barType === "grouped") ? true : false)
-            d3.select(".type-changer--bar .type-changer--helper").classed("stacked", (barType === "stacked") ? true : false)
-            d3.select(".type-changer--bar .stacked-bar--UI--label").text((barType === "grouped") ? "Grouped" : "Stacked")
+            wrapper.select(".type-changer--bar .type-changer--helper").classed("grouped", (barType === "grouped") ? true : false)
+            wrapper.select(".type-changer--bar .type-changer--helper").classed("stacked", (barType === "stacked") ? true : false)
+            wrapper.select(".type-changer--bar .stacked-bar--UI--label").text((barType === "grouped") ? "Grouped" : "Stacked")
             handleTransitions(data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis, true);
         }
 
@@ -548,6 +550,7 @@ var initStackedBarChart = {
         }
 
         function triggerTypeReorder() {
+            console.log(wrapper)
             if (d3.select(this.parentNode).classed("inactive")) {
                 return;
             }
@@ -559,7 +562,7 @@ var initStackedBarChart = {
 
             sector = newSector;
 
-            d3.select(".legend-item--" + sector.toLowerCase().replace("/", "")).lower();
+            wrapper.select(".legend-item--" + sector.toLowerCase().replace("/", "")).lower();
             handleTransitions(data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis, false);
         }
 
@@ -573,8 +576,8 @@ var initStackedBarChart = {
 
         function triggerDataSwap() {
             dataType = (dataType === "percent") ? "area" : "percent";
-            d3.select(".type-changer--data .type-changer--helper").text((dataType === "percent") ? "%" : "A");
-            d3.select(".type-changer--data .stacked-bar--UI--label").text((dataType === "percent") ? "Percent" : "Square Meters")
+            wrapper.select(".type-changer--data .type-changer--helper").text((dataType === "percent") ? "%" : "A");
+            wrapper.select(".type-changer--data .stacked-bar--UI--label").text((dataType === "percent") ? "Percent" : "Square Meters")
             handleTransitions(data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis, false);
         }
 
@@ -586,12 +589,12 @@ var initStackedBarChart = {
             triggerDataSwap();
         }
 
-        d3.select(".type-changer--data").on("click", triggerDataSwap);
-        d3.select(".type-changer--data").on("keypress", triggerDataSwapKeypress);
-        d3.select(".type-changer--bar").on("click", triggerBarTypeTransition);
-        d3.select(".type-changer--bar").on("keypress", triggerBarTypeTransitionKeypress);
-        d3.selectAll(".graphic--stacked-bar--legend a").on("click", triggerTypeReorder);
-        d3.selectAll(".graphic--stacked-bar--legend a").on("keypress", triggerTypeReorderKeypress);
+        wrapper.select(".type-changer--data").on("click", triggerDataSwap);
+        wrapper.select(".type-changer--data").on("keypress", triggerDataSwapKeypress);
+        wrapper.select(".type-changer--bar").on("click", triggerBarTypeTransition);
+        wrapper.select(".type-changer--bar").on("keypress", triggerBarTypeTransitionKeypress);
+        wrapper.selectAll(".graphic--stacked-bar--legend a").on("click", triggerTypeReorder);
+        wrapper.selectAll(".graphic--stacked-bar--legend a").on("keypress", triggerTypeReorderKeypress);
     }
 }
 
@@ -623,3 +626,4 @@ if (!Element.prototype.closest) {
         return null;
     };
 }
+})();

@@ -85,77 +85,29 @@
 
 .graphic--stacked-bar {
     position: relative;
-    width: 720px;
     max-width: 100%;
     padding-top: 10px;
     padding-bottom: 15px;
     background: #efefef;
 }
 
-.graphic--stacked-bar rect {
-    cursor: pointer;
-}
-
-.graphic--stacked-bar rect[data-type="Agriculture"]:hover {
-    fill: #946324 !important;
-}
-
-.graphic--stacked-bar rect[data-type="Barren"]:hover {
-    fill: #bfbfbf !important;
-}
-
-.graphic--stacked-bar rect[data-type="Built-up"]:hover {
-    fill: #cd170a !important;
-}
-
-.graphic--stacked-bar rect[data-type="Conservation"]:hover {
-    fill: #88c13e !important;
-}
-
-.graphic--stacked-bar rect[data-type="Developed"]:hover {
-    fill: #c70f21 !important;
-}
-
-.graphic--stacked-bar rect[data-type="Forest"]:hover {
-    fill: #8dbe55 !important;
-}
-
-.graphic--stacked-bar rect[data-type="Grass/Shrub"]:hover {
-    fill: #c7cc38 !important;
-}
-
-.graphic--stacked-bar rect[data-type="Production"]:hover {
-    fill: #808ac6 !important;
-}
-
-.graphic--stacked-bar rect[data-type="Recreation"]:hover {
-    fill: #ff9a42 !important;
-}
-
-.graphic--stacked-bar rect[data-type="Snow/Ice"]:hover {
-    fill: #bebcbb !important;
-}
-
-.graphic--stacked-bar rect[data-type="Water"]:hover {
-    fill: #3e5a8e !important;
-}
-
-.graphic--stacked-bar rect[data-type="Wetland"]:hover {
-    fill: #88badd !important;
-}
-
 .graphic--stacked-bar--region--wrapper, .graphic--stacked-bar--legend--wrapper {
-    padding-left: 88px;
+    padding-left: 74px;
     padding-right: 22px;
     margin: 10px 0;
 }
 
 .graphic--stacked-bar .region-item, .graphic--stacked-bar .legend-item {
     display: inline-block;
+    vertical-align: top;
     width: 25%;
     text-align: left;
     line-height: 18px;
     font-family: Arial;
+}
+
+.graphic--stacked-bar .legend-item--mechanicallydisturbed, .graphic--stacked-bar .legend-item--nonmechanicallydisturbed {
+    width: 33%;
 }
 
 .graphic--stacked-bar .region-item:nth-child(1), .graphic--stacked-bar .region-item:nth-child(5),
@@ -180,20 +132,34 @@
     padding-bottom: 10px;
 }
 
-.graphic--stacked-bar .region-item a,
 .graphic--stacked-bar .legend-item a {
     padding: 5px 10px 2px 30px;
     position: relative;
     display: block;
+    border: 1px solid #999;
+    border-radius: 1px;
+    background: #f7f7f7;
+}
+
+.graphic--stacked-bar .region-item a {
+    height: 46px;
+    position: relative;
+    padding: 0 10px;
+    display: flex;
+    align-items: center;
     cursor: pointer;
     border: 1px solid #999;
     border-radius: 3px;
     background: #fff;
+    box-shadow: #aaa 1px 1px 1px;
 }
 
-.graphic--stacked-bar .region-item a {
-    padding: 5px 10px 2px 10px;
-    box-shadow: #aaa 1px 1px 1px;
+.graphic--stacked-bar .region-item a.active, .graphic--stacked-bar .region-item a.active:hover {
+    background: #297fb7;
+    color: #fff;
+}
+
+.graphic--stacked-bar .region-item span { 
 }
 
 .graphic--stacked-bar .region-item a:hover {
@@ -213,14 +179,6 @@
     background-color: #ae742a;
 }
 
-.graphic--stacked-bar .legend-item--builtup a:before {
-    background-color: #f42c1f;
-}
-
-.graphic--stacked-bar .legend-item--conservation a:before {
-    background-color: #b2d57f;
-}
-
 .graphic--stacked-bar .legend-item--forest a:before {
     background-color: #a1d06a;
 }
@@ -231,14 +189,6 @@
 
 .graphic--stacked-bar .legend-item--grassshrub a:before {
     background-color: #d7db56;
-}
-
-.graphic--stacked-bar .legend-item--production a:before {
-    background-color: #a3aad6;
-}
-
-.graphic--stacked-bar .legend-item--recreation a:before {
-    background-color: #ffc572;
 }
 
 .graphic--stacked-bar .legend-item--snowice a:before {
@@ -257,14 +207,16 @@
     background-color: #d3d3d3;
 }
 
-.graphic--stacked-bar .graphic--stacked-bar--UI {
-    font-family: Arial;
-    padding-left: 88px;
+.graphic--stacked-bar .legend-item--mining a:before {
+    background-color: #645436;
 }
 
-.graphic--stacked-bar .graphic--stacked-bar--UI--item {
-    display: inline-block;
-    width: 50%;
+.graphic--stacked-bar .legend-item--mechanicallydisturbed a:before {
+    background-color: #c41e82;
+}
+
+.graphic--stacked-bar .legend-item--nonmechanicallydisturbed a:before {
+    background-color: #6a3e9e;
 }
 
 .graphic--stacked-bar .graphic--stacked-bar--region--wrapper p,
@@ -346,7 +298,8 @@
         padding-left: 0;
     }
     
-    .graphic--stacked-bar .region-item {
+    .graphic--stacked-bar .region-item,
+    .graphic--stacked-bar .legend-item {
         width: 50%;
     }
     

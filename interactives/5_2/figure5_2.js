@@ -36,12 +36,6 @@
         { "region": "Midwest", "sector": "Mechanically disturbed", "start": 1992, "end": 2000, "gain": 862.625, "loss": 666.625, "net": 196 },
         { "region": "Midwest", "sector": "Mechanically disturbed", "start": 2001, "end": 2006, "gain": 0, "loss": 0, "net": 0 },
         { "region": "Midwest", "sector": "Mechanically disturbed", "start": 2006, "end": 2011, "gain": 0, "loss": 0, "net": 0 },
-        { "region": "Midwest", "sector": "Mining", "start": 1973, "end": 1980, "gain": 44.85714285714286, "loss": 42.57142857142857, "net": 2.285714285714292 },
-        { "region": "Midwest", "sector": "Mining", "start": 1980, "end": 1986, "gain": 44.333333333333336, "loss": 43.166666666666664, "net": 1.1666666666666714 },
-        { "region": "Midwest", "sector": "Mining", "start": 1986, "end": 1992, "gain": 89.33333333333333, "loss": 46.333333333333336, "net": 42.99999999999999 },
-        { "region": "Midwest", "sector": "Mining", "start": 1992, "end": 2000, "gain": 52.125, "loss": 51.75, "net": 0.375 },
-        { "region": "Midwest", "sector": "Mining", "start": 2001, "end": 2006, "gain": 0, "loss": 0, "net": 0 },
-        { "region": "Midwest", "sector": "Mining", "start": 2006, "end": 2011, "gain": 0, "loss": 0, "net": 0 },
         { "region": "Midwest", "sector": "Nonmechanically disturbed", "start": 1973, "end": 1980, "gain": 88, "loss": 0, "net": 88 },
         { "region": "Midwest", "sector": "Nonmechanically disturbed", "start": 1980, "end": 1986, "gain": 0, "loss": 102.83333333333334, "net": -102.83333333333334 },
         { "region": "Midwest", "sector": "Nonmechanically disturbed", "start": 1986, "end": 1992, "gain": 0, "loss": 0, "net": 0 },
@@ -102,12 +96,6 @@
         { "region": "Northeast", "sector": "Mechanically disturbed", "start": 1992, "end": 2000, "gain": 703.375, "loss": 682, "net": 21.375 },
         { "region": "Northeast", "sector": "Mechanically disturbed", "start": 2001, "end": 2006, "gain": 0, "loss": 0, "net": 0 },
         { "region": "Northeast", "sector": "Mechanically disturbed", "start": 2006, "end": 2011, "gain": 0, "loss": 0, "net": 0 },
-        { "region": "Northeast", "sector": "Mining", "start": 1973, "end": 1980, "gain": 90.42857142857143, "loss": 83.42857142857143, "net": 7 },
-        { "region": "Northeast", "sector": "Mining", "start": 1980, "end": 1986, "gain": 94, "loss": 88, "net": 6 },
-        { "region": "Northeast", "sector": "Mining", "start": 1986, "end": 1992, "gain": 95.5, "loss": 90.16666666666667, "net": 5.333333333333329 },
-        { "region": "Northeast", "sector": "Mining", "start": 1992, "end": 2000, "gain": 128.75, "loss": 53.125, "net": 75.625 },
-        { "region": "Northeast", "sector": "Mining", "start": 2001, "end": 2006, "gain": 0, "loss": 0, "net": 0 },
-        { "region": "Northeast", "sector": "Mining", "start": 2006, "end": 2011, "gain": 0, "loss": 0, "net": 0 },
         { "region": "Northeast", "sector": "Nonmechanically disturbed", "start": 1973, "end": 1980, "gain": 0, "loss": 0, "net": 0 },
         { "region": "Northeast", "sector": "Nonmechanically disturbed", "start": 1980, "end": 1986, "gain": 19.166666666666668, "loss": 0, "net": 19.166666666666668 },
         { "region": "Northeast", "sector": "Nonmechanically disturbed", "start": 1986, "end": 1992, "gain": 0, "loss": 14.5, "net": -14.5 },
@@ -168,12 +156,6 @@
         { "region": "Northern Great Plains", "sector": "Mechanically disturbed", "start": 1992, "end": 2000, "gain": 189.25, "loss": 271.5, "net": -82.25 },
         { "region": "Northern Great Plains", "sector": "Mechanically disturbed", "start": 2001, "end": 2006, "gain": 0, "loss": 0, "net": 0 },
         { "region": "Northern Great Plains", "sector": "Mechanically disturbed", "start": 2006, "end": 2011, "gain": 0, "loss": 0, "net": 0 },
-        { "region": "Northern Great Plains", "sector": "Mining", "start": 1973, "end": 1980, "gain": 19.142857142857142, "loss": 6.857142857142857, "net": 12.285714285714285 },
-        { "region": "Northern Great Plains", "sector": "Mining", "start": 1980, "end": 1986, "gain": 11.333333333333332, "loss": 5, "net": 6.333333333333332 },
-        { "region": "Northern Great Plains", "sector": "Mining", "start": 1986, "end": 1992, "gain": 11.833333333333332, "loss": 3.3333333333333335, "net": 8.499999999999998 },
-        { "region": "Northern Great Plains", "sector": "Mining", "start": 1992, "end": 2000, "gain": 14.25, "loss": 2.875, "net": 11.375 },
-        { "region": "Northern Great Plains", "sector": "Mining", "start": 2001, "end": 2006, "gain": 0, "loss": 0, "net": 0 },
-        { "region": "Northern Great Plains", "sector": "Mining", "start": 2006, "end": 2011, "gain": 0, "loss": 0, "net": 0 },
         { "region": "Northern Great Plains", "sector": "Nonmechanically disturbed", "start": 1973, "end": 1980, "gain": 10, "loss": 198.57142857142858, "net": -188.57142857142858 },
         { "region": "Northern Great Plains", "sector": "Nonmechanically disturbed", "start": 1980, "end": 1986, "gain": 4.666666666666667, "loss": 11.666666666666666, "net": -6.999999999999999 },
         { "region": "Northern Great Plains", "sector": "Nonmechanically disturbed", "start": 1986, "end": 1992, "gain": 885.3333333333334, "loss": 4.666666666666667, "net": 880.6666666666667 },
@@ -234,12 +216,6 @@
         { "region": "Northwest", "sector": "Mechanically disturbed", "start": 1992, "end": 2000, "gain": 1129.5, "loss": 1405.25, "net": -275.75 },
         { "region": "Northwest", "sector": "Mechanically disturbed", "start": 2001, "end": 2006, "gain": 0, "loss": 0, "net": 0 },
         { "region": "Northwest", "sector": "Mechanically disturbed", "start": 2006, "end": 2011, "gain": 0, "loss": 0, "net": 0 },
-        { "region": "Northwest", "sector": "Mining", "start": 1973, "end": 1980, "gain": 8.285714285714286, "loss": 0.7142857142857142, "net": 7.571428571428572 },
-        { "region": "Northwest", "sector": "Mining", "start": 1980, "end": 1986, "gain": 11.5, "loss": 3.3333333333333335, "net": 8.166666666666666 },
-        { "region": "Northwest", "sector": "Mining", "start": 1986, "end": 1992, "gain": 11, "loss": 4.5, "net": 6.5 },
-        { "region": "Northwest", "sector": "Mining", "start": 1992, "end": 2000, "gain": 12.25, "loss": 2.75, "net": 9.5 },
-        { "region": "Northwest", "sector": "Mining", "start": 2001, "end": 2006, "gain": 0, "loss": 0, "net": 0 },
-        { "region": "Northwest", "sector": "Mining", "start": 2006, "end": 2011, "gain": 0, "loss": 0, "net": 0 },
         { "region": "Northwest", "sector": "Nonmechanically disturbed", "start": 1973, "end": 1980, "gain": 8.714285714285714, "loss": 157, "net": -148.28571428571428 },
         { "region": "Northwest", "sector": "Nonmechanically disturbed", "start": 1980, "end": 1986, "gain": 295.8333333333333, "loss": 10.333333333333332, "net": 285.5 },
         { "region": "Northwest", "sector": "Nonmechanically disturbed", "start": 1986, "end": 1992, "gain": 577, "loss": 279.8333333333333, "net": 297.1666666666667 },
@@ -300,12 +276,6 @@
         { "region": "Southeast", "sector": "Mechanically disturbed", "start": 1992, "end": 2000, "gain": 5081.25, "loss": 4143.375, "net": 937.875 },
         { "region": "Southeast", "sector": "Mechanically disturbed", "start": 2001, "end": 2006, "gain": 0, "loss": 0, "net": 0 },
         { "region": "Southeast", "sector": "Mechanically disturbed", "start": 2006, "end": 2011, "gain": 0, "loss": 0, "net": 0 },
-        { "region": "Southeast", "sector": "Mining", "start": 1973, "end": 1980, "gain": 387, "loss": 235.28571428571428, "net": 151.71428571428572 },
-        { "region": "Southeast", "sector": "Mining", "start": 1980, "end": 1986, "gain": 293.8333333333333, "loss": 296.8333333333333, "net": -3 },
-        { "region": "Southeast", "sector": "Mining", "start": 1986, "end": 1992, "gain": 221.16666666666666, "loss": 337.1666666666667, "net": -116.00000000000003 },
-        { "region": "Southeast", "sector": "Mining", "start": 1992, "end": 2000, "gain": 170.375, "loss": 294.875, "net": -124.5 },
-        { "region": "Southeast", "sector": "Mining", "start": 2001, "end": 2006, "gain": 0, "loss": 0, "net": 0 },
-        { "region": "Southeast", "sector": "Mining", "start": 2006, "end": 2011, "gain": 0, "loss": 0, "net": 0 },
         { "region": "Southeast", "sector": "Nonmechanically disturbed", "start": 1973, "end": 1980, "gain": 20.57142857142857, "loss": 23, "net": -2.4285714285714306 },
         { "region": "Southeast", "sector": "Nonmechanically disturbed", "start": 1980, "end": 1986, "gain": 58.83333333333333, "loss": 23.833333333333332, "net": 35 },
         { "region": "Southeast", "sector": "Nonmechanically disturbed", "start": 1986, "end": 1992, "gain": 12, "loss": 47.5, "net": -35.5 },
@@ -366,12 +336,6 @@
         { "region": "Southern Great Plains", "sector": "Mechanically disturbed", "start": 1992, "end": 2000, "gain": 766.5, "loss": 707.25, "net": 59.25 },
         { "region": "Southern Great Plains", "sector": "Mechanically disturbed", "start": 2001, "end": 2006, "gain": 0, "loss": 0, "net": 0 },
         { "region": "Southern Great Plains", "sector": "Mechanically disturbed", "start": 2006, "end": 2011, "gain": 0, "loss": 0, "net": 0 },
-        { "region": "Southern Great Plains", "sector": "Mining", "start": 1973, "end": 1980, "gain": 52.57142857142857, "loss": 12, "net": 40.57142857142857 },
-        { "region": "Southern Great Plains", "sector": "Mining", "start": 1980, "end": 1986, "gain": 85.83333333333333, "loss": 16, "net": 69.83333333333333 },
-        { "region": "Southern Great Plains", "sector": "Mining", "start": 1986, "end": 1992, "gain": 76.83333333333333, "loss": 31, "net": 45.83333333333333 },
-        { "region": "Southern Great Plains", "sector": "Mining", "start": 1992, "end": 2000, "gain": 65.125, "loss": 20.375, "net": 44.75 },
-        { "region": "Southern Great Plains", "sector": "Mining", "start": 2001, "end": 2006, "gain": 0, "loss": 0, "net": 0 },
-        { "region": "Southern Great Plains", "sector": "Mining", "start": 2006, "end": 2011, "gain": 0, "loss": 0, "net": 0 },
         { "region": "Southern Great Plains", "sector": "Nonmechanically disturbed", "start": 1973, "end": 1980, "gain": 0, "loss": 0, "net": 0 },
         { "region": "Southern Great Plains", "sector": "Nonmechanically disturbed", "start": 1980, "end": 1986, "gain": 0, "loss": 0, "net": 0 },
         { "region": "Southern Great Plains", "sector": "Nonmechanically disturbed", "start": 1986, "end": 1992, "gain": 13.166666666666666, "loss": 0, "net": 13.166666666666666 },
@@ -432,12 +396,6 @@
         { "region": "Southwest", "sector": "Mechanically disturbed", "start": 1992, "end": 2000, "gain": 260.5, "loss": 376.875, "net": -116.375 },
         { "region": "Southwest", "sector": "Mechanically disturbed", "start": 2001, "end": 2006, "gain": 0, "loss": 0, "net": 0 },
         { "region": "Southwest", "sector": "Mechanically disturbed", "start": 2006, "end": 2011, "gain": 0, "loss": 0, "net": 0 },
-        { "region": "Southwest", "sector": "Mining", "start": 1973, "end": 1980, "gain": 63, "loss": 8.142857142857142, "net": 54.85714285714286 },
-        { "region": "Southwest", "sector": "Mining", "start": 1980, "end": 1986, "gain": 72.66666666666667, "loss": 7.833333333333333, "net": 64.83333333333334 },
-        { "region": "Southwest", "sector": "Mining", "start": 1986, "end": 1992, "gain": 100.83333333333334, "loss": 20.5, "net": 80.33333333333334 },
-        { "region": "Southwest", "sector": "Mining", "start": 1992, "end": 2000, "gain": 79.125, "loss": 11, "net": 68.125 },
-        { "region": "Southwest", "sector": "Mining", "start": 2001, "end": 2006, "gain": 0, "loss": 0, "net": 0 },
-        { "region": "Southwest", "sector": "Mining", "start": 2006, "end": 2011, "gain": 0, "loss": 0, "net": 0 },
         { "region": "Southwest", "sector": "Nonmechanically disturbed", "start": 1973, "end": 1980, "gain": 320.14285714285717, "loss": 111.42857142857143, "net": 208.71428571428572 },
         { "region": "Southwest", "sector": "Nonmechanically disturbed", "start": 1980, "end": 1986, "gain": 176.16666666666669, "loss": 376.6666666666667, "net": -200.5 },
         { "region": "Southwest", "sector": "Nonmechanically disturbed", "start": 1986, "end": 1992, "gain": 243.33333333333331, "loss": 177, "net": 66.33333333333331 },
@@ -483,7 +441,6 @@ function getSectorOffset(sector) {
         "Developed",
         "Forest",
         "Grassland/Shrubland",
-        "Mining",
         "Water",
         "Wetland",
         "Snow/Ice",
@@ -531,34 +488,6 @@ var tip = d3.tip()
             "<div><strong>Area:</strong> <span>" + numberWithCommas(d.data.area) + "</span></div>";
     });
 
-function makeYDomain(data) {
-    var a = data.map(function (d) { return d.region;})
-    var temp = {};
-    for (var i = 0; i < a.length; i++)
-        temp[a[i]] = true;
-    return Object.keys(temp);
-}
-
-function stackData(data, dataType) {
-    var stackedData = [];
-
-    data.forEach(function (d) {
-        var x0 = 0;
-        var x1 = 0;
-
-        d.values.forEach(function (v) {
-            x0 = x1;
-            x1 += v[dataType];
-            var processedData = [x0, x1];
-            processedData["data"] = v;
-            stackedData.push(processedData);
-        });
-
-    });
-
-    return stackedData;
-}
-
 function orderDataByType(data, sector, dataType) {
     data.sort(function (a, b) {
         if (a.type === sector && b.type === sector) {
@@ -578,126 +507,23 @@ function setAxisLabel(svg, dataType) {
         .text((dataType === "percent") ? "(Percent)" : "(Square Meters)");
 }
 
-function groupedToStacked(rects, stackedData, x, y) {
-    rects.data(stackedData, function (d) { return d.data.id;})
-        .transition()
-            .duration(400)
-            .attr("width", function (d, i) { return x(d[1]) - x(d[0]); })
-            .attr("x", function(d, i) { return x(d[0]); })
-        .transition()
-            .attr("y", function(d) { return y(d.data.region); })
-            .attr("height", function(d) { return y.bandwidth(); });
-}
+function handleTransitions(data, rects, x, y, yAxis, baseline) {
+    y.domain(getRegionDomain(data));
 
-function stackedToGrouped(rects, stackedData, x, y, n) {
-    var sectors = 8;
-
-    rects.data(stackedData, function (d) { return d.data.id;})
-        .transition()
-            .duration(300)
-            .attr("y", function(d, i) { return y(d.data.region) + ((y.bandwidth() / n ) * (i % sectors)); })
-            .attr("height", y.bandwidth() / n)
-            .attr("width", function(d) { return x(d[1]) - x(d[0]) })
-        .transition()
-            .attr("x", x(0))
-}
-
-// Reorder based on sector
-function stackedToStacked(rects, stackedData, x, y) {
-    rects.data(stackedData, function (d) { return d.data.id;})
-        .transition()
-            .duration(300)
-            .attr("y", function(d) { return y(d.data.region); })
-        .transition()
-            .duration(300)
-            .delay(300)
-            .attr("x", function(d) { return x(d[0]); })
-            .attr("width", function(d) { return x(d[1]) - x(d[0]) })
-            .attr("height", y.bandwidth())
-}
-
-function groupedToGrouped(rects, stackedData, x, y, n) {
-    var sectors = 8;
-
-    rects.transition(300)
-        .attr("x", x(0))
-        .attr("y", function(d, i) { return y(d.data.region) + ((y.bandwidth() / n ) * (i % sectors)); })
-
-    rects.data(stackedData, function (d) { return d.data.id;})
+    rects.data(data)
         .transition(500)
-            .delay(300)
-            .attr("x", x(0))
-            .attr("width", function(d) { return x(d[1]) - x(d[0]) })
-            .attr("y", function(d, i) { return y(d.data.region) + ((y.bandwidth() / n ) * (i % sectors)); })
-            .attr("height", y.bandwidth() / n)
-}
+        .attr("height", function(d) { return Math.abs(Math.abs(y(d.net)) - Math.abs(y(0))); })
+        .attr("width", function(d, i) { return (x(d.end) - x(d.start)) / getLandcoverSectorCount(d.start); })
+        .attr("y", function (d) { return d.net > 0 ? y(d.net) : y(0) })
+        .attr("x", function(d, i) { return x(d.start) + ((x(d.end) - x(d.start)) * (getSectorOffset(d.sector) / getLandcoverSectorCount(d.start))); })
+        .attr("data-region", function (d) { return d.region; })
 
-function handleTransitions(data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis, changeBarType) {
-    if (y.domain().length === 1) {
-        return;
-    }
+    baseline.transition(500)
+        .attr("x2", x(x.domain()[1]))
+        .attr("y1", y(0) + .5)
+        .attr("y2", y(0) + .5)
 
-    var max_area = (dataType === "area") ? ( (barType === "stacked") ? 1809124505200 : 1193e9 ) : 100;
-
-    if (sector) {
-        orderDataByType(data, sector, dataType);
-    }
-    
-    var yDomain = makeYDomain(data);
-
-    x.domain([0, max_area]);
-    y.domain(yDomain);
-
-    var groupedData = d3.nest().key(function (d) { return d.region; }).entries(data);
-    var stackedData = stackData(groupedData, dataType);
-
-    var n = 9;
-    if (changeBarType === true) {
-        if (barType === "stacked") {
-            groupedToStacked(rects, stackedData, x, y);
-        } else if (barType === "grouped") { 
-            stackedToGrouped(rects, stackedData, x, y, n);
-        }
-    } else {
-        if (barType === "stacked") {
-            stackedToStacked(rects, stackedData, x, y);
-        } else if (barType === "grouped") {
-            groupedToGrouped(rects, stackedData, x, y, n);
-        }
-    }
-
-    var f = d3.format(".3s");
-
-    xAxis.transition()
-        .duration(300)
-        .call(d3.axisBottom(x).tickFormat(function (d) {
-            return dataType === "area" ? f(d).replace("G", "B") : (d + "%");
-        }))
-    setAxisLabel(svg, dataType)
-
-    var bandwidthOffset = y.bandwidth() / 2;
-    var offset = .5 // No idea where this comes from but is needed
-    yAxis.transition().duration(300).selectAll("g")
-        .attr("transform", function (d, i) { return "translate(0," + (y(d) + bandwidthOffset + offset) + ")" });
-}
-
-
-
-function getActiveRegionY(index) {
-    var sidebarHeight = 536; // height - margintop - marginbottom
-    var tickRegionOffset = 7; // I dunno where this is from. But it's the top and bottom pixel offset
-    var regions = 9; // Number of regions
-    var tickRegionHeight = sidebarHeight - (tickRegionOffset * 2);
-    var tickHeight = tickRegionHeight / regions;
-    var offset = tickRegionOffset - 12;
-
-    return (tickRegionHeight - (index * tickHeight)) + offset;
-}
-
-function wrappedAxis(y) {
-    return function (g) {
-        g.call(d3.axisLeft(y))
-    }
+    yAxis.transition(500).call(d3.axisLeft(y))
 }
 
 function getRegionDomain(data) {
@@ -723,7 +549,16 @@ function getLandcoverSectorCount(year) {
         return 8;
     }
 
-    return 11;
+    return 10;
+}
+
+function findRegionData(groupedData, region) {
+    var i, l;
+    for (i = 0, l = groupedData.length; i < l; i++) {
+        if (groupedData[i].key === region) {
+            return groupedData[i].values;
+        }
+    }
 }
 
 var initStackedBarChart = {
@@ -762,12 +597,6 @@ var initStackedBarChart = {
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 //        svg.call(tip);
-
-//        var stackedData = stackData(groupedData, dataType);
-
-//        console.log(groupedData)
-//        console.log(stackedData)
-
 
         var highlights = svg.append("g")
             .attr("class", "highlights")
@@ -839,12 +668,26 @@ var initStackedBarChart = {
             .attr("class", "axis--label--x")
             .text("Net Change (Square Miles)");
 
-        grid.append("line")
+        var baseline = grid.append("line")
             .attr("class", "gridline gridline--y")
             .attr("x2", x(x.domain()[1]))
             .attr("y1", y(0) + .5)
             .attr("y2", y(0) + .5)
             .attr("stroke", "#aaa")
+
+        function handleRegionChange() {
+            if (d3.select(this).classed("active")) {
+                return;
+            }
+
+            wrapper.select(".active").classed("active", false);
+            d3.select(this).classed("active", true);
+
+            var region = this.getAttribute("data-for");
+            var newData = findRegionData(groupedData, region);
+            handleTransitions(newData, rects, x, y, yAxis, baseline);
+        }
+        d3.selectAll(".region-item a").on("click", handleRegionChange);
 
 /*        
         var rects = svg.selectAll("rect.stacked-bar--bar")

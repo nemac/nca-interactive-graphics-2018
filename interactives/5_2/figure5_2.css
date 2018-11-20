@@ -60,7 +60,35 @@
     background: rgba(0, 0, 0, 0.8);
     color: #fff;
     border-radius: 2px;
-    font-family: sans-serif;
+    font-family: Arial;
+}
+
+.graphic--stacked-bar--tip table {
+    border-collapse: collapse;
+    border-spacing: 0px;
+    color: #fff;
+}
+
+.graphic--stacked-bar--tip th,
+.graphic--stacked-bar--tip td {
+    padding: 5px;
+    border-left: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+}
+
+.graphic--stacked-bar--tip th:nth-child(1),
+.graphic--stacked-bar--tip td:nth-child(1) {
+    border-left: 0;
+}
+
+.graphic--stacked-bar--tip th {
+    border-top: 0;
+}
+
+.graphic--stacked-bar--tip .tooltip-helper {
+    font-size: .8em;
+    padding: 0;
+    margin: 0;
 }
 
 /* Creates a small triangle extender for the tooltip */
@@ -294,8 +322,10 @@
 }
 
 @media (max-width: 575.9px) {
-    .graphic--stacked-bar .graphic--stacked-bar--region--wrapper, .graphic--stacked-bar .graphic--stacked-bar--UI {
-        padding-left: 0;
+    .graphic--stacked-bar .graphic--stacked-bar--legend--wrapper,
+    .graphic--stacked-bar .graphic--stacked-bar--region--wrapper {
+        padding-left: 10px;
+        padding-right: 10px;
     }
     
     .graphic--stacked-bar .region-item,
@@ -303,12 +333,14 @@
         width: 50%;
     }
     
-    .graphic--stacked-bar .region-item:nth-child(2n) {
+    .graphic--stacked-bar .region-item:nth-child(2n),
+    .graphic--stacked-bar .legend-item:nth-child(2n) {
         padding-left: 8px;
         padding-right: 0;
     }
     
-    .graphic--stacked-bar .region-item:nth-child(2n + 1) {
+    .graphic--stacked-bar .region-item:nth-child(2n + 1),
+    .graphic--stacked-bar .legend-item:nth-child(2n + 1) {
         padding-left: 0;
         padding-right: 8px;
     }
@@ -319,7 +351,7 @@
 }
 
 @media (min-width: 576px) and (max-width: 767.98px) {
-    .graphic--stacked-bar .region-item {
+    .graphic--stacked-bar .legend-item {
         font-size: .75em;
     }
 }

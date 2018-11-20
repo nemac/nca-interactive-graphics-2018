@@ -422,12 +422,8 @@
         { "region": "Southwest", "sector": "Wetland", "start": 2006, "end": 2011, "gain": 59.2, "loss": 11, "net": 48.2 }
     ];
 
-function numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " sq/m";
-}
-
-function formatPercentString(x) {
-    return (Math.round(x * 10) / 10).toString() + "%";
+function trimToThree(d) {
+    return +d.toFixed(3);
 }
 
 function getWrapper(svg) {
@@ -478,34 +474,37 @@ function typeColor(type) {
     }
 }
 
+function makeTooltipBody(values) {
+    var tbody = ""
+
+    values.forEach(function (d) {
+        tbody += "<tr>";
+        tbody += "<td>" + d.sector + "</td>";
+        tbody += "<td>" + trimToThree(d.net) + "</td>";
+        tbody += "<td>" + trimToThree(d.gain) + "</td>";
+        tbody += "<td>" + trimToThree(d.loss) + "</td>";
+        tbody += "</tr>";
+    });
+
+    return tbody;
+}
+
 var tip = d3.tip()
     .attr('class', 'd3-tip graphic--stacked-bar--tip')
     .offset([-10, 0])
     .html(function(d) {
-        return "<div><strong>Region:</strong> <span>" + d.data.region + "</span></div>" +
-            "<div><strong>Sector:</strong> <span>" + d.data.type + "</span></div>" +
-            "<div><strong>Percent:</strong> <span>" + formatPercentString(d.data.percent) + "</span></div>" +
-            "<div><strong>Area:</strong> <span>" + numberWithCommas(d.data.area) + "</span></div>";
+        return "<h4>Land Cover Change in the " + d.region + " region</h4>" +
+            "<h5>" + d.start + " - " + d.end + "</h5>" +
+            "<table><thead><tr>"+
+            "<th>Land Cover Class</th>" +
+            "<th>Net Change</th>" +
+            "<th>Gains</th>" +
+            "<th>Losses</th>" +
+            "</tr></thead>"+
+            "<tbody>" + makeTooltipBody(d.values) + "</tbody>" +
+            "</table>" +
+            "<p class='tooltip-helper'>All values are in square miles</p>";
     });
-
-function orderDataByType(data, sector, dataType) {
-    data.sort(function (a, b) {
-        if (a.type === sector && b.type === sector) {
-            return a[dataType] - b[dataType];
-        } else if (a.type === sector) {
-            return -1;
-        } else if (b.type === sector) {
-            return 1;
-        } else {
-            return 0;
-        }
-    })
-}
-
-function setAxisLabel(svg, dataType) {
-    svg.select(".axis--label--x--unit")
-        .text((dataType === "percent") ? "(Percent)" : "(Square Meters)");
-}
 
 function handleTransitions(data, rects, x, y, yAxis, baseline) {
     y.domain(getRegionDomain(data));
@@ -561,6 +560,37 @@ function findRegionData(groupedData, region) {
     }
 }
 
+function buildTooltipData(values) {
+    var data = [];
+    var cachedDates = [];
+
+    values.forEach(function (d) {
+        var startDate = d.start;
+
+        if (cachedDates.indexOf(startDate) === -1) {
+            cachedDates.push(startDate);
+            data.push({
+                "region": d.region,
+                "start": startDate,
+                "end": d.end,
+                "values": [d],
+            });
+        } else {
+            data[cachedDates.indexOf(startDate)].values.push(d);
+        }
+    })
+
+    return data;
+}
+
+function handleTooltipKeypress(d, i, nodes) {
+    if (d3.select(".d3-tip").node().style.opacity === "0") {
+        tip.show.call(this, d, i, nodes);
+    } else {
+        tip.hide.call(this, d, i, nodes);
+    }
+}
+
 var initStackedBarChart = {
     draw: function(config) {
         var barType = "stacked";
@@ -596,7 +626,7 @@ var initStackedBarChart = {
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-//        svg.call(tip);
+        svg.call(tip);
 
         var highlights = svg.append("g")
             .attr("class", "highlights")
@@ -637,7 +667,6 @@ var initStackedBarChart = {
             .attr("x", function(d, i) { return x(d.start) + ((x(d.end) - x(d.start)) * (getSectorOffset(d.sector) / getLandcoverSectorCount(d.start))); })
             .attr("data-region", function (d) { return d.region; })
             .attr("data-type", function (d) { return d.sector; })
-//            .attr("data-for", function (d) { return d.data.type; })
             .style("fill", function(d) { return typeColor(d.sector); })
 
         var xAxis = svg.append("g")
@@ -675,7 +704,26 @@ var initStackedBarChart = {
             .attr("y2", y(0) + .5)
             .attr("stroke", "#aaa")
 
+        var hoverRegions = svg.selectAll("rect.tooltip-box")
+            .data(buildTooltipData(groupedData[0].values))
+            .enter()
+            .append("rect")
+            .attr("class", "tooltip-box")
+            .attr("x", function(d) { return x(d.start); })
+            .attr("y", y(y.domain()[1]))
+            .attr("width", function(d) { return x(d.end) - x(d.start); })
+            .attr("height", y(y.domain()[0]))
+            .attr("fill", "rgba(0,0,0,0)")
+            .attr("tabindex", 0)
+            .on('mouseover', tip.show)
+            .on('mouseout', tip.hide)
+            .on('keypress', handleTooltipKeypress)
+
         function handleRegionChange() {
+            if (d3.event.key && d3.event.key !== "Enter") {
+                return;
+            }
+
             if (d3.select(this).classed("active")) {
                 return;
             }
@@ -688,126 +736,7 @@ var initStackedBarChart = {
             handleTransitions(newData, rects, x, y, yAxis, baseline);
         }
         d3.selectAll(".region-item a").on("click", handleRegionChange);
-
-/*        
-        var rects = svg.selectAll("rect.stacked-bar--bar")
-            .data(stackedData)
-            .enter().append("rect")
-            .classed("stacked-bar--bar", true)
-            .attr("y", function(d) { return y(d.data.region); })
-            .attr("x", function(d) { return x(d[0]); })
-            .attr("data-region", function (d) { return d.data.region; })
-            .attr("data-type", function (d) { return d.data.type; })
-            .attr("data-for", function (d) { return d.data.type; })
-            .attr("height", y.bandwidth())
-            .attr("width", function(d) { return x(d[1]) - x(d[0]) })
-            .style("fill", function(d, i) { return typeColor(d.data.type); })
-            .on('click', triggerTypeReorder)
-            .on('mouseover', tip.show)
-            .on('mouseout', tip.hide)
-        
-        var xAxis = svg.append("g")
-            .attr("class", "axis axis--x")
-            .attr("transform", "translate(0," + height + ")")
-            .call(d3.axisBottom(x).tickFormat(function (d) { return d + "%"; }));
-
-        
-        var yAxis = svg.append("g")
-            .attr("class", "axis axis--y")
-            .attr("transform", "translate(0,0)")
-            .call(d3.axisLeft(y));
-*/
-//        yAxis.selectAll("text")
-//            .each(splitLabels);
-
-/*
-        yAxis.selectAll("g").each(function (d, i) {
-            d3.select(this).append("rect")
-                .classed("stacked--region--handler", true)
-                .attr("data-for", d)
-                .attr("transform", "translate(-83," + (-(y.bandwidth()/2)) + ")")
-                .attr("width", "80px")
-                .attr("height", y.bandwidth())
-                .attr("fill", "#000")
-                .attr("opacity", "0")
-                .attr("tabindex", "0")
-                .on("click", function () {
-                    filterToRegion(d, data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis, true)
-                }).on("keypress", function () {
-                    if (d3.event.key !== "Enter") {
-                        return;
-                    }
-                    d3.event.stopPropagation();
-                    filterToRegion(d, data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis, true)
-                })
-        });
-
-        function triggerBarTypeTransition() {
-            if (wrapper.select(".type-changer--bar").classed("inactive")) {
-                return;
-            }
-            barType = (barType === "grouped") ? "stacked" : "grouped";
-            wrapper.select(".type-changer--bar .type-changer--helper").classed("grouped", (barType === "grouped") ? true : false)
-            wrapper.select(".type-changer--bar .type-changer--helper").classed("stacked", (barType === "stacked") ? true : false)
-            wrapper.select(".type-changer--bar .stacked-bar--UI--label").text((barType === "grouped") ? "Grouped" : "Stacked")
-            handleTransitions(data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis, true);
-        }
-
-        function triggerBarTypeTransitionKeypress() {
-            if (d3.event.key !== "Enter") {
-                return;
-            }
-            d3.event.stopPropagation();
-            triggerBarTypeTransition();
-        }
-
-        function triggerTypeReorder() {
-            console.log(wrapper)
-            if (d3.select(this.parentNode).classed("inactive")) {
-                return;
-            }
-
-            var newSector = this.getAttribute("data-for");
-            if (newSector === sector) {
-                return;
-            }
-
-            sector = newSector;
-
-            wrapper.select(".legend-item--" + sector.toLowerCase().replace("/", "")).lower();
-            handleTransitions(data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis, false);
-        }
-
-        function triggerTypeReorderKeypress() {
-            if (d3.event.key !== "Enter") {
-                return;
-            }
-            d3.event.stopPropagation();
-            triggerTypeReorder.call(this);
-        }
-
-        function triggerDataSwap() {
-            dataType = (dataType === "percent") ? "area" : "percent";
-            wrapper.select(".type-changer--data .type-changer--helper").text((dataType === "percent") ? "%" : "A");
-            wrapper.select(".type-changer--data .stacked-bar--UI--label").text((dataType === "percent") ? "Percent" : "Square Meters")
-            handleTransitions(data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis, false);
-        }
-
-        function triggerDataSwapKeypress() {
-            if (d3.event.key !== "Enter") {
-                return;
-            }
-            d3.event.stopPropagation();
-            triggerDataSwap();
-        }
-*/
-
- //       wrapper.select(".type-changer--data").on("click", triggerDataSwap);
-//        wrapper.select(".type-changer--data").on("keypress", triggerDataSwapKeypress);
-//        wrapper.select(".type-changer--bar").on("click", triggerBarTypeTransition);
-//        wrapper.select(".type-changer--bar").on("keypress", triggerBarTypeTransitionKeypress);
-//        wrapper.selectAll(".graphic--stacked-bar--legend a").on("click", triggerTypeReorder);
-//        wrapper.selectAll(".graphic--stacked-bar--legend a").on("keypress", triggerTypeReorderKeypress);
+        d3.selectAll(".region-item a").on("keypress", handleRegionChange);
     }
 }
 

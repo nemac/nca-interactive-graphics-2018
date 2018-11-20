@@ -503,7 +503,7 @@ var tip = d3.tip()
             "</tr></thead>"+
             "<tbody>" + makeTooltipBody(d.values) + "</tbody>" +
             "</table>" +
-            "<p class='tooltip-helper'>All values are in square miles</p>";
+            "<p class='tooltip-helper'>*All values are in square miles</p>";
     });
 
 function handleTransitions(data, rects, x, y, yAxis, baseline) {

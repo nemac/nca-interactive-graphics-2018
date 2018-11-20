@@ -735,8 +735,8 @@ var initStackedBarChart = {
             var newData = findRegionData(groupedData, region);
             handleTransitions(newData, rects, x, y, yAxis, baseline);
         }
-        d3.selectAll(".region-item a").on("click", handleRegionChange);
-        d3.selectAll(".region-item a").on("keypress", handleRegionChange);
+        wrapper.selectAll(".region-item a").on("click", handleRegionChange);
+        wrapper.selectAll(".region-item a").on("keypress", handleRegionChange);
     }
 }
 

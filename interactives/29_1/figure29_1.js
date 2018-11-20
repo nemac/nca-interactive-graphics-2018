@@ -1,5 +1,5 @@
 (function () {
-    var NLCD = [
+    var states = [
         { "id": 0, "type": "Transportation", "region": "Alabama", "percent": 2 },
         { "id": 1, "type": "Energy Efficiency", "region": "Alabama", "percent": 1 },
         { "id": 2, "type": "Non-CO2 GHG", "region": "Alabama", "percent": 1 },
@@ -357,6 +357,7 @@
         draw: function(config) {
             var sector = undefined;
 
+            var wrapper = d3.select(config.wrapper);
             var domEle = config.element;
             var data = config.data.reverse();
             var margin = {top: 5, right: 22, bottom: 45, left: 108};
@@ -369,7 +370,7 @@
             var y = d3.scaleBand().rangeRound([height, 0]).padding(.3)
                 .domain(makeYDomain(data));
 
-            var svg = d3.select(config.wrapper).select("."+domEle).append("svg")
+            var svg = wrapper.select("."+domEle).append("svg")
                 .attr("viewBox", "0 0 " +
                       (width + margin.left + margin.right) + " " +
                       (height + margin.top + margin.bottom)
@@ -422,7 +423,7 @@
 
                 sector = newSector;
 
-                d3.select(".legend-item--" + sector.toLowerCase().replace(/\//g, "-").replace(/\ /g, "-")).lower();
+                wrapper.select(".legend-item--" + sector.toLowerCase().replace(/\//g, "-").replace(/\ /g, "-")).lower();
                 handleTransitions(data, sector, rects, x, y, yAxis);
             }
 
@@ -434,14 +435,14 @@
                 triggerTypeReorder.call(this);
             }
 
-            d3.selectAll(".graphic--stacked-bar--legend a").on("click", triggerTypeReorder);
-            d3.selectAll(".graphic--stacked-bar--legend a").on("keypress", triggerTypeReorderKeypress);
+            wrapper.selectAll(".graphic--stacked-bar--legend a").on("click", triggerTypeReorder);
+            wrapper.selectAll(".graphic--stacked-bar--legend a").on("keypress", triggerTypeReorderKeypress);
         }
     }
 
     d3.selectAll(".figure--29_1").each(function () {
         initStackedBarChart.draw({
-            data: NLCD,
+            data: states,
             element: 'stacked-bar',
             wrapper: this
         });

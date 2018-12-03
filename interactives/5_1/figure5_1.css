@@ -1,3 +1,7 @@
+.graphic--stacked-bar {
+    font-family: Arial;
+}
+
 .graphic--stacked-bar .stacked-bar svg {
     width: 100%;
 }
@@ -144,9 +148,8 @@
 }
 
 .graphic--stacked-bar--legend--wrapper {
-    padding-left: 88px;
-    padding-right: 22px;
     margin: 10px 0;
+    padding: 0 10px;
 }
 
 .graphic--stacked-bar--legend {
@@ -155,32 +158,35 @@
     margin: 0 auto;
 }
 
-.graphic--stacked-bar .legend-item {
+.graphic--stacked-bar.figure--5_1__nlcd .legend-item,
+.graphic--stacked-bar.figure--5_1__nlud .legend-item {
     display: inline-block;
     width: 25%;
     text-align: left;
     line-height: 18px;
     font-family: Arial;
+    padding: 0 5px;
 }
 
-.graphic--stacked-bar .legend-item:nth-child(1), .graphic--stacked-bar .legend-item:nth-child(5) {
+.graphic--stacked-bar.figure--5_1__nlcd .legend-item:nth-child(1), .graphic--stacked-bar.figure--5_1__nlcd .legend-item:nth-child(5),
+.graphic--stacked-bar.figure--5_1__nlud .legend-item:nth-child(1), .graphic--stacked-bar.figure--5_1__nlud .legend-item:nth-child(5) {
+    padding-left: 0;
     padding-right: 10px;
 }
 
-.graphic--stacked-bar .legend-item:nth-child(4), .graphic--stacked-bar .legend-item:nth-child(8) {
+.graphic--stacked-bar.figure--5_1__nlcd .legend-item:nth-child(4), .graphic--stacked-bar.figure--5_1__nlcd .legend-item:nth-child(8),
+.graphic--stacked-bar.figure--5_1__nlud .legend-item:nth-child(4), .graphic--stacked-bar.figure--5_1__nlud .legend-item:nth-child(8) {
+    padding-right: 0;
     padding-left: 10px;
 }
 
-.graphic--stacked-bar .legend-item:nth-child(2), .graphic--stacked-bar .legend-item:nth-child(3), .graphic--stacked-bar .legend-item:nth-child(6), .graphic--stacked-bar .legend-item:nth-child(7) {
-    padding-left: 5px;
-    padding-right: 5px;
-}
-
-.graphic--stacked-bar .legend-item:nth-child(-n+4) {
+.graphic--stacked-bar.figure--5_1__nlcd .legend-item:nth-child(-n+4),
+.graphic--stacked-bar.figure--5_1__nlud .legend-item:nth-child(-n+4) {
     padding-bottom: 10px;
 }
 
-.graphic--stacked-bar .legend-item a {
+.graphic--stacked-bar.figure--5_1__nlcd .legend-item a,
+.graphic--stacked-bar.figure--5_1__nlud .legend-item a {
     padding: 5px 10px 2px 30px;
     position: relative;
     display: block;
@@ -191,7 +197,8 @@
     box-shadow: #aaa 1px 1px 1px;
 }
 
-.graphic--stacked-bar .legend-item a:hover {
+.graphic--stacked-bar.figure--5_1__nlcd .legend-item a:hover,
+.graphic--stacked-bar.figure--5_1__nlcd .legend-item a:hover {
     background: #eee;
 }
 
@@ -253,8 +260,8 @@
 }
 
 .graphic--stacked-bar .graphic--stacked-bar--UI {
-    font-family: Arial;
-    padding-left: 88px;
+    
+    padding: 0 10px;
 }
 
 .graphic--stacked-bar .graphic--stacked-bar--UI--item {
@@ -300,8 +307,8 @@
 }
 
 .graphic--stacked-bar .type-changer--bar.inactive, .graphic--stacked-bar .legend-item.inactive a {
-    cursor: default;
-    background: #9ea6ab;
+    cursor: default !important;
+    background: #9ea6ab !important;
     color: #e8eaeb !important;
 }
 
@@ -337,25 +344,25 @@
 }
 
 @media (max-width: 575.9px) {
-    .graphic--stacked-bar .graphic--stacked-bar--legend--wrapper, .graphic--stacked-bar .graphic--stacked-bar--UI {
-        padding-left: 0;
-    }
-    
-    .graphic--stacked-bar .legend-item {
+    .graphic--stacked-bar.figure--5_1__nlcd .legend-item,
+    .graphic--stacked-bar.figure--5_1__nlud .legend-item {
         width: 50%;
     }
     
-    .graphic--stacked-bar .legend-item:nth-child(2n) {
+    .graphic--stacked-bar.figure--5_1__nlcd .legend-item:nth-child(2n),
+    .graphic--stacked-bar.figure--5_1__nlud .legend-item:nth-child(2n) {
         padding-left: 8px;
         padding-right: 0;
     }
     
-    .graphic--stacked-bar .legend-item:nth-child(2n + 1) {
+    .graphic--stacked-bar.figure--5_1__nlcd .legend-item:nth-child(2n + 1),
+    .graphic--stacked-bar.figure--5_1__nlud .legend-item:nth-child(2n + 1) {
         padding-left: 0;
         padding-right: 8px;
     }
     
-    .graphic--stacked-bar .legend-item:nth-child(-n + 6) {
+    .graphic--stacked-bar.figure--5_1__nlcd .legend-item:nth-child(-n + 6),
+    .graphic--stacked-bar.figure--5_1__nlud .legend-item:nth-child(-n + 6) {
         padding-bottom: 10px;
     }
 }

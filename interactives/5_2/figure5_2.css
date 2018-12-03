@@ -1,3 +1,7 @@
+.graphic--stacked-bar {
+    font-family: Arial;
+}
+
 .graphic--stacked-bar .stacked-bar svg {
     width: 100%;
 }
@@ -124,12 +128,11 @@
 }
 
 .graphic--stacked-bar--region--wrapper, .graphic--stacked-bar--legend--wrapper {
-    padding-left: 74px;
-    padding-right: 22px;
     margin: 10px 0;
+    padding: 0 10px;
 }
 
-.graphic--stacked-bar .region-item, .graphic--stacked-bar .legend-item {
+.graphic--stacked-bar .region-item, .graphic--stacked-bar.figure--5_2 .legend-item {
     display: inline-block;
     vertical-align: top;
     width: 25%;
@@ -139,37 +142,36 @@
     font-size: 16px;
 }
 
-.graphic--stacked-bar .legend-item--mechanicallydisturbed, .graphic--stacked-bar .legend-item--nonmechanicallydisturbed {
+.graphic--stacked-bar.figure--5_2 .legend-item--mechanicallydisturbed, .graphic--stacked-bar.figure--5_2 .legend-item--nonmechanicallydisturbed {
     width: 33%;
 }
 
 .graphic--stacked-bar .region-item:nth-child(1), .graphic--stacked-bar .region-item:nth-child(5),
-.graphic--stacked-bar .legend-item:nth-child(1), .graphic--stacked-bar .legend-item:nth-child(5),
-.graphic--stacked-bar .legend-item:nth-child(9) {
+.graphic--stacked-bar.figure--5_2 .legend-item:nth-child(1), .graphic--stacked-bar.figure--5_2 .legend-item:nth-child(5),
+.graphic--stacked-bar.figure--5_2 .legend-item:nth-child(9) {
     padding-right: 10px;
 }
 
 .graphic--stacked-bar .region-item:nth-child(4), .graphic--stacked-bar .region-item:nth-child(8),
-.graphic--stacked-bar .legend-item:nth-child(4), .graphic--stacked-bar .legend-item:nth-child(8) {
+.graphic--stacked-bar.figure--5_2 .legend-item:nth-child(4), .graphic--stacked-bar.figure--5_2 .legend-item:nth-child(8) {
     padding-left: 10px;
 }
 
 .graphic--stacked-bar .region-item:nth-child(2), .graphic--stacked-bar .region-item:nth-child(3), .graphic--stacked-bar .region-item:nth-child(6), .graphic--stacked-bar .region-item:nth-child(7),
-.graphic--stacked-bar .legend-item:nth-child(2), .graphic--stacked-bar .legend-item:nth-child(3), .graphic--stacked-bar .legend-item:nth-child(6), .graphic--stacked-bar .legend-item:nth-child(7) {
+.graphic--stacked-bar.figure--5_2 .legend-item:nth-child(2), .graphic--stacked-bar.figure--5_2 .legend-item:nth-child(3), .graphic--stacked-bar.figure--5_2 .legend-item:nth-child(6), .graphic--stacked-bar.figure--5_2 .legend-item:nth-child(7) {
     padding-left: 5px;
     padding-right: 5px;
 }
 
 .graphic--stacked-bar .region-item:nth-child(-n+4),
-.graphic--stacked-bar .legend-item:nth-child(-n+8) {
+.graphic--stacked-bar.figure--5_2 .legend-item:nth-child(-n+8) {
     padding-bottom: 10px;
 }
 
-.graphic--stacked-bar .legend-item a {
+.graphic--stacked-bar.figure--5_2 .legend-item span {
     padding: 5px 10px 2px 30px;
     position: relative;
     display: block;
-    border: 1px solid #999;
     border-radius: 1px;
     background: #f7f7f7;
 }
@@ -192,14 +194,11 @@
     color: #fff;
 }
 
-.graphic--stacked-bar .region-item span { 
-}
-
 .graphic--stacked-bar .region-item a:hover {
     background: #eee;
 }
 
-.graphic--stacked-bar .legend-item a:before {
+.graphic--stacked-bar.figure--5_2 .legend-item span:before {
     content: "";
     width: 16px;
     height: 16px;
@@ -208,47 +207,47 @@
     left: 8px;
 }
 
-.graphic--stacked-bar .legend-item--agriculture a:before {
+.graphic--stacked-bar .legend-item--agriculture span:before {
     background-color: #ae742a;
 }
 
-.graphic--stacked-bar .legend-item--forest a:before {
+.graphic--stacked-bar .legend-item--forest span:before {
     background-color: #a1d06a;
 }
 
-.graphic--stacked-bar .legend-item--developed a:before {
+.graphic--stacked-bar .legend-item--developed span:before {
     background-color: #e31126;
 }
 
-.graphic--stacked-bar .legend-item--grassshrub a:before {
+.graphic--stacked-bar .legend-item--grassshrub span:before {
     background-color: #d7db56;
 }
 
-.graphic--stacked-bar .legend-item--snowice a:before {
+.graphic--stacked-bar .legend-item--snowice span:before {
     background-color: #fffff0;
 }
 
-.graphic--stacked-bar .legend-item--water a:before {
+.graphic--stacked-bar .legend-item--water span:before {
     background-color: #4a6aa7;
 }
 
-.graphic--stacked-bar .legend-item--wetland a:before {
+.graphic--stacked-bar .legend-item--wetland span:before {
     background-color: #aacee7;
 }
 
-.graphic--stacked-bar .legend-item--barren a:before {
+.graphic--stacked-bar .legend-item--barren span:before {
     background-color: #d3d3d3;
 }
 
-.graphic--stacked-bar .legend-item--mining a:before {
+.graphic--stacked-bar .legend-item--mining span:before {
     background-color: #645436;
 }
 
-.graphic--stacked-bar .legend-item--mechanicallydisturbed a:before {
+.graphic--stacked-bar .legend-item--mechanicallydisturbed span:before {
     background-color: #c41e82;
 }
 
-.graphic--stacked-bar .legend-item--nonmechanicallydisturbed a:before {
+.graphic--stacked-bar .legend-item--nonmechanicallydisturbed span:before {
     background-color: #6a3e9e;
 }
 
@@ -334,18 +333,18 @@
     }
     
     .graphic--stacked-bar .region-item,
-    .graphic--stacked-bar .legend-item {
+    .graphic--stacked-bar.figure--5_2 .legend-item {
         width: 50%;
     }
     
     .graphic--stacked-bar .region-item:nth-child(2n),
-    .graphic--stacked-bar .legend-item:nth-child(2n) {
+    .graphic--stacked-bar.figure--5_2 .legend-item:nth-child(2n) {
         padding-left: 8px;
         padding-right: 0;
     }
     
     .graphic--stacked-bar .region-item:nth-child(2n + 1),
-    .graphic--stacked-bar .legend-item:nth-child(2n + 1) {
+    .graphic--stacked-bar.figure--5_2 .legend-item:nth-child(2n + 1) {
         padding-left: 0;
         padding-right: 8px;
     }

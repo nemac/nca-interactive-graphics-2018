@@ -75,8 +75,12 @@ var NLCD = [
 ];
 
 
+function toThreeDigits(x) {
+    return (Math.round(x * 1000) / 1000).toString();
+}
+
 function numberWithCommas(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " sq/m";
+    return toThreeDigits(x).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " sq/mi";
 }
 
 function formatPercentString(x) {
@@ -162,7 +166,7 @@ function orderDataByType(data, sector, dataType) {
 
 function setAxisLabel(svg, dataType) {
     svg.select(".axis--label--x--unit")
-        .text((dataType === "percent") ? "(Percent)" : "(Square Meters)");
+        .text((dataType === "percent") ? "(Percent)" : "(Square Miles)");
 }
 
 function groupedToStacked(rects, stackedData, x, y) {
@@ -225,7 +229,7 @@ function handleTransitions(data, barType, sector, dataType, svg, rects, x, y, xA
         return;
     }
 
-    var max_area = (dataType === "area") ? ( (barType === "stacked") ? 1809124505200 : 1193e9 ) : 100;
+    var max_area = (dataType === "area") ? ( (barType === "stacked") ? (1809124505200 * 3.86102e-7) : (1193e9 * 3.86102e-7) ) : 100;
 
     if (sector) {
         orderDataByType(data, sector, dataType);
@@ -437,6 +441,7 @@ var initStackedBarChart = {
         var domEle = config.element;
         var data = config.data.map(function (d) {
             d.percent = d.percent * 100;
+            d.area = d.area * 3.86102e-7;
             return d;
         });
         var margin = {top: 5, right: 22, bottom: 59, left: 88};
@@ -509,6 +514,14 @@ var initStackedBarChart = {
         yAxis.selectAll("text")
             .each(splitLabels);
 
+        yAxis.selectAll("g")
+            .append("rect")
+            .attr("x", -82)
+            .attr("y", (y.bandwidth() / 2) - 9.5)
+            .attr("width", 77)
+            .attr("height", 3)
+            .attr("fill", "#999");
+
         yAxis.selectAll("g").each(function (d, i) {
             d3.select(this).append("rect")
                 .classed("stacked--region--handler", true)
@@ -577,7 +590,7 @@ var initStackedBarChart = {
         function triggerDataSwap() {
             dataType = (dataType === "percent") ? "area" : "percent";
             wrapper.select(".type-changer--data .type-changer--helper").text((dataType === "percent") ? "%" : "A");
-            wrapper.select(".type-changer--data .stacked-bar--UI--label").text((dataType === "percent") ? "Percent" : "Square Meters")
+            wrapper.select(".type-changer--data .stacked-bar--UI--label").text((dataType === "percent") ? "Percent" : "Square Miles")
             handleTransitions(data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis, false);
         }
 

@@ -465,7 +465,7 @@ function typeColor(type) {
           return "#ae742a";
         case "Barren":
           return "#d3d3d3";
-        case"Mechanically disturbed":
+        case "Mechanically disturbed":
           return "#c41e82";
         case "Nonmechanically disturbed":
           return "#6a3e9e";
@@ -478,6 +478,23 @@ function makeTooltipBody(values) {
     var tbody = ""
 
     values.forEach(function (d) {
+        if (d.sector === "Mechanically disturbed" || d.sector === "Nonmechanically disturbed") {
+            return;
+        }
+
+        tbody += "<tr>";
+        tbody += "<td>" + d.sector + "</td>";
+        tbody += "<td>" + trimToThree(d.net) + "</td>";
+        tbody += "<td>" + trimToThree(d.gain) + "</td>";
+        tbody += "<td>" + trimToThree(d.loss) + "</td>";
+        tbody += "</tr>";
+    });
+
+    values.forEach(function (d) {
+        if (d.sector !== "Mechanically disturbed" && d.sector !== "Nonmechanically disturbed") {
+            return;
+        }
+
         tbody += "<tr>";
         tbody += "<td>" + d.sector + "</td>";
         tbody += "<td>" + trimToThree(d.net) + "</td>";
@@ -601,6 +618,9 @@ var initStackedBarChart = {
         var domEle = config.element;
         var data = config.data.map(function (d) {
             d.percent = d.percent * 100;
+            d.gain = d.gain * 0.386102;
+            d.loss = d.loss * 0.386102;
+            d.net = d.net * 0.386102;
             return d;
         });
         var margin = {top: 5, right: 22, bottom: 49, left: 74};
@@ -733,7 +753,9 @@ var initStackedBarChart = {
 
             var region = this.getAttribute("data-for");
             var newData = findRegionData(groupedData, region);
+            console.log(newData)
             handleTransitions(newData, rects, x, y, yAxis, baseline);
+            hoverRegions.data(buildTooltipData(newData));
         }
         wrapper.selectAll(".region-item a").on("click", handleRegionChange);
         wrapper.selectAll(".region-item a").on("keypress", handleRegionChange);

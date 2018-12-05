@@ -147,7 +147,7 @@
     fill: #88badd !important;
 }
 
-.graphic--stacked-bar--legend--wrapper {
+.graphic--stacked-bar--region--wrapper, .graphic--stacked-bar--legend--wrapper {
     margin: 10px 0;
     padding: 0 10px;
 }
@@ -158,33 +158,44 @@
     margin: 0 auto;
 }
 
+.graphic--stacked-bar.figure--5_1__nlcd .region-item,
+.graphic--stacked-bar.figure--5_1__nlud .region-item,
 .graphic--stacked-bar.figure--5_1__nlcd .legend-item,
 .graphic--stacked-bar.figure--5_1__nlud .legend-item {
     display: inline-block;
+    vertical-align: top;
     width: 25%;
     text-align: left;
     line-height: 18px;
     font-family: Arial;
     padding: 0 5px;
+    font-size: 16px;
 }
 
+.graphic--stacked-bar.figure--5_1__nlcd .region-item:nth-child(4n+1),
+.graphic--stacked-bar.figure--5_1__nlud .region-item:nth-child(4n+1),
 .graphic--stacked-bar.figure--5_1__nlcd .legend-item:nth-child(1), .graphic--stacked-bar.figure--5_1__nlcd .legend-item:nth-child(5),
 .graphic--stacked-bar.figure--5_1__nlud .legend-item:nth-child(1), .graphic--stacked-bar.figure--5_1__nlud .legend-item:nth-child(5) {
     padding-left: 0;
     padding-right: 10px;
 }
 
+.graphic--stacked-bar.figure--5_1__nlcd .region-item:nth-child(4n+4),
+.graphic--stacked-bar.figure--5_1__nlud .region-item:nth-child(4n+4),
 .graphic--stacked-bar.figure--5_1__nlcd .legend-item:nth-child(4), .graphic--stacked-bar.figure--5_1__nlcd .legend-item:nth-child(8),
 .graphic--stacked-bar.figure--5_1__nlud .legend-item:nth-child(4), .graphic--stacked-bar.figure--5_1__nlud .legend-item:nth-child(8) {
     padding-right: 0;
     padding-left: 10px;
 }
 
+.graphic--stacked-bar.figure--5_1__nlcd .region-item:nth-child(-n+8),
+.graphic--stacked-bar.figure--5_1__nlud .region-item:nth-child(-n+6),
 .graphic--stacked-bar.figure--5_1__nlcd .legend-item:nth-child(-n+4),
 .graphic--stacked-bar.figure--5_1__nlud .legend-item:nth-child(-n+4) {
     padding-bottom: 10px;
 }
 
+.graphic--stacked-bar .region-item a,
 .graphic--stacked-bar.figure--5_1__nlcd .legend-item a,
 .graphic--stacked-bar.figure--5_1__nlud .legend-item a {
     padding: 5px 10px 2px 30px;
@@ -344,23 +355,31 @@
 }
 
 @media (max-width: 575.9px) {
+    .graphic--stacked-bar.figure--5_1__nlcd .region-item,
+    .graphic--stacked-bar.figure--5_1__nlud .region-item,
     .graphic--stacked-bar.figure--5_1__nlcd .legend-item,
     .graphic--stacked-bar.figure--5_1__nlud .legend-item {
         width: 50%;
     }
     
+    .graphic--stacked-bar.figure--5_1__nlcd .region-item:nth-child(2n),
+    .graphic--stacked-bar.figure--5_1__nlud .region-item:nth-child(2n),
     .graphic--stacked-bar.figure--5_1__nlcd .legend-item:nth-child(2n),
     .graphic--stacked-bar.figure--5_1__nlud .legend-item:nth-child(2n) {
         padding-left: 8px;
         padding-right: 0;
     }
     
+    .graphic--stacked-bar.figure--5_1__nlcd .region-item:nth-child(2n + 1),
+    .graphic--stacked-bar.figure--5_1__nlud .region-item:nth-child(2n + 1),
     .graphic--stacked-bar.figure--5_1__nlcd .legend-item:nth-child(2n + 1),
     .graphic--stacked-bar.figure--5_1__nlud .legend-item:nth-child(2n + 1) {
         padding-left: 0;
         padding-right: 8px;
     }
     
+    .graphic--stacked-bar.figure--5_1__nlcd .region-item:nth-child(-n + 8),
+    .graphic--stacked-bar.figure--5_1__nlud .region-item:nth-child(-n + 6),
     .graphic--stacked-bar.figure--5_1__nlcd .legend-item:nth-child(-n + 6),
     .graphic--stacked-bar.figure--5_1__nlud .legend-item:nth-child(-n + 6) {
         padding-bottom: 10px;

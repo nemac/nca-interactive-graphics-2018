@@ -253,6 +253,24 @@ function drawActiveRegionBar(yAxis, index) {
         .attr("fill", "#0056b3");
 }
 
+function getRegionViewAllButton(wrapper) {
+    return wrapper.select(".region-item--zoomout");
+}
+
+function enableRegionViewAllButton(wrapper) {
+    getRegionViewAllButton(wrapper)
+        .classed("inactive", false)
+        .select("a")
+            .attr("tabindex", 0);
+}
+
+function disableRegionViewAllButton(wrapper) {
+    getRegionViewAllButton(wrapper)
+        .classed("inactive", true)
+        .select("a")
+            .attr("tabindex", null);
+}
+
 function unfilterToRegion(data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis, changeBarType) {
     y.domain(makeYDomain(data));
 
@@ -264,9 +282,12 @@ function unfilterToRegion(data, barType, sector, dataType, svg, rects, x, y, xAx
     wrapper.select(".type-changer--bar").classed("inactive", false);
     wrapper.selectAll(".legend-item").classed("inactive", false);
     wrapper.selectAll(".type-changer--bar, .legend-item a").attr("tabindex", 0)
+    disableRegionViewAllButton(wrapper);
 }
 
 function filterToRegion(region, data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis, changeBarType) {
+    var delay = 0;
+
     var wrapper = getWrapper(svg);
     if (y.domain().length === 1 && y.domain()[0] === region) {
         unfilterToRegion(data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis, changeBarType);
@@ -279,6 +300,7 @@ function filterToRegion(region, data, barType, sector, dataType, svg, rects, x, 
 
     if (barType === "stacked") {
         wrapper.select(".type-changer--bar").on("click")();
+        delay = 850;
     }
 
     wrapper.select(".type-changer--bar").classed("inactive", true);
@@ -308,8 +330,6 @@ function filterToRegion(region, data, barType, sector, dataType, svg, rects, x, 
     }
     y.domain([region]);
     x.domain([0, max_area]);
-
-    var delay = (yAxis.select(".region-highlight").empty() === true) ? 850 : 0;
 
     rects.data(stackedData, function (d) { return d.data.id;})
         .transition()
@@ -351,6 +371,7 @@ function filterToRegion(region, data, barType, sector, dataType, svg, rects, x, 
         .attr("width", 77)
 
     setAxisLabel(svg, dataType)
+    enableRegionViewAllButton(wrapper);
 }
 
 function splitLabels(d) {
@@ -471,14 +492,6 @@ var initStackedBarChart = {
         yAxis.selectAll("text")
             .each(splitLabels);
 
-        yAxis.selectAll("g")
-            .append("rect")
-            .attr("x", -82)
-            .attr("y", (y.bandwidth() / 2) - 9.5)
-            .attr("width", 77)
-            .attr("height", 3)
-            .attr("fill", "#999");
-
         yAxis.selectAll("g").each(function (d, i) {
             d3.select(this).append("rect")
                 .classed("stacked--region--handler", true)
@@ -488,14 +501,8 @@ var initStackedBarChart = {
                 .attr("height", y.bandwidth())
                 .attr("fill", "#000")
                 .attr("opacity", "0")
-                .attr("tabindex", "0")
                 .on("click", function () {
-                    filterToRegion(d, data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis, true)
-                }).on("keypress", function () {
-                    if (d3.event.key !== "Enter") {
-                        return;
-                    }
-                    d3.event.stopPropagation();
+                    setActiveRegionButton(d);
                     filterToRegion(d, data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis, true)
                 })
         });
@@ -558,12 +565,44 @@ var initStackedBarChart = {
             triggerDataSwap();
         }
 
+        function setActiveRegionButton(region) {
+            wrapper.select(".region-item .active").classed("active", false);
+            wrapper.select("a[data-for='" + region + "']").classed("active", true)
+        }
+
+        function triggerRegionFilter() {
+            var region = this.getAttribute("data-for");
+            setActiveRegionButton(region);
+            filterToRegion(region, data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis, true)
+        }
+
+        function handleRegionItemInteraction() {
+            var parent = d3.select(this.closest(".region-item"));
+            if (parent.classed("region-item--zoomout") === true) {
+                if (parent.classed("inactive") === false) {
+                    unfilterToRegion(data, barType, sector, dataType, svg, rects, x, y, xAxis, yAxis, true);
+                }
+            } else {
+                triggerRegionFilter.call(this);
+            }
+        }
+
+        function handleRegionKeypress() {
+            if (d3.event.key !== "Enter") {
+                return;
+            }
+            d3.event.stopPropagation();
+            handleRegionItemInteraction.call(this);
+        }
+
         wrapper.select(".type-changer--data").on("click", triggerDataSwap);
         wrapper.select(".type-changer--data").on("keypress", triggerDataSwapKeypress);
         wrapper.select(".type-changer--bar").on("click", triggerBarTypeTransition);
         wrapper.select(".type-changer--bar").on("keypress", triggerBarTypeTransitionKeypress);
         wrapper.selectAll(".graphic--stacked-bar--legend a").on("click", triggerTypeReorder);
         wrapper.selectAll(".graphic--stacked-bar--legend a").on("keypress", triggerTypeReorderKeypress);
+        wrapper.selectAll(".region-item a").on("click", handleRegionItemInteraction);
+        wrapper.selectAll(".region-item a").on("keypress", handleRegionKeypress);
     }
 }
 

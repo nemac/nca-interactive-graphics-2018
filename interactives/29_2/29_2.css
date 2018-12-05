@@ -89,6 +89,10 @@ circle:hover {
     fill: #297fb733
 }
 
+.pie-chart:hover .pie-slice {
+    opacity: .8;
+}
+
 .pie-slice--damages {
     fill: red;
 }
@@ -165,11 +169,11 @@ circle:hover {
     fill: #b8d3a6;
 }
 
-.pie-chart--rail .pie-slice--damages {
+.pie-chart--Rail .pie-slice--damages {
     fill: #fc4e29;
 }
 
-.pie-chart--rail .pie-slice--avoided {
+.pie-chart--Rail .pie-slice--avoided {
     fill: #fd957f;
 }
 

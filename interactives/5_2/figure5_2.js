@@ -753,7 +753,6 @@ var initStackedBarChart = {
 
             var region = this.getAttribute("data-for");
             var newData = findRegionData(groupedData, region);
-            console.log(newData)
             handleTransitions(newData, rects, x, y, yAxis, baseline);
             hoverRegions.data(buildTooltipData(newData));
         }

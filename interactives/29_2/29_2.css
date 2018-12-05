@@ -39,6 +39,18 @@
     border-bottom: 1px solid #2d5677;
 }
 
+.circle-nodes-table a.circle-nodes-table--link--zoom-out {
+    font-size: 17px;
+    line-height: 19px;
+    margin-bottom: 8px;
+}
+
+.circle-nodes-table a.circle-nodes-table--link--zoom-out.inactive {
+    color: #aaa;
+    border-bottom-color: #aaa;
+    cursor: default;
+}
+
 .circle-nodes-select-wrapper label {
     display: block;
 }

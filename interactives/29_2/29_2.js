@@ -399,7 +399,7 @@
         scalePieChartText(svg, v[0], v[1], k);
     }
 
-    // Gets the parent wrapper of the graphic
+    // Gets the parent wrapper of the graphic as a d3 element
     function getPieFigureWrapper(d) {
         return d3.select(d.node().closest(".circle-nodes-wrapper"));
     }
@@ -447,7 +447,9 @@
         if (d3.event.key && d3.event.key !== "Enter") {
             return;
         }
-
+        if (d3.select(this).classed("inactive") === true) {
+            return;
+        }
         d3.event.stopPropagation();
         triggerPieChartZoomOut(this);
     }
@@ -468,8 +470,7 @@
 
         table.insert("a", ":first-child")
             .text("Zoom Out")
-            .attr("class", "circle-nodes-table--link circle-nodes-table--link--zoom-out")
-            .attr("tabindex", 0)
+            .attr("class", "circle-nodes-table--link circle-nodes-table--link--zoom-out inactive")
             .on("click", triggerZoomOut)
             .on("keypress", triggerZoomOut);
 
@@ -482,6 +483,19 @@
             .attr("class", "circle-nodes-select--option")
             .attr("value", makePieNodeClass)
             .text(getPieLabel);
+    }
+
+    // Gets the link that handles the Zoom Out event from the sidebar UI as a d3 object
+    function getZoomOutLink(svg) {
+        return getPieFigureWrapper(svg).select(".circle-nodes-table--link--zoom-out");
+    }
+
+    // Disables the zoom out link if the graphic is zoomed out all the way
+    function handleZoomOutLinkState(d, svg) {
+        var isRoot = d.depth === 0;
+        getZoomOutLink(svg)
+            .classed("inactive", isRoot)
+            .attr("tabindex", isRoot === true ? null : 0);
     }
 
     // Creates the graphic and stores state information about each instance
@@ -507,17 +521,18 @@
             focus = d;
         }
 
-        // Zooms graphic to new location
+        // Zooms graphic to new location. Passed to the transition in its closure.
         function zoomToView(v) {
             setView(v);
             zoomTo(v, svg, diameter);
         }
 
-        // Dispaches zoom events
+        // Dispaches zoom events 
         function zoom(d) {
             setFocus(d);
             var isPie = getPieLabel(d) !== "" ? true : false;
             handleTextZoom(makeTransition(svg, view, makeFocusArray(d, isPie), zoomToView), d);
+            handleZoomOutLinkState(d, svg);
         }
 
         // Handler for the user clicking on one of the circles/pie charts

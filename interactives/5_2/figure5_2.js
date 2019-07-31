@@ -430,7 +430,7 @@ function getWrapper(svg) {
     return d3.select(svg.node().closest(".graphic--stacked-bar"))
 }
 
-function getSectorOffset(sector) {
+function getSectorOffset(sector, activeSectors) {
     var sectors = [
         "Agriculture",
         "Barren",
@@ -444,7 +444,17 @@ function getSectorOffset(sector) {
         "Nonmechanically disturbed"
     ];
 
-    return sectors.indexOf(sector);
+    var testIndex = sectors.indexOf(sector);
+    var finalIndex = testIndex;
+
+    var i;
+    for (i = 0; i < testIndex; i++) {
+        if (activeSectors.indexOf(sectors[i]) === -1) {
+            finalIndex = finalIndex - 1;
+        }
+    }
+
+    return finalIndex;
 }
 
 function typeColor(type) {
@@ -521,25 +531,66 @@ var tip = d3.tip()
             "<tbody>" + makeTooltipBody(d.values) + "</tbody>" +
             "</table>" +
             "<p class='tooltip-helper'>*All values are in square miles</p>";
-    });
+    })
 
-function handleTransitions(data, rects, x, y, yAxis, baseline) {
-    y.domain(getRegionDomain(data));
+function handleRegionTransitions(data, rects, x, y, yAxis, baseline, activeSectors) {
+    y.domain(getRegionDomain(findSectorData(data, activeSectors)));
 
     rects.data(data)
         .transition(500)
         .attr("height", function(d) { return Math.abs(Math.abs(y(d.net)) - Math.abs(y(0))); })
-        .attr("width", function(d, i) { return (x(d.end) - x(d.start)) / getLandcoverSectorCount(d.start); })
+        .attr("width", function(d, i) { return activeSectors.indexOf(d.sector) === -1 ? 0 : (x(d.end) - x(d.start)) / getLandcoverSectorCount(d.start, activeSectors); })
         .attr("y", function (d) { return d.net > 0 ? y(d.net) : y(0) })
-        .attr("x", function(d, i) { return x(d.start) + ((x(d.end) - x(d.start)) * (getSectorOffset(d.sector) / getLandcoverSectorCount(d.start))); })
-        .attr("data-region", function (d) { return d.region; })
+        .attr("x", function(d, i) { return x(d.start) + ((x(d.end) - x(d.start)) * (getSectorOffset(d.sector, activeSectors) / getLandcoverSectorCount(d.start, activeSectors))); })
+        .attr("data-region", function (d) { return d.region; });
 
     baseline.transition(500)
         .attr("x2", x(x.domain()[1]))
         .attr("y1", y(0) + .5)
-        .attr("y2", y(0) + .5)
+        .attr("y2", y(0) + .5);
 
-    yAxis.transition(500).call(d3.axisLeft(y))
+    yAxis.transition(500).call(d3.axisLeft(y));
+}
+
+function handleSectorRemoveTransitions(data, rects, x, y, yAxis, baseline, activeSectors) {
+    y.domain(getRegionDomain(findSectorData(data, activeSectors)));
+
+    rects.transition(500)
+        .attr("width", function(d, i) { return activeSectors.indexOf(d.sector) === -1 ? 0 : (x(d.end) - x(d.start)) / getLandcoverSectorCount(d.start, activeSectors); })
+        .attr("x", function(d, i) { return x(d.start) + ((x(d.end) - x(d.start)) * (getSectorOffset(d.sector, activeSectors) / getLandcoverSectorCount(d.start, activeSectors))); });
+
+    rects.transition(500)
+        .delay(500)
+        .attr("height", function(d) { return Math.abs(Math.abs(y(d.net)) - Math.abs(y(0))); })
+        .attr("y", function (d) { return d.net > 0 ? y(d.net) : y(0) });
+
+    baseline.transition(500)
+        .delay(500)
+        .attr("x2", x(x.domain()[1]))
+        .attr("y1", y(0) + .5)
+        .attr("y2", y(0) + .5);
+
+    yAxis.transition(500).delay(500).call(d3.axisLeft(y));
+}
+
+function handleSectorAddTransitions(data, rects, x, y, yAxis, baseline, activeSectors) {
+    y.domain(getRegionDomain(findSectorData(data, activeSectors)));
+
+    rects.transition(500)
+        .attr("height", function(d) { return Math.abs(Math.abs(y(d.net)) - Math.abs(y(0))); })
+        .attr("y", function (d) { return d.net > 0 ? y(d.net) : y(0) });
+
+    baseline.transition(500)
+        .attr("x2", x(x.domain()[1]))
+        .attr("y1", y(0) + .5)
+        .attr("y2", y(0) + .5);
+
+    yAxis.transition(500).call(d3.axisLeft(y));
+
+    rects.transition(500)
+        .delay(500)
+        .attr("width", function(d, i) { return activeSectors.indexOf(d.sector) === -1 ? 0 : (x(d.end) - x(d.start)) / getLandcoverSectorCount(d.start, activeSectors); })
+        .attr("x", function(d, i) { return x(d.start) + ((x(d.end) - x(d.start)) * (getSectorOffset(d.sector, activeSectors) / getLandcoverSectorCount(d.start, activeSectors))); });
 }
 
 function getRegionDomain(data) {
@@ -559,13 +610,19 @@ function getRegionDomain(data) {
     return domain;
 }
 
-function getLandcoverSectorCount(year) {
-    // These years have no data for Mech disturb, nonmech disturb and mining
+function getLandcoverSectorCount(year, sectors) {
+    var count = sectors.length;
+
     if (year === 2001 || year === 2006) {
-        return 8;
+        if (sectors.indexOf("Mechanically disturbed") !== -1) {
+            count = count - 1;
+        }
+        if (sectors.indexOf("Nonmechanically disturbed") !== -1) {
+            count = count - 1;
+        }
     }
 
-    return 10;
+    return count || 1;
 }
 
 function findRegionData(groupedData, region) {
@@ -575,6 +632,17 @@ function findRegionData(groupedData, region) {
             return groupedData[i].values;
         }
     }
+}
+
+function findSectorData(regionData, activeSectors) {
+    var i, l;
+    var finalData = [];
+    for (i = 0, l = regionData.length; i < l; i++) {
+        if (activeSectors.indexOf(regionData[i].sector) !== -1) {
+            finalData.push(regionData[i])
+        }
+    }
+    return finalData;
 }
 
 function buildTooltipData(values) {
@@ -610,17 +678,21 @@ function handleTooltipKeypress(d, i, nodes) {
 
 var initStackedBarChart = {
     draw: function(config) {
-        var barType = "stacked";
-        var sector = undefined;
-        var dataType = "percent";
-
         var wrapper = d3.select(config.wrapper);
+        var activeRegion = "Midwest";
+        var activeSectors = ["Agriculture", "Barren", "Developed", "Forest", "Grassland/Shrubland", "Mechanically disturbed", "Nonmechanically disturbed", "Snow/Ice", "Water", "Wetland"];
+
+        if (wrapper.classed("figure--5_2--drawn")) {
+            return;
+        } else {
+            wrapper.classed("figure--5_2--drawn", true);
+        }
+
         var domEle = config.element;
         var data = config.data.map(function (d) {
-            d.percent = d.percent * 100;
-            d.gain = d.gain * 0.386102;
-            d.loss = d.loss * 0.386102;
-            d.net = d.net * 0.386102;
+//            d.gain = d.gain * 0.386102;
+//            d.loss = d.loss * 0.386102;
+//            d.net = d.net * 0.386102;
             return d;
         });
         var margin = {top: 5, right: 22, bottom: 49, left: 74};
@@ -682,9 +754,9 @@ var initStackedBarChart = {
             .enter().append("rect")
             .classed("stacked-bar--bar", true)
             .attr("height", function(d) { return Math.abs(Math.abs(y(d.net)) - Math.abs(y(0))); })
-            .attr("width", function(d, i) { return (x(d.end) - x(d.start)) / getLandcoverSectorCount(d.start); })
+            .attr("width", function(d, i) { return (x(d.end) - x(d.start)) / getLandcoverSectorCount(d.start, activeSectors); })
             .attr("y", function (d) { return d.net > 0 ? y(d.net) : y(0) })
-            .attr("x", function(d, i) { return x(d.start) + ((x(d.end) - x(d.start)) * (getSectorOffset(d.sector) / getLandcoverSectorCount(d.start))); })
+            .attr("x", function(d, i) { return x(d.start) + ((x(d.end) - x(d.start)) * (getSectorOffset(d.sector, activeSectors) / getLandcoverSectorCount(d.start, activeSectors))); })
             .attr("data-region", function (d) { return d.region; })
             .attr("data-type", function (d) { return d.sector; })
             .style("fill", function(d) { return typeColor(d.sector); })
@@ -739,6 +811,21 @@ var initStackedBarChart = {
             .on('mouseout', tip.hide)
             .on('keypress', handleTooltipKeypress)
 
+        function handleSectorChange() {
+            var sector = this.getAttribute("data-for");
+            var newData = findRegionData(groupedData, activeRegion);
+
+            if (this.checked === true && activeSectors.indexOf(sector) === -1) {
+                activeSectors.push(sector);
+                handleSectorAddTransitions(newData, rects, x, y, yAxis, baseline, activeSectors);
+            } else if (activeSectors.indexOf(sector) !== -1) {
+                activeSectors.splice(activeSectors.indexOf(sector), 1);
+                handleSectorRemoveTransitions(newData, rects, x, y, yAxis, baseline, activeSectors);
+            }
+
+            hoverRegions.data(buildTooltipData(findSectorData(newData, activeSectors)));
+        }
+
         function handleRegionChange() {
             if (d3.event.key && d3.event.key !== "Enter") {
                 return;
@@ -751,13 +838,15 @@ var initStackedBarChart = {
             wrapper.select(".active").classed("active", false);
             d3.select(this).classed("active", true);
 
-            var region = this.getAttribute("data-for");
-            var newData = findRegionData(groupedData, region);
-            handleTransitions(newData, rects, x, y, yAxis, baseline);
-            hoverRegions.data(buildTooltipData(newData));
+            activeRegion = this.getAttribute("data-for");
+            var newData = findRegionData(groupedData, activeRegion);
+            handleRegionTransitions(newData, rects, x, y, yAxis, baseline, activeSectors);
+            hoverRegions.data(buildTooltipData(findSectorData(newData, activeSectors)));
         }
+
         wrapper.selectAll(".region-item a").on("click", handleRegionChange);
         wrapper.selectAll(".region-item a").on("keypress", handleRegionChange);
+        wrapper.selectAll(".legend-item input").on("change", handleSectorChange);
     }
 }
 

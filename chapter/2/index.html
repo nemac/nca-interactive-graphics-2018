@@ -1783,6 +1783,41 @@ M32.01,96.94 l1.69,-6.84 1.7,0.39 1.7,6.58 1.7,7.81 1.7,1.94 1.69,0.38 1.7,2.26 
 
 <script src="../../interactives/5_1/figure5_1_nlud.js"></script>
 
+<h2>Figure 5.2: Land Cover Composition of the United States</h2>
+<div class="graphic--stacked-bar figure--5_2">
+  <div class="stacked-bar"></div>
+  <div class="graphic--stacked-bar--region--wrapper"><p>Select Region to View</p>
+    <div class="graphic--stacked-bar--region"><div
+          class="region-item region-item--midwest"><a class="active" data-for="Midwest" tabindex="0"><span>Midwest</span></a></div><div
+          class="region-item region-item--northeast"><a data-for="Northeast" tabindex="0"><span>Northeast</span></a></div><div
+          class="region-item region-item--northern-great-plains"><a data-for="Northern Great Plains" tabindex="0"><span>Northern Great Plains</span></a></div><div
+          class="region-item region-item--northwest"><a data-for="Northwest" tabindex="0"><span>Northwest</span></a></div><div
+          class="region-item region-item--southeast"><a data-for="Southeast" tabindex="0"><span>Southeast</span></a></div><div
+          class="region-item region-item--southern-great-plains"><a data-for="Southern Great Plains" tabindex="0"><span>Southern Great Plains</span></a></div><div
+          class="region-item region-item--southwest"><a data-for="Southwest" tabindex="0"><span>Southwest</span></a></div></div>
+  </div>
+  <div class="graphic--stacked-bar--legend--wrapper"><p>Select Land Cover Classes to View</p>
+    <div class="graphic--stacked-bar--legend"><div
+          class="legend-item legend-item--agriculture"><label><input type="checkbox" data-for="Agriculture" checked><span>Agriculture</span></label></div><div
+          class="legend-item legend-item--barren"><label><input type="checkbox" data-for="Barren" checked><span>Barren</span></label></div><div
+          class="legend-item legend-item--developed"><label><input type="checkbox" data-for="Developed" checked><span>Developed</span></label></div><div
+          class="legend-item legend-item--forest"><label><input type="checkbox" data-for="Forest" checked><span>Forest</span></label></div><div
+          class="legend-item legend-item--grassshrub"><label><input type="checkbox" data-for="Grassland/Shrubland" checked><span>Grass/Shrub</span></label></div><div
+          class="legend-item legend-item--snowice"><label><input type="checkbox" data-for="Snow/Ice" checked><span>Snow/Ice</span></label></div><div
+          class="legend-item legend-item--water"><label><input type="checkbox" data-for="Water" checked><span>Water</span></label></div><div
+          class="legend-item legend-item--wetland"><label><input type="checkbox" data-for="Wetland" checked><span>Wetland</span></label></div></div>
+  </div>
+  <div class="graphic--stacked-bar--legend--wrapper"><p>Select Disturbance Types to View</p>
+    <div class="graphic--stacked-bar--legend"><div
+          class="legend-item legend-item--mechanicallydisturbed"><label><input type="checkbox" data-for="Mechanically disturbed" checked><span>Mechanically Disturbed</span></label></div><div
+          class="legend-item legend-item--nonmechanicallydisturbed"><label><input type="checkbox" data-for="Nonmechanically disturbed" checked><span>Nonmechanically Disturbed</span></label></div></div>
+  </div>
+</div>
+
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="../../interactives/5_1/d3-tip.js"></script>
+<script src="../../interactives/5_2/figure5_2.js"></script>
+<link rel="stylesheet" href="../../interactives/5_2/figure5_2.css">
 
 
 <h2>Figure 5.2: Land Cover Composition of the United States</h2>
@@ -1800,19 +1835,19 @@ M32.01,96.94 l1.69,-6.84 1.7,0.39 1.7,6.58 1.7,7.81 1.7,1.94 1.69,0.38 1.7,2.26 
   </div>
   <div class="graphic--stacked-bar--legend--wrapper"><p>Land cover class legend</p>
     <div class="graphic--stacked-bar--legend"><div
-          class="legend-item legend-item--agriculture"><span>Agriculture</span></div><div
-          class="legend-item legend-item--barren"><span>Barren</span></div><div
-          class="legend-item legend-item--developed"><span>Developed</span></div><div
-          class="legend-item legend-item--forest"><span>Forest</span></div><div
-          class="legend-item legend-item--grassshrub"><span>Grass/Shrub</span></div><div
-          class="legend-item legend-item--snowice"><span>Snow/Ice</span></div><div
-          class="legend-item legend-item--water"><span>Water</span></div><div
-          class="legend-item legend-item--wetland"><span>Wetland</span></div></div>
+          class="legend-item legend-item--agriculture"><label><input type="checkbox" data-for="Agriculture" checked><span>Agriculture</span></label></div><div
+          class="legend-item legend-item--barren"><label><input type="checkbox" data-for="Barren" checked><span>Barren</span></label></div><div
+          class="legend-item legend-item--developed"><label><input type="checkbox" data-for="Developed" checked><span>Developed</span></label></div><div
+          class="legend-item legend-item--forest"><label><input type="checkbox" data-for="Forest" checked><span>Forest</span></label></div><div
+          class="legend-item legend-item--grassshrub"><label><input type="checkbox" data-for="Grassland/Shrubland" checked><span>Grass/Shrub</span></label></div><div
+          class="legend-item legend-item--snowice"><label><input type="checkbox" data-for="Snow/Ice" checked><span>Snow/Ice</span></label></div><div
+          class="legend-item legend-item--water"><label><input type="checkbox" data-for="Water" checked><span>Water</span></label></div><div
+          class="legend-item legend-item--wetland"><label><input type="checkbox" data-for="Wetland" checked><span>Wetland</span></label></div></div>
   </div>
   <div class="graphic--stacked-bar--legend--wrapper"><p>Disturbance Type legend</p>
     <div class="graphic--stacked-bar--legend"><div
-          class="legend-item legend-item--mechanicallydisturbed"><span>Mechanically Disturbed</span></div><div
-          class="legend-item legend-item--nonmechanicallydisturbed"><span>Nonmechanically Disturbed</span></div></div>
+          class="legend-item legend-item--mechanicallydisturbed"><label><input type="checkbox" data-for="Mechanically disturbed" checked><span>Mechanically Disturbed</span></label></div><div
+          class="legend-item legend-item--nonmechanicallydisturbed"><label><input type="checkbox" data-for="Nonmechanically disturbed" checked><span>Nonmechanically Disturbed</span></label></div></div>
   </div>
 </div>
 

@@ -169,14 +169,18 @@
 }
 
 .graphic--stacked-bar.figure--5_2 .legend-item span {
-    padding: 5px 10px 2px 30px;
+    padding: 5px 10px 2px 20px;
     position: relative;
     display: block;
     border-radius: 1px;
-    background: #f7f7f7;
 }
 
-.graphic--stacked-bar .region-item a {
+.graphic--stacked-bar.figure--5_2 .legend-item input {
+    position: absolute;
+    right: 10px;
+}
+
+.graphic--stacked-bar .region-item a, .graphic--stacked-bar .legend-item label {
     height: 46px;
     position: relative;
     padding: 0 10px;
@@ -194,7 +198,7 @@
     color: #fff;
 }
 
-.graphic--stacked-bar .region-item a:hover {
+.graphic--stacked-bar .region-item a:hover, .graphic--stacked-bar .legend-item label:hover {
     background: #eee;
 }
 
@@ -204,7 +208,7 @@
     height: 16px;
     border: 1px solid #999;
     position: absolute;
-    left: 8px;
+    left: 0;
 }
 
 .graphic--stacked-bar .legend-item--agriculture span:before {

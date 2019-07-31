@@ -282,6 +282,7 @@ function unfilterToRegion(data, barType, sector, dataType, svg, rects, x, y, xAx
     wrapper.select(".type-changer--bar").classed("inactive", false);
     wrapper.selectAll(".legend-item").classed("inactive", false);
     wrapper.selectAll(".type-changer--bar, .legend-item a").attr("tabindex", 0)
+    wrapper.select(".region-item .active").classed("active", false);
     disableRegionViewAllButton(wrapper);
 }
 

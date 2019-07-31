@@ -254,21 +254,33 @@
         var temp = {};
         for (var i = 0; i < a.length; i++)
             temp[a[i]] = true;
-        return Object.keys(temp);
+        return Object.keys(temp).reverse();
     }
 
     function makeYDomainBySector(data, sector) {
-        var a = data.filter(function (d) { return d.type === sector; }).map(function (d) { return d.region;})
-        var b = data.filter(function (d) { return a.indexOf(d.region) === -1; }).map(function (d) { return d.region;})
+        var dataInSector = data.filter(function (d) { return d.type === sector; });
+        var statesInSector = dataInSector.map(function (d) { return d.region; });
+        var statesNotInSector = data.filter(function (d) { return statesInSector.indexOf(d.region) === -1; }).map(function (d) { return d.region;});
+
+        var statesOrderedBySector = {};
+        dataInSector.forEach(function (d) {
+            if (!statesOrderedBySector.hasOwnProperty(d.percent)) {
+                statesOrderedBySector[d.percent] = [];
+            }
+            statesOrderedBySector[d.percent].push(d.region)
+        })
+
         var temp = {};
         var i, l;
-        for (i = 0, l = b.length; i < l; i++) {
-            temp[b[i]] = true;
+        Object.keys(statesOrderedBySector).reverse().forEach(function (key) {
+            for (i = 0, l = statesOrderedBySector[key].length; i < l; i++) {
+                temp[statesOrderedBySector[key][i]] = true;
+            }
+        });
+        for (i = 0, l = statesNotInSector.length; i < l; i++) {
+            temp[statesNotInSector[i]] = true;
         }
-        for (i = 0, l = a.length; i < l; i++) {
-            temp[a[i]] = true;
-        }
-        return Object.keys(temp);
+        return Object.keys(temp).reverse();
     }
 
     function stackData(data) {
@@ -359,7 +371,7 @@
 
             var wrapper = d3.select(config.wrapper);
             var domEle = config.element;
-            var data = config.data.reverse();
+            var data = config.data;
             var margin = {top: 5, right: 22, bottom: 45, left: 145};
 
             var width = 720 - margin.left - margin.right;
